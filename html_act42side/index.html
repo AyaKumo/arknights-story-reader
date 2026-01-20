@@ -3,120 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>故事目录</title>
+    <title>章节目录</title>
     <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-sub: #888888;
+            --accent-color: #00d2ff;
+        }
         body {
             font-family: 'Microsoft YaHei', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 40px 20px;
             min-height: 100vh;
-        }
-        .menu-container {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            cursor: pointer;
-        }
-        .menu-icon {
-            width: 100%;
-            height: 100%;
-            background-color: #333;
-            border-radius: 50%;
+            box-sizing: border-box;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            font-size: 24px;
-            transition: transform 0.3s;
         }
-        .menu-items {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
             opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s;
+            animation: fadeIn 1s forwards;
         }
-        .menu-container.active .menu-items {
-            width: 500px;
-            height: 500px;
-            opacity: 1;
-            visibility: visible;
+        .header h1 {
+            font-size: 2rem;
+            letter-spacing: 5px;
+            margin: 0;
+            font-weight: 300;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
-        .menu-container.active .menu-icon {
-            transform: rotate(45deg);
+        .header .subtitle {
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
         }
-        .menu-item {
-            position: absolute;
-            background-color: #444;
+        .back-to-main {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 10px 20px;
             text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s;
-            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        .back-to-main:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+        .story-list {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .story-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
             opacity: 0;
+            transform: translateY(20px);
         }
-        .menu-container.active .menu-item {
+        .story-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--accent-color);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+            transform-origin: bottom;
+        }
+        .story-card:hover {
+            background-color: var(--card-hover);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .story-card:hover::before {
+            transform: scaleY(1);
+            transform-origin: top;
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .card-id {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            font-family: Consolas, monospace;
+        }
+        .arrow-icon {
+            opacity: 0.3;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .story-card:hover .arrow-icon {
             opacity: 1;
+            transform: translateX(5px);
+            color: var(--accent-color);
         }
-        .menu-item:hover {
-            background-color: #666;
-            transform: translate(-50%, -50%) scale(1.1);
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.5rem; }
+            .story-card { padding: 15px 20px; }
+            .back-to-main { top: 10px; left: 10px; padding: 8px 15px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
-    <div class="menu-container" id="menu">
-        <div class="menu-icon">+</div>
-        <div class="menu-items">
-            <a href="level_act42side_01_beg.html" class="menu-item" style="transform: translate(calc(-50% + 400px), calc(-50% + 0px))">活动42_01上</a>
-            <a href="level_act42side_01_end.html" class="menu-item" style="transform: translate(calc(-50% + 387px), calc(-50% + 99px))">活动42_01下</a>
-            <a href="level_act42side_02_beg.html" class="menu-item" style="transform: translate(calc(-50% + 350px), calc(-50% + 192px))">活动42_02上</a>
-            <a href="level_act42side_02_end.html" class="menu-item" style="transform: translate(calc(-50% + 291px), calc(-50% + 273px))">活动42_02下</a>
-            <a href="level_act42side_03_beg.html" class="menu-item" style="transform: translate(calc(-50% + 214px), calc(-50% + 337px))">活动42_03上</a>
-            <a href="level_act42side_03_end.html" class="menu-item" style="transform: translate(calc(-50% + 123px), calc(-50% + 380px))">活动42_03下</a>
-            <a href="level_act42side_04_beg.html" class="menu-item" style="transform: translate(calc(-50% + 25px), calc(-50% + 399px))">活动42_04上</a>
-            <a href="level_act42side_04_end.html" class="menu-item" style="transform: translate(calc(-50% + -74px), calc(-50% + 392px))">活动42_04下</a>
-            <a href="level_act42side_05_beg.html" class="menu-item" style="transform: translate(calc(-50% + -170px), calc(-50% + 361px))">活动42_05上</a>
-            <a href="level_act42side_05_end.html" class="menu-item" style="transform: translate(calc(-50% + -254px), calc(-50% + 308px))">活动42_05下</a>
-            <a href="level_act42side_06_beg.html" class="menu-item" style="transform: translate(calc(-50% + -323px), calc(-50% + 235px))">活动42_06上</a>
-            <a href="level_act42side_06_end.html" class="menu-item" style="transform: translate(calc(-50% + -371px), calc(-50% + 147px))">活动42_06下</a>
-            <a href="level_act42side_07_beg.html" class="menu-item" style="transform: translate(calc(-50% + -396px), calc(-50% + 50px))">活动42_07上</a>
-            <a href="level_act42side_07_end.html" class="menu-item" style="transform: translate(calc(-50% + -396px), calc(-50% + -50px))">活动42_07下</a>
-            <a href="level_act42side_08_beg.html" class="menu-item" style="transform: translate(calc(-50% + -371px), calc(-50% + -147px))">活动42_08上</a>
-            <a href="level_act42side_08_end.html" class="menu-item" style="transform: translate(calc(-50% + -323px), calc(-50% + -235px))">活动42_08下</a>
-            <a href="level_act42side_09_beg.html" class="menu-item" style="transform: translate(calc(-50% + -254px), calc(-50% + -308px))">活动42_09上</a>
-            <a href="level_act42side_09_end.html" class="menu-item" style="transform: translate(calc(-50% + -170px), calc(-50% + -361px))">活动42_09下</a>
-            <a href="level_act42side_10_beg.html" class="menu-item" style="transform: translate(calc(-50% + -74px), calc(-50% + -392px))">活动42_10上</a>
-            <a href="level_act42side_10_end.html" class="menu-item" style="transform: translate(calc(-50% + 25px), calc(-50% + -399px))">活动42_10下</a>
-            <a href="level_act42side_entry.html" class="menu-item" style="transform: translate(calc(-50% + 123px), calc(-50% + -380px))">活动42_entry</a>
-            <a href="level_act42side_st01.html" class="menu-item" style="transform: translate(calc(-50% + 214px), calc(-50% + -337px))">活动42_st01</a>
-            <a href="level_act42side_st02.html" class="menu-item" style="transform: translate(calc(-50% + 291px), calc(-50% + -273px))">活动42_st02</a>
-            <a href="level_act42side_st03.html" class="menu-item" style="transform: translate(calc(-50% + 350px), calc(-50% + -192px))">活动42_st03</a>
-            <a href="level_act42side_st04.html" class="menu-item" style="transform: translate(calc(-50% + 387px), calc(-50% + -99px))">活动42_st04</a>
-        </div>
+    <a href="../index.html" class="back-to-main">← 返回主目录</a>
+    <header class="header">
+        <h1>CHAPTER LIST</h1>
+        <div class="subtitle">章节选择 // 请选择阅读内容</div>
+    </header>
+    <div class="story-list">
+        <a href="level_act42side_01_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_01 上</span>
+                <span class="card-id">FILE // level_act42side_01_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_01_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.08s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_01 下</span>
+                <span class="card-id">FILE // level_act42side_01_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_02_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.16s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_02 上</span>
+                <span class="card-id">FILE // level_act42side_02_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_02_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.24s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_02 下</span>
+                <span class="card-id">FILE // level_act42side_02_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_03_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.32s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_03 上</span>
+                <span class="card-id">FILE // level_act42side_03_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_03_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.4s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_03 下</span>
+                <span class="card-id">FILE // level_act42side_03_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_04_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.48s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_04 上</span>
+                <span class="card-id">FILE // level_act42side_04_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_04_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.56s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_04 下</span>
+                <span class="card-id">FILE // level_act42side_04_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_05_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.64s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_05 上</span>
+                <span class="card-id">FILE // level_act42side_05_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_05_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.72s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_05 下</span>
+                <span class="card-id">FILE // level_act42side_05_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_06_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.8s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_06 上</span>
+                <span class="card-id">FILE // level_act42side_06_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_06_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.88s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_06 下</span>
+                <span class="card-id">FILE // level_act42side_06_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_07_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.96s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_07 上</span>
+                <span class="card-id">FILE // level_act42side_07_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_07_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.04s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_07 下</span>
+                <span class="card-id">FILE // level_act42side_07_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_08_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.12s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_08 上</span>
+                <span class="card-id">FILE // level_act42side_08_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_08_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.2s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_08 下</span>
+                <span class="card-id">FILE // level_act42side_08_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_09_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.28s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_09 上</span>
+                <span class="card-id">FILE // level_act42side_09_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_09_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.36s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_09 下</span>
+                <span class="card-id">FILE // level_act42side_09_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_10_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.44s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_10 上</span>
+                <span class="card-id">FILE // level_act42side_10_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_10_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.52s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_10 下</span>
+                <span class="card-id">FILE // level_act42side_10_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_entry.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.6s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_entry</span>
+                <span class="card-id">FILE // level_act42side_entry</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_st01.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.68s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_st01</span>
+                <span class="card-id">FILE // level_act42side_st01</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_st02.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.76s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_st02</span>
+                <span class="card-id">FILE // level_act42side_st02</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_st03.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.84s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_st03</span>
+                <span class="card-id">FILE // level_act42side_st03</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act42side_st04.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.92s;">
+            <div class="card-info">
+                <span class="card-title">活动42side_st04</span>
+                <span class="card-id">FILE // level_act42side_st04</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
     </div>
-    <script>
-        document.getElementById('menu').addEventListener('click', function() {
-            this.classList.toggle('active');
-        });
-        // 防止点击菜单项时关闭菜单
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        });
-    </script>
 </body>
 </html>
