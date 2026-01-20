@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main_16-15_beg</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>main_16-15_beg</h1>
+    <div class="story-container">
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%231%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">说来奇怪......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">其实我很喜欢布列斯克的这个季节。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">没有太阳的东升西落，没有昼夜分明......人们也不用假装一切都很明了。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">“多事之秋”，元帅他也是这么说的。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">女大公殿下，时间紧迫。即使是在我享用您招待的这一杯热茶的时间里，局势也在不断变得紧张。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">元帅在等待您的答复。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%231%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">连叶甫根尼元帅都坐不住了，看来乌萨斯真的面临着巨大的麻烦。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">您完全正确。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">在这样的局势下，圣骏堡温吞的反应将不被接受——这不只是元帅一人的意见。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%231%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">时至今日，他应该早已理解，他的父亲在当年那场动乱中的举措堪称睿智——第四集团军本会有比发配边疆更坏的结局。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">那么如今，年轻的叶甫根尼，是下定决心要冲在眼下乱局的第一线了？</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">永远站在离危险最近的地方保护乌萨斯——元帅在履行乌萨斯军人的天职。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">现在的问题，在于您，女大公殿下。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">元帅需要您还愿意维系往日的合作。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%232%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">这是他对我的通知？</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">这是一个基于友谊的请求。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">元帅他非常重视与您的友谊，同样也信任您的智慧。他相信，即使在这个时候，布列斯克与第四集团军的利益也是紧密相连的。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">何况他并不请求您做什么额外的事——只要您的一个点头。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%231%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">听起来，他似乎认为这很容易。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%234%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">难道他将我们的皇帝陛下看作一个蠢材吗？难道维特议长也是一个蠢材吗？</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">这是非此即彼的选择......就像太阳不会与黑夜共存。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">元帅非常理解您的处境，他当然愿意为您分忧。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">无论如何，一位“皇帝的利刃”的陨落，有非常充分的解释空间，而元帅愿意替您做出这个解释。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">“第四集团军协助布列斯克剿灭了发生在远北地区的叛乱”——只要您愿意合作，集团军呈交给圣骏堡的报告上，就只会有这样一句话。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">甚至不必点头，您的沉默，元帅也可以接受。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%234%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">不......并非如此......如果元帅他真的理解我，就该知道我在意的从来不是来自圣骏堡的质疑......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">生活在我的领地内的人民，乌萨斯的人民......我在意的只有他们。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">元帅理解您的仁慈，他向您保证，您划下的线，没有人可以逾越。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%232%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">年轻的叶甫根尼，急躁的叶甫根尼......我又怎会愿意看到我亲爱的朋友以身涉险。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">哪怕真的如他所愿，我保持沉默，这也不过是在他前行的崎路上抹去了一堆小小石子，那些巨大的山石他又准备如何处置？</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">这些，就不劳女大公殿下烦忧了。无论是山石还是别的什么，元帅他有决心为乌萨斯战胜一切敌人。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">那么......我是否可以理解为，已经得到了您的答复。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%231%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1977_1%231%241.png" class="avatar" alt="严肃的乌萨斯军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">叶甫根尼元帅向您问好。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的乌萨斯军官</div>
+                <div class="text">为了乌萨斯的荣光。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1962_1%231%241.png" class="avatar" alt="叶莉莎女大公">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">叶莉莎女大公</div>
+                <div class="text">一切为了乌萨斯的荣光......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">科谢尼娅，你还好吗？需要的话我也可以抱着你们两人一起跑的！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%238%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">不，不用。我......还好......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">我只是不明白......我们为什么......要这么急着赶路？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%233%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%235%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">博士，你看天空的颜色！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">我们进来的时候，是这样的吗？</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%236%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">......不......这是我的幻觉吗？</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%237%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">为什么又是......这样的颜色？</div>
+            </div>
+        </div>
+        <div class="narration">醒目的、带着警示意味的红色。你甚至不需要特意抬头就能看到的颜色。</div>
+        <div class="narration">它逐渐笼罩了原本是灰色的昏暗天幕，也笼罩了身处地面的一切。</div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%234%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">为什么......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">为什么军队会在这个时候深入远北？他们根本不应该来到这里！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%236%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">博士，西北方五公里处检测到大规模的高能源石反应，有人在快速向我们靠近。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%236%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">科谢尼娅，你还好吗？我们该加速了！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%238%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">对，研究所......</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">我们要回研究所。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%234%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">这边！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">我记得应急通讯设备都放在顶楼的观景台里，钥匙在所长办公室——</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">跟我来！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%235%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">（小声）不是我们的脚步声。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">（小声）这里还有其他人？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%231%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">抱歉，这里没有应急灯，看不清。我已经点上蜡烛了，先将就一下。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">没错......通讯设备在这里。我没用过这种东西，不确定它能传递信号的距离有多远。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">这是乌萨斯军用通讯器。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">Raidian有类似的装置——她年轻的时候曾参与过乌萨斯军方类似设备的研究，没想到他们竟然已经做出成果了。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">如果和我知道的一样，那这就是一种高性能全域信息广播装置。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">它搭载了一个功率极高的施术单元——功率大概相当于同时使用一百台普通军用级通讯器。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">它的设计初衷，就是为了能大范围向军用设施发送急电。当然，擅长使用感知类源石技艺的人，比如Raidian，也能接收到。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%233%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">但是它没有办法发送出特定频段的信号。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">也就是说，如果我们在这里使用这个装置发送了信息，不远处的乌萨斯军队也一定会接收到......我们的位置会立刻暴露。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">博士......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">好，听你的，博士。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">把你要发出的信息告诉我，我来操作。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">已录入，还有呢？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%236%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">博士！小心！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%238%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">呃——！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4208_wintim_1%234%241.png" class="avatar" alt="科谢尼娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">科谢尼娅</div>
+                <div class="text">怎么回事？他们为什么要袭击研究所？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%236%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">好了，录入完毕！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">发送——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%236%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">博士，科谢尼娅，抓紧我。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">我们这就——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">喂......喂——！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">该死......真不知道算赶上了还是没赶上。</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">那个怪物，你抓我的时候不是还挺厉害的吗，你可别轻易死在这啊！</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">听到我的声音了吗？能听见吗——</div>
+            </div>
+        </div>
+        <div class="dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">......博士？</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

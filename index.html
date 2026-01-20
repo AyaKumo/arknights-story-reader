@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故事档案库</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-sub: #888888;
+            --accent-color: #00d2ff;
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin: 0;
+            font-weight: 300;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .header .subtitle {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+        .story-list {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .story-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .story-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--accent-color);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+            transform-origin: bottom;
+        }
+        .story-card:hover {
+            background-color: var(--card-hover);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .story-card:hover::before {
+            transform: scaleY(1);
+            transform-origin: top;
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .card-id {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            font-family: Consolas, monospace;
+        }
+        .arrow-icon {
+            opacity: 0.3;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .story-card:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(5px);
+            color: var(--accent-color);
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.8rem; }
+            .story-card { padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>STORY ARCHIVE</h1>
+        <div class="subtitle">剧情回溯终端 // 已连接</div>
+    </header>
+    <div class="story-list" id="listContainer">
+        <a href="html_act19mini/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act19mini</span>
+                <span class="card-id">FOLDER // html_act19mini</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act42side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.1s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act42side</span>
+                <span class="card-id">FOLDER // html_act42side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act43side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.2s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act43side</span>
+                <span class="card-id">FOLDER // html_act43side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act44side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.30000000000000004s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act44side</span>
+                <span class="card-id">FOLDER // html_act44side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act45side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.4s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act45side</span>
+                <span class="card-id">FOLDER // html_act45side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act46side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.5s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act46side</span>
+                <span class="card-id">FOLDER // html_act46side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act47side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.6000000000000001s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act47side</span>
+                <span class="card-id">FOLDER // html_act47side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_act48side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.7000000000000001s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 act48side</span>
+                <span class="card-id">FOLDER // html_act48side</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="html_main16/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.8s;">
+            <div class="card-info">
+                <span class="card-title">剧情集 main16</span>
+                <span class="card-id">FOLDER // html_main16</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+    </div>
+</body>
+</html>

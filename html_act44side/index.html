@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故事目录</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .menu-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+        }
+        .menu-icon {
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+        .menu-items {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+        }
+        .menu-container.active .menu-items {
+            width: 500px;
+            height: 500px;
+            opacity: 1;
+            visibility: visible;
+        }
+        .menu-container.active .menu-icon {
+            transform: rotate(45deg);
+        }
+        .menu-item {
+            position: absolute;
+            background-color: #444;
+            color: white;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+        .menu-container.active .menu-item {
+            opacity: 1;
+        }
+        .menu-item:hover {
+            background-color: #666;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container" id="menu">
+        <div class="menu-icon">+</div>
+        <div class="menu-items">
+            <a href="level_act44side_01_beg.html" class="menu-item" style="transform: translate(calc(-50% + 400px), calc(-50% + 0px))">活动44_01上</a>
+            <a href="level_act44side_01_end.html" class="menu-item" style="transform: translate(calc(-50% + 380px), calc(-50% + 123px))">活动44_01下</a>
+            <a href="level_act44side_02_beg.html" class="menu-item" style="transform: translate(calc(-50% + 323px), calc(-50% + 235px))">活动44_02上</a>
+            <a href="level_act44side_02_end.html" class="menu-item" style="transform: translate(calc(-50% + 235px), calc(-50% + 323px))">活动44_02下</a>
+            <a href="level_act44side_03_beg.html" class="menu-item" style="transform: translate(calc(-50% + 123px), calc(-50% + 380px))">活动44_03上</a>
+            <a href="level_act44side_03_end.html" class="menu-item" style="transform: translate(calc(-50% + 0px), calc(-50% + 400px))">活动44_03下</a>
+            <a href="level_act44side_04_beg.html" class="menu-item" style="transform: translate(calc(-50% + -123px), calc(-50% + 380px))">活动44_04上</a>
+            <a href="level_act44side_04_end.html" class="menu-item" style="transform: translate(calc(-50% + -235px), calc(-50% + 323px))">活动44_04下</a>
+            <a href="level_act44side_05_beg.html" class="menu-item" style="transform: translate(calc(-50% + -323px), calc(-50% + 235px))">活动44_05上</a>
+            <a href="level_act44side_05_end.html" class="menu-item" style="transform: translate(calc(-50% + -380px), calc(-50% + 123px))">活动44_05下</a>
+            <a href="level_act44side_06_beg.html" class="menu-item" style="transform: translate(calc(-50% + -400px), calc(-50% + 0px))">活动44_06上</a>
+            <a href="level_act44side_06_end.html" class="menu-item" style="transform: translate(calc(-50% + -380px), calc(-50% + -123px))">活动44_06下</a>
+            <a href="level_act44side_07_beg.html" class="menu-item" style="transform: translate(calc(-50% + -323px), calc(-50% + -235px))">活动44_07上</a>
+            <a href="level_act44side_07_end.html" class="menu-item" style="transform: translate(calc(-50% + -235px), calc(-50% + -323px))">活动44_07下</a>
+            <a href="level_act44side_08_beg.html" class="menu-item" style="transform: translate(calc(-50% + -123px), calc(-50% + -380px))">活动44_08上</a>
+            <a href="level_act44side_08_end.html" class="menu-item" style="transform: translate(calc(-50% + 0px), calc(-50% + -400px))">活动44_08下</a>
+            <a href="level_act44side_entry.html" class="menu-item" style="transform: translate(calc(-50% + 123px), calc(-50% + -380px))">活动44_entry</a>
+            <a href="level_act44side_st01.html" class="menu-item" style="transform: translate(calc(-50% + 235px), calc(-50% + -323px))">活动44_st01</a>
+            <a href="level_act44side_st02.html" class="menu-item" style="transform: translate(calc(-50% + 323px), calc(-50% + -235px))">活动44_st02</a>
+            <a href="level_act44side_st03.html" class="menu-item" style="transform: translate(calc(-50% + 380px), calc(-50% + -123px))">活动44_st03</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('menu').addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+        // 防止点击菜单项时关闭菜单
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+</body>
+</html>
