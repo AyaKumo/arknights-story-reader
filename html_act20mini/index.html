@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>故事档案库</title>
+    <title>章节目录</title>
     <style>
         :root {
             --bg-color: #0a0a0a;
@@ -32,7 +32,7 @@
             animation: fadeIn 1s forwards;
         }
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             letter-spacing: 5px;
             margin: 0;
             font-weight: 300;
@@ -41,9 +41,26 @@
         }
         .header .subtitle {
             color: var(--text-sub);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 10px;
             letter-spacing: 2px;
+        }
+        .back-to-main {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .back-to-main:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
         }
         .story-list {
             width: 100%;
@@ -117,91 +134,65 @@
             to { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 480px) {
-            .header h1 { font-size: 1.8rem; }
+            .header h1 { font-size: 1.5rem; }
             .story-card { padding: 15px 20px; }
+            .back-to-main { top: 10px; left: 10px; padding: 8px 15px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+    <a href="../index.html" class="back-to-main">← 返回主目录</a>
     <header class="header">
-        <h1>STORY ARCHIVE</h1>
-        <div class="subtitle">剧情回溯终端 // 已连接</div>
+        <h1>CHAPTER LIST</h1>
+        <div class="subtitle">章节选择 // 请选择阅读内容</div>
     </header>
-    <div class="story-list" id="listContainer">
-        <a href="html_act19mini/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0s;">
+    <div class="story-list">
+        <a href="level_act20mini_st01.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act19mini</span>
-                <span class="card-id">FOLDER // html_act19mini</span>
+                <span class="card-title">活动20mini_st01</span>
+                <span class="card-id">FILE // level_act20mini_st01</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
-        <a href="html_act20mini_st01/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.1s;">
+        <a href="level_act20mini_st02.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.08s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act20mini_st01</span>
-                <span class="card-id">FOLDER // html_act20mini_st01</span>
+                <span class="card-title">活动20mini_st02</span>
+                <span class="card-id">FILE // level_act20mini_st02</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
-        <a href="html_act42side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.2s;">
+        <a href="level_act20mini_st03.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.16s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act42side</span>
-                <span class="card-id">FOLDER // html_act42side</span>
+                <span class="card-title">活动20mini_st03</span>
+                <span class="card-id">FILE // level_act20mini_st03</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
-        <a href="html_act43side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.30000000000000004s;">
+        <a href="level_act20mini_st04.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.24s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act43side</span>
-                <span class="card-id">FOLDER // html_act43side</span>
+                <span class="card-title">活动20mini_st04</span>
+                <span class="card-id">FILE // level_act20mini_st04</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
-        <a href="html_act44side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.4s;">
+        <a href="level_act20mini_st05.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.32s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act44side</span>
-                <span class="card-id">FOLDER // html_act44side</span>
+                <span class="card-title">活动20mini_st05</span>
+                <span class="card-id">FILE // level_act20mini_st05</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
-        <a href="html_act45side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.5s;">
+        <a href="level_act20mini_st06.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.4s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act45side</span>
-                <span class="card-id">FOLDER // html_act45side</span>
+                <span class="card-title">活动20mini_st06</span>
+                <span class="card-id">FILE // level_act20mini_st06</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
-        <a href="html_act46side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.6000000000000001s;">
+        <a href="README.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.48s;">
             <div class="card-info">
-                <span class="card-title">剧情集 act46side</span>
-                <span class="card-id">FOLDER // html_act46side</span>
-            </div>
-            <div class="arrow-icon">→</div>
-        </a>
-        <a href="html_act47side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.7000000000000001s;">
-            <div class="card-info">
-                <span class="card-title">剧情集 act47side</span>
-                <span class="card-id">FOLDER // html_act47side</span>
-            </div>
-            <div class="arrow-icon">→</div>
-        </a>
-        <a href="html_act48side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.8s;">
-            <div class="card-info">
-                <span class="card-title">剧情集 act48side</span>
-                <span class="card-id">FOLDER // html_act48side</span>
-            </div>
-            <div class="arrow-icon">→</div>
-        </a>
-        <a href="html_act49side/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.9s;">
-            <div class="card-info">
-                <span class="card-title">剧情集 act49side</span>
-                <span class="card-id">FOLDER // html_act49side</span>
-            </div>
-            <div class="arrow-icon">→</div>
-        </a>
-        <a href="html_main16/index.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1s;">
-            <div class="card-info">
-                <span class="card-title">剧情集 main16</span>
-                <span class="card-id">FOLDER // html_main16</span>
+                <span class="card-title">README</span>
+                <span class="card-id">FILE // README</span>
             </div>
             <div class="arrow-icon">→</div>
         </a>
