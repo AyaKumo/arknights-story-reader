@@ -30,6 +30,16 @@
             height: 100%;
             object-fit: contain;
         }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
         .dialogue-content {
             flex: 1;
         }
@@ -53,6 +63,26 @@
             margin: 30px 0;
             border-top: 1px solid #333;
         }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
         .back-to-index {
             position: fixed;
             top: 20px;
@@ -69,7 +99,7 @@
     <a href="index.html" class="back-to-index">返回目录</a>
     <h1>act51side_07_end</h1>
     <div class="story-container">
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -78,7 +108,7 @@
                 <div class="text">你跟来，就要全程听我的，按我说的做。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -86,7 +116,7 @@
                 <div class="text">明白吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%231%242.png" class="avatar" alt="古米">
             </div>
@@ -95,7 +125,7 @@
                 <div class="text">明白！嘿嘿......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -104,7 +134,7 @@
                 <div class="text">笑什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%231%242.png" class="avatar" alt="古米">
             </div>
@@ -113,7 +143,7 @@
                 <div class="text">柳德米拉姐真可靠啊。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -122,7 +152,7 @@
                 <div class="text">别轻易就下这种判断。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%231%241.png" class="avatar" alt="坚雷">
             </div>
@@ -131,7 +161,7 @@
                 <div class="text">你们什么时候关系这么好的？之前我还担心弑君者不愿跟乌萨斯办事处的人打交道，看来是白担心啦。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -140,7 +170,7 @@
                 <div class="text">......她不一样。在罗德岛那艘船上，在食堂里，我们早就打过交道。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%239%241.png" class="avatar" alt="古米">
             </div>
@@ -149,7 +179,7 @@
                 <div class="text">咦？是因为这个吗？在食堂里——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%234%241.png" class="avatar" alt="古米">
             </div>
@@ -158,7 +188,7 @@
                 <div class="text">啊！原来你就是那个做乌萨斯菜和叙拉古菜都很好吃的红头发姐姐！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%239%241.png" class="avatar" alt="弑君者">
             </div>
@@ -167,7 +197,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -176,7 +206,7 @@
                 <div class="text">先别打岔了。我的源石技艺能帮我隐蔽，一会儿我先从这里出去找凛冬。只要早露留在报告里的坐标是准确的，那我就一定能找到。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%238%241.png" class="avatar" alt="坚雷">
             </div>
@@ -185,7 +215,7 @@
                 <div class="text">嘶，根据早露的报告，封锁区里情况复杂，所以不排除凛冬的据点移动的可能。总之你先去看看吧，不行就回来。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -194,7 +224,7 @@
                 <div class="text">嗯。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%235%241.png" class="avatar" alt="古米">
             </div>
@@ -203,7 +233,7 @@
                 <div class="text">为什么我们不能一起呢？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -212,7 +242,7 @@
                 <div class="text">卡托加区被封锁之后，动力层通道也被巴普洛维奇的人接管了，在不惊动他们的情况下一起进去不现实，你们只能先在这里等我。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -220,7 +250,7 @@
                 <div class="text">这边不属于卡托加区，在这里工作的工人们都认识我，万一有人巡逻过来，报我的名字就行——柳德米拉·伊里尼奇娜。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -229,7 +259,7 @@
                 <div class="text">明白，但最好还是别被人发现。我们会藏好了，然后等着接应你的。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -238,7 +268,7 @@
                 <div class="text">那等你见到凛冬姐，一定要看看她有没有受伤，是不是瘦了——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -248,7 +278,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -257,7 +287,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -266,7 +296,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -275,7 +305,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_194_leto_1%239%241.png" class="avatar" alt="烈夏">
             </div>
@@ -284,7 +314,7 @@
                 <div class="text">......你不想让我去找马特维，那我就不去了。你想一个人待着，我也不烦你。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_194_leto_1%2313%241.png" class="avatar" alt="烈夏">
             </div>
@@ -293,7 +323,7 @@
                 <div class="text">只是万一你想找人说说话，或者商量点什么，就大声喊我的名字，懂吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -302,7 +332,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%234%242.png" class="avatar" alt="凛冬">
             </div>
@@ -312,7 +342,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%239%242.png" class="avatar" alt="凛冬">
             </div>
@@ -321,7 +351,7 @@
                 <div class="text">......什么鬼东西......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -329,7 +359,7 @@
                 <div class="text">罗莎琳——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="？？？">
             </div>
@@ -338,7 +368,7 @@
                 <div class="text">别喊，是我。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%235%242.png" class="avatar" alt="凛冬">
             </div>
@@ -347,7 +377,7 @@
                 <div class="text">嗯？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -356,7 +386,7 @@
                 <div class="text">你不是让我有困难，就来找你帮忙吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -365,7 +395,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -374,7 +404,7 @@
                 <div class="text">嗯，这套通讯设备应该没什么问题。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -382,7 +412,7 @@
                 <div class="text">......所以，你们已经在准备离开了。城墙内的那些打手已经被你们解决了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -390,7 +420,7 @@
                 <div class="text">怪不得我在来的路上，一个巡逻的人都没看到。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -399,7 +429,7 @@
                 <div class="text">城墙内的打手没了，也还有城墙上的，恐怕之后还有恶战。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -408,7 +438,7 @@
                 <div class="text">你们都准备好了吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -417,7 +447,7 @@
                 <div class="text">我们必须这样认为。我没有时间，也没有精力去过问每一个人的意见，但他们没有选择放弃训练，本身就是一种表态。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -426,7 +456,7 @@
                 <div class="text">我不是在质疑你或者你们之中的任何人。从我在外面了解的情况来看，你们能在封锁区里活下来，还团结在一起，已经算是不可思议了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -435,7 +465,7 @@
                 <div class="text">外面都怎么说的？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -444,7 +474,7 @@
                 <div class="text">说这里已经是巴普洛维奇陛下的独立王国了，他对里面的活物拥有生杀予夺的绝对权力。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -452,7 +482,7 @@
                 <div class="text">那些贵族老爷也已经不在乎了，反正这个地块马上就要像一块被割掉的烂肉那样被抛弃，上面的人也一样。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%2311%242.png" class="avatar" alt="凛冬">
             </div>
@@ -461,7 +491,7 @@
                 <div class="text">哼。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%236%241.png" class="avatar" alt="弑君者">
             </div>
@@ -470,7 +500,7 @@
                 <div class="text">乌萨斯总是这样......乌萨斯总是这样。可被抛弃的对象却永远都挣扎着想活。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -479,7 +509,7 @@
                 <div class="text">从前阿米娅不希望我们和你有过多接触，我都没机会知道你是个这么感性的家伙。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -488,7 +518,7 @@
                 <div class="text">......这不是感性的问题......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%232%241.png" class="avatar" alt="弑君者">
             </div>
@@ -497,7 +527,7 @@
                 <div class="text">换个说法吧。来的时候，我听见有人围着篝火在哭，安慰他的人却在笑，他们胳膊上打着绷带，身上和地上的雪一样脏。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -506,7 +536,7 @@
                 <div class="text">其他人有的在聊天，有的手里捧着杯冒热气的水，有的在火上烤了点东西。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -514,7 +544,7 @@
                 <div class="text">在这样的地方，经历了这么多的事，他们看上去却没有特别痛苦，或者说，甚至看上去很期待明天。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -522,7 +552,7 @@
                 <div class="text">一无所有，但胸腔里塞满了希望。我从前也见过这样的情景和这样的表情，在......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%236%241.png" class="avatar" alt="弑君者">
             </div>
@@ -531,7 +561,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -540,7 +570,7 @@
                 <div class="text">谢谢你细致的观察。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -550,7 +580,7 @@
         </div>
         <div class="narration">弑君者没说话，做了个请的手势。</div>
         <div class="narration">满脸倦容的青年也没有客套，她端起不锈钢杯子，把里面已经反复冲泡到颜色清亮的茶水一饮而尽。</div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -559,7 +589,7 @@
                 <div class="text">......该说的情况我都说了，在你走之前，还有什么想知道的？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -568,7 +598,7 @@
                 <div class="text">在我走之前，还有什么是我能帮你们的？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%234%242.png" class="avatar" alt="凛冬">
             </div>
@@ -577,7 +607,7 @@
                 <div class="text">嗯......或许这个问题有些蠢。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -586,7 +616,7 @@
                 <div class="text">利用你的源石技艺，有没有可能，让这些学生一起从你来的地方出去呢......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -595,7 +625,7 @@
                 <div class="text">动力层的通道非常狭窄，一晚上来来回回，带走几十人或许可以，但你们好像有几百人......更大的问题是，前往通道的路只有一条。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%237%241.png" class="avatar" alt="弑君者">
             </div>
@@ -604,7 +634,7 @@
                 <div class="text">这种规模的行动肯定会被那些人察觉，如果学生们都暴露在没有掩体的区域，即便用我的源石技艺，暴徒一旦倾泻火力——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%2311%242.png" class="avatar" alt="凛冬">
             </div>
@@ -613,7 +643,7 @@
                 <div class="text">......当我胡说了，唉，想想也知道不会这么简单。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -622,7 +652,7 @@
                 <div class="text">那么除此之外，还有什么我能做的？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -631,7 +661,7 @@
                 <div class="text">我还以为你要问我，要不要跟你一起逃出去。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -640,7 +670,7 @@
                 <div class="text">我不会问的，因为你不会走。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -649,7 +679,7 @@
                 <div class="text">也是。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -657,7 +687,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -666,7 +696,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -676,7 +706,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%2313%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -685,7 +715,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -693,7 +723,7 @@
                 <div class="text">运气真不好，对吧。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -701,7 +731,7 @@
                 <div class="text">应该是不小心被关进来的吧，你看上去不像是会和这里的人牵扯上关系。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%2311%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -710,7 +740,7 @@
                 <div class="text">啊......对，你说得没错。这是个荒唐的意外。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -719,7 +749,7 @@
                 <div class="text">你这是在做什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%238%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -728,7 +758,7 @@
                 <div class="text">我只是在悼念几个朋友。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -737,7 +767,7 @@
                 <div class="text">很抱歉。你看上去的确很难过，希望没有打扰到你。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -746,7 +776,7 @@
                 <div class="text">哦，没关系，无所谓。我太习惯被各种事情打扰了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -754,7 +784,7 @@
                 <div class="text">不用客气，坐下来烤烤火吧，这里还有一些烤土豆，如果你饿的话......你叫什么名字？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -763,7 +793,7 @@
                 <div class="text">我叫柳德米拉......我的朋友们都叫我弑君者。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -772,7 +802,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%232%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -781,7 +811,7 @@
                 <div class="text">......很酷的外号。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -789,7 +819,7 @@
                 <div class="text">你刺杀过了不起的大人物？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -798,7 +828,7 @@
                 <div class="text">很可惜，还没有亲手杀过。不过，我倒见过不少“暴君”，或者说领袖。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -806,7 +836,7 @@
                 <div class="text">第一位是在乌萨斯见到的，她应该算是个了不起的人，我认识的最了不起的几个人之一。她很有领袖气质，也很强大。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -814,7 +844,7 @@
                 <div class="text">但是她的理想太遥远，她的手段又太理想，所以她失败了。说她是个暴君或许不太公正，她只是一个失败者。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -822,7 +852,7 @@
                 <div class="text">第二位是在叙拉古，我刚认识她的时候，她甚至还算不上是一个领袖。她是个好人，也是个倒霉蛋。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -830,7 +860,7 @@
                 <div class="text">很多意外迫使她成了领袖，在意识到责任的重要性之前，她先尝到了权力的滋味。我担心过她会走上歧途，但我不可能继续和她同行了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%238%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -839,7 +869,7 @@
                 <div class="text">你的经历还真是丰富。真羡慕你，我连圣骏堡都没有出过。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -848,7 +878,7 @@
                 <div class="text">第三位，我之前只是听说过他的名字，听说过他做的事。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -856,7 +886,7 @@
                 <div class="text">直到现在，我才亲眼见到。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%236%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -865,7 +895,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -874,7 +904,7 @@
                 <div class="text">是谁派你来找我的？你不像是维特手下的人。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -883,7 +913,7 @@
                 <div class="text">别猜了，我对你没有兴趣。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -891,7 +921,7 @@
                 <div class="text">难得回一趟乌萨斯就撞见了这么荒唐的事，还真是让我大开眼界。现在议会为了想办法悄无声息地把你救出去，已经急疯了吧。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%238%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -900,7 +930,7 @@
                 <div class="text">也许吧，也许也有人想让我悄无声息地死在这。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -908,7 +938,7 @@
                 <div class="text">我不知道，我觉得自己留在这，或是待在皇宫里，其实都没什么区别。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -917,7 +947,7 @@
                 <div class="text">你是怎么做到让平民百姓不喜欢你，达官显贵也不待见你的？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -926,7 +956,7 @@
                 <div class="text">当你真的想做点改变，被动到蛋糕的人就会想方设法反对你。你做的每一个决定都会受到不同人的阻挠。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%234%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -935,7 +965,7 @@
                 <div class="text">算了......和你也说不明白。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -944,7 +974,7 @@
                 <div class="text">我的确是搞不明白，听上去你觉得自己还在费尽心思治理国家，那为什么乌萨斯会变成现在这样？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -952,7 +982,7 @@
                 <div class="text">哦，你说你从来没有离开过圣骏堡对吧。那你真应该出去看看，看看你统治下的乌萨斯现在是个什么鬼样子。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%235%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -961,7 +991,7 @@
                 <div class="text">够了！！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -969,7 +999,7 @@
                 <div class="text">用不着你来批评我......别以为我不知道现在的乌萨斯有什么毛病，我也想改变这一切。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -978,7 +1008,7 @@
                 <div class="text">你不知道我做了多少尝试，没有人知道。可从来没有谁全心全意地支持我，我又能怎么办！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%237%241.png" class="avatar" alt="弑君者">
             </div>
@@ -987,7 +1017,7 @@
                 <div class="text">所以呢？你是在说，所有的错都是别人的，你只是个无辜的好皇帝？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -995,7 +1025,7 @@
                 <div class="text">你意识不到自己负有什么样的责任，还希望遭受了这么多苦难的人民怜恤你的辛苦不易吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1004,7 +1034,7 @@
                 <div class="text">你说得对，我是个糟糕透顶的皇帝——那你还在等什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1012,7 +1042,7 @@
                 <div class="text">现在就杀了我吧，让那些盼着我死的贵族称心如意，让那些对我有意见的平民狠狠出一口恶气。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%235%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1021,7 +1051,7 @@
                 <div class="text">然后恭喜你，你不再是给自己起*乌萨斯粗口*绰号的小孩，而是真正的弑君者了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%238%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1030,7 +1060,7 @@
                 <div class="text">别*乌萨斯粗口*犯傻了！！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%237%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1039,7 +1069,7 @@
                 <div class="text">杀了你一点也不难，可那又如何？你以为费奥多尔很重要？告诉你，一点也不！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1047,7 +1077,7 @@
                 <div class="text">乌萨斯随便一个三岁小孩都听说过如今伟大的陛下年仅十岁的时候就平定了大叛乱，可他们哪里知道坐在皇位上的是个什么样的蠢材？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1055,7 +1085,7 @@
                 <div class="text">是你的所作所为让费奥多尔这个名字拥有荣誉吗？你甚至意识不到自己的责任，居然还在抱怨，仿佛自己有多委屈。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1063,7 +1093,7 @@
                 <div class="text">你不过还是那个活在所有人虚假的簇拥里，从来没长大的小孩罢了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%235%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1072,7 +1102,7 @@
                 <div class="text">*乌萨斯粗口*——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%237%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1081,7 +1111,7 @@
                 <div class="text">你真的在为眼前死去的人难过吗？这样的惨剧，还有比这惨烈十倍百倍的事，每时每刻都在乌萨斯发生。你真的会感到难过吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1089,7 +1119,7 @@
                 <div class="text">如果你真的想救人，就回到你该在的位置上去，找出几张正确的政令，在上面签字，然后盖上你那高贵的印章。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1097,7 +1127,7 @@
                 <div class="text">这是一件很困难的事吗？但问题在于，你真的想这么做吗？你知道什么是“正确”吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1106,7 +1136,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1114,7 +1144,7 @@
                 <div class="text">我真后悔邀请你坐下来烤火。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1122,7 +1152,7 @@
                 <div class="text">我不喜欢变得粗鲁，可总有人要惹我生气。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1131,7 +1161,7 @@
                 <div class="text">感谢您的邀请，皇帝陛下。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1140,7 +1170,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1149,7 +1179,7 @@
                 <div class="text">......你要去哪儿？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1157,7 +1187,7 @@
                 <div class="text">与你无关。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1165,7 +1195,7 @@
                 <div class="text">别担心，如果你还想继续留在这里玩你的过家家，那也随你。我不会告诉别人。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1173,7 +1203,7 @@
                 <div class="text">我最后只说一句......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1181,7 +1211,7 @@
                 <div class="text">如果真的如你所说，你在努力做出改变，那至少现在就不会只有皇宫在夜间灯火通明，乌萨斯的蜡烛甚至不够照亮一个圣骏堡了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%233%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1193,7 +1223,7 @@
         <div class="narration">随着弑君者的离开，晚间骤起的狂风终于将费奥多尔面前的最后一簇篝火吹灭。</div>
         <div class="narration">四周忽地暗了下去，将沉默的帝王和流浪者抛在了寒夜中。</div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%232%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1202,7 +1232,7 @@
                 <div class="text">别藏了，我能察觉到，出来吧。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
             </div>
@@ -1211,7 +1241,7 @@
                 <div class="text">陛下。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1220,7 +1250,7 @@
                 <div class="text">......你们也跟来了这里，我怎么一点都不意外呢。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
             </div>
@@ -1229,7 +1259,7 @@
                 <div class="text">谨遵您和维特议长的意志，不让您的失踪惊动更多的人。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1237,7 +1267,7 @@
                 <div class="text">为此，我们只能蛰伏。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%232%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1246,7 +1276,7 @@
                 <div class="text">然后呢？维特准备怎么处理卡托加区？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
             </div>
@@ -1255,7 +1285,7 @@
                 <div class="text">这不在我们的知情范围内。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1263,7 +1293,7 @@
                 <div class="text">如果您想与他沟通，恳请您现在就随我们回宫。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1272,7 +1302,7 @@
                 <div class="text">你们想带我回去，就这样悄无声息地把我塞上载具，再塞回那把椅子上。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1280,7 +1310,7 @@
                 <div class="text">我告诉你们，绝不可能。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
             </div>
@@ -1289,7 +1319,7 @@
                 <div class="text">您应该清楚地认识到自己的处境。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1297,7 +1327,7 @@
                 <div class="text">相比先皇，您太年轻，也太任性。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%235%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1306,7 +1336,7 @@
                 <div class="text">*乌萨斯粗口*！不要再把我和已经死了一万年的人作比，你们这群混账！都给我滚吧！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
             </div>
@@ -1315,7 +1345,7 @@
                 <div class="text">我是不会走的，我也有自己要做的事，我不是用来给乌萨斯装点门面的木偶。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1324,7 +1354,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1333,7 +1363,7 @@
                 <div class="text">怎么不在这里......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1342,7 +1372,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1351,7 +1381,7 @@
                 <div class="text">你们遇见巡逻的工人了？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%239%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1360,7 +1390,7 @@
                 <div class="text">如果你非要说一群拿着砍刀和棍棒、穿得像警察的家伙是工人的话......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1369,7 +1399,7 @@
                 <div class="text">你们遇上巴普洛维奇的人了？可这里甚至不属于卡托加区，不应该——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1378,7 +1408,7 @@
                 <div class="text">是几个工人模样的人带我们躲起来了，但他们走得有点急，我没问出什么来。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -1387,7 +1417,7 @@
                 <div class="text">凛冬姐呢？你见到凛冬姐了吗？她和烈夏姐怎么样了？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1396,7 +1426,7 @@
                 <div class="text">凛冬、烈夏，以及她们集结起来的学生正在筹备离开封锁区，或许就在这两天了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%239%241.png" class="avatar" alt="古米">
             </div>
@@ -1405,7 +1435,7 @@
                 <div class="text">离开？是那个巴普洛维奇决定放人了吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1414,7 +1444,7 @@
                 <div class="text">不是开门然后出去的那种“离开”。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1423,7 +1453,7 @@
                 <div class="text">......他们准备怎么做？我们能帮上忙吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1432,7 +1462,7 @@
                 <div class="text">我也问了一样的问题。总之，我一会儿会去找动力层今晚值班的工人聊聊这件事。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1440,7 +1470,7 @@
                 <div class="text">现在要先尽快试试凛冬给我的通讯设备，否则那些失业的工人很快就会用不上电暖了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1449,7 +1479,7 @@
                 <div class="text">我们去哪儿试？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1459,7 +1489,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1468,7 +1498,7 @@
                 <div class="text">这里应该可以了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%231%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1477,7 +1507,7 @@
                 <div class="text">设备挺重的吧，我帮你托着，你戴耳机。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1486,7 +1516,7 @@
                 <div class="text">谢谢。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%233%241.png" class="avatar" alt="古米">
             </div>
@@ -1495,7 +1525,7 @@
                 <div class="text">我呢？有什么我能做的吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1504,7 +1534,7 @@
                 <div class="text">帮我们看着点周围的情况，如果有动静，及时提醒。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%233%241.png" class="avatar" alt="古米">
             </div>
@@ -1513,7 +1543,7 @@
                 <div class="text">好！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1523,7 +1553,7 @@
             </div>
         </div>
         <div class="narration">......</div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1533,7 +1563,7 @@
             </div>
         </div>
         <div class="narration">......</div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1542,7 +1572,7 @@
                 <div class="text">喂？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1550,7 +1580,7 @@
                 <div class="text">（小声）应该是接通了，但对面没有声音。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1559,7 +1589,7 @@
             </div>
         </div>
         <div class="narration">......</div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1568,7 +1598,7 @@
                 <div class="text">没有声音，应该不是信号的问题。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1576,7 +1606,7 @@
                 <div class="text">也算是正常情况，可能得等一下再试了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%235%241.png" class="avatar" alt="古米">
             </div>
@@ -1585,7 +1615,7 @@
                 <div class="text">要等多久？我们能不能......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1594,7 +1624,7 @@
                 <div class="text">嗯？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2321%241.png" class="avatar" alt="古米">
             </div>
@@ -1603,7 +1633,7 @@
                 <div class="text">我们能不能，先去找凛冬姐？或者去找你刚才说的，那些值班的工人？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -1612,7 +1642,7 @@
                 <div class="text">我总觉得，我们也应该动起来，如果能帮上忙——我想帮忙。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1620,7 +1650,7 @@
                 <div class="text">在其他地方应该也能继续试着联系对面的人？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1629,7 +1659,7 @@
                 <div class="text">卡托加区实行通讯静默，进去之后多半就用不了通讯设备了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%239%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1638,7 +1668,7 @@
                 <div class="text">而且毫无事先准备，直接参与正面的战斗也很危险，即使只是范围限制在封锁区内的小规模冲突。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1646,7 +1676,7 @@
                 <div class="text">早露的报告中提到了某些贵族曾向巴普洛维奇提供军备物资，凛冬他们很可能会面临正规军级别的火力。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1655,7 +1685,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -1664,7 +1694,7 @@
                 <div class="text">可我不怕。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%238%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1673,7 +1703,7 @@
                 <div class="text">古米？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2310%241.png" class="avatar" alt="古米">
             </div>
@@ -1682,7 +1712,7 @@
                 <div class="text">可我不怕！我想和凛冬姐、烈夏姐她们站在一起——我想，至少我能帮她们挡住一些坏人，或是一些看不见的弩箭！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -1691,7 +1721,7 @@
                 <div class="text">我想去帮她们。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1700,7 +1730,7 @@
                 <div class="text">即使这意味着你要伤害另一些人？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2315%241.png" class="avatar" alt="古米">
             </div>
@@ -1709,7 +1739,7 @@
                 <div class="text">......如果我必须这样做......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1718,7 +1748,7 @@
                 <div class="text">你犹豫了，古米。你和凛冬她们，你们都不是军人，如果可以，我希望你们永远都不必面临这样的冲突。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1726,7 +1756,7 @@
                 <div class="text">每个人都有自己的战场，而这些战场是不分高低，也没有优先级的。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2315%241.png" class="avatar" alt="古米">
             </div>
@@ -1735,7 +1765,7 @@
                 <div class="text">我......我——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1744,7 +1774,7 @@
                 <div class="text">古米，如果我清晰地告诉你，我现在做的事情，同样关乎很多人的性命呢？你会怎么选？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%232%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1753,7 +1783,7 @@
                 <div class="text">弑君者，没必要——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1762,7 +1792,7 @@
                 <div class="text">如果我们离开，想办法进入封锁区，导致无法及时联络上为圣骏堡居民供电的人——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1770,7 +1800,7 @@
                 <div class="text">那么再过一周，像奥多耶夫区这样的地方，就会陆续出现无数冻死的尸体。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1778,7 +1808,7 @@
                 <div class="text">而如果你留在这里，不去帮助凛冬和烈夏，明天她们也有可能被暗箭射伤，被炮火炸到......总之，陷入危险。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1786,7 +1816,7 @@
                 <div class="text">你想怎么选？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%237%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1795,7 +1825,7 @@
                 <div class="text">弑君者，你没必要对她这么残酷！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1804,7 +1834,7 @@
                 <div class="text">......残酷？这就算残酷？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1812,7 +1842,7 @@
                 <div class="text">难道一直对她隐瞒所有必要的细节就是为她好吗？难道从来不给她做选择的机会就是对她负责吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1820,7 +1850,7 @@
                 <div class="text">对总是被留下的那个人而言，难道不正是这些自以为是的决定......才是真正的残酷吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%238%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1829,7 +1859,7 @@
                 <div class="text">你......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2315%241.png" class="avatar" alt="古米">
             </div>
@@ -1838,7 +1868,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%237%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1847,7 +1877,7 @@
                 <div class="text">古米，你怎么选？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2316%241.png" class="avatar" alt="古米">
             </div>
@@ -1856,7 +1886,7 @@
                 <div class="text">我——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%238%241.png" class="avatar" alt="古米">
             </div>
@@ -1865,7 +1895,7 @@
                 <div class="text">——我都要，不行吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%2310%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1874,7 +1904,7 @@
                 <div class="text">呃——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1882,7 +1912,7 @@
                 <div class="text">......滋滋......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -1891,7 +1921,7 @@
                 <div class="text">我现在帮你，等你的事情办完了，再去帮凛冬姐！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%232%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1900,7 +1930,7 @@
                 <div class="text">......好。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1908,7 +1938,7 @@
                 <div class="text">小驳船......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%234%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1917,7 +1947,7 @@
                 <div class="text">等等，对面有声音了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%239%241.png" class="avatar" alt="古米">
             </div>
@@ -1929,7 +1959,7 @@
         <div class="narration">耳机之中，微弱而模糊的声音逐渐变得清晰。</div>
         <div class="narration">那是一个弑君者此前从未听过的、柔和而迟疑的男声。</div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1937,7 +1967,7 @@
                 <div class="text">......雪姑娘、巨鳞......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1946,7 +1976,7 @@
                 <div class="text">我没听过这个声音，他不是之前和我对接的人。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2321%241.png" class="avatar" alt="古米">
             </div>
@@ -1955,7 +1985,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1964,7 +1994,7 @@
                 <div class="text">而且他说的好像甚至不是连贯的话。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%238%241.png" class="avatar" alt="坚雷">
             </div>
@@ -1973,7 +2003,7 @@
                 <div class="text">那说的是什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -1982,7 +2012,7 @@
                 <div class="text">听起来像是一组彼此之间没有关联的词。很奇怪。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1990,7 +2020,7 @@
                 <div class="text">“白夜”。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -1999,7 +2029,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2007,7 +2037,7 @@
                 <div class="text">......这些词我都认识，可组合在一起是什么意思？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2015,7 +2045,7 @@
                 <div class="text">喂？能听到我说话吗？能给我点更清晰的提示吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2023,7 +2053,7 @@
                 <div class="text">提示......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2031,7 +2061,7 @@
                 <div class="text">谁？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2045,7 +2075,7 @@
         <div class="narration">我见过这些词，我见过它们。她无声地呐喊着，手指攥紧了衣角，仿佛要把纸上那潦草的字迹盯穿一样，仔仔细细地看着。</div>
         <div class="narration">一双拿书的手、一只抚过头发的手、一只戴着熟悉腕表的手......一幕一幕，开始在她眼前闪现。</div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%231%241.png" class="avatar" alt="古米">
             </div>
@@ -2055,7 +2085,7 @@
             </div>
         </div>
         <div class="narration">她将滚烫的视线投向看上去毫无头绪的弑君者。</div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%235%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2064,7 +2094,7 @@
                 <div class="text">喂？这应该是我和另一个人的通讯频道，你是怎么知道的？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2072,7 +2102,7 @@
                 <div class="text">你是谁——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%232%241.png" class="avatar" alt="古米">
             </div>
@@ -2081,7 +2111,7 @@
                 <div class="text">柳德米拉姐！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2090,7 +2120,7 @@
                 <div class="text">嗯？怎么了？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%231%241.png" class="avatar" alt="古米">
             </div>
@@ -2099,7 +2129,7 @@
                 <div class="text">我想听。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2108,7 +2138,7 @@
                 <div class="text">他只说了这些词，再没有别的内容了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2315%241.png" class="avatar" alt="古米">
             </div>
@@ -2117,7 +2147,7 @@
                 <div class="text">我想听，求你了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%238%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2126,7 +2156,7 @@
                 <div class="text">你是不是发现了什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -2135,7 +2165,7 @@
                 <div class="text">只要我听了，我就能知道。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2146,8 +2176,16 @@
         </div>
         <div class="narration">弑君者把耳机摘下，递给矮一点的女孩。</div>
         <div class="narration">女孩则颤抖着双手接过，把它小心地戴在了耳朵上。</div>
+        <div class="cg-container">
+            <img src="../CG/72_i10_1.png"
+                 alt="CG - 72_i10_1"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2155,7 +2193,7 @@
                 <div class="text">......金切尔文、小驳船、幼羽、雪姑娘、巨鳞。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2163,7 +2201,7 @@
                 <div class="text">喂？你记下来了吗？记下来了吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2171,7 +2209,7 @@
                 <div class="text">一定要记住这些！全都记住！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2179,7 +2217,7 @@
                 <div class="text">我再说一遍。白夜、冰女皇、幻想家、土地......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2190,8 +2228,16 @@
         <div class="narration">一个熟悉而又陌生的声音。</div>
         <div class="narration">一个经过传输磨损业已失真的声音。</div>
         <div class="narration">一个拉达永远不会忘记的声音。</div>
+        <div class="cg-container">
+            <img src="../CG/72_i10_2.png"
+                 alt="CG - 72_i10_2"
+                 class="cg-image"
+                 style="--fade-duration: 3s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2199,7 +2245,7 @@
                 <div class="text">“一个人究竟需要多少土地？”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2207,7 +2253,7 @@
                 <div class="text">耳机里也有爸爸的声音！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2215,7 +2261,7 @@
                 <div class="text">“五十公顷？一千公顷？还是一万四千公顷？”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2223,7 +2269,7 @@
                 <div class="text">“不，不，都不是。”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2231,7 +2277,7 @@
                 <div class="text">那究竟是多少呢？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2239,7 +2285,7 @@
                 <div class="text">不要急，我的小拉达。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2247,7 +2293,7 @@
                 <div class="text">“伊凡走了很远很远的路，在日出之前回到起点，他用尽了全身的力气，再也爬不起来了。”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2255,7 +2301,7 @@
                 <div class="text">一定会有人去帮助他的，一定会的吧！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2263,7 +2309,7 @@
                 <div class="text">会的，孩子，当然会。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2271,7 +2317,7 @@
                 <div class="text">“人们佩服他的毅力，把他搀扶起来，喂他喝干净的水，给他吃柔软的面包。”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2279,7 +2325,7 @@
                 <div class="text">“等他醒来，看见的就是自己白天走过的路，和画下的道标。”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2287,7 +2333,15 @@
                 <div class="text">“一片广大的土地，一共是......”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class="cg-container">
+            <img src="../CG/72_i10_1.png"
+                 alt="CG - 72_i10_1"
+                 class="cg-image"
+                 style="--fade-duration: 1.5s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2295,7 +2349,7 @@
                 <div class="text">“伊凡一生需要的土地，一共是两米长，一点五米宽和一点五米深。”</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2303,7 +2357,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2311,7 +2365,7 @@
                 <div class="text">爸爸......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2319,7 +2373,7 @@
                 <div class="text">——！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2327,7 +2381,7 @@
                 <div class="text">您骗了我。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2335,7 +2389,7 @@
                 <div class="text">......谁......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2343,7 +2397,7 @@
                 <div class="text">长大之后，我又翻开了那本书。我看到书上写着，一个人一生需要的土地，只有这么大。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2351,7 +2405,7 @@
                 <div class="text">这是一个棺材的大小，是不是？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2359,7 +2413,7 @@
                 <div class="text">你是谁？你在说什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2367,7 +2421,7 @@
                 <div class="text">我是拉达啊，爸爸！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2375,7 +2429,7 @@
                 <div class="text">拉达......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2383,7 +2437,7 @@
                 <div class="text">拉达？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2391,7 +2445,7 @@
                 <div class="text">是我，是我！您在哪里？您到底想告诉我们什么？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2400,7 +2454,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%233%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2409,7 +2463,7 @@
                 <div class="text">......如果同是一个频道，这次联系上的是你的父亲，那之前......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2418,7 +2472,7 @@
                 <div class="text">你父母是在为同一个机构工作吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2315%241.png" class="avatar" alt="古米">
             </div>
@@ -2427,7 +2481,7 @@
                 <div class="text">我不知道，我觉得应该是......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2436,7 +2490,7 @@
                 <div class="text">......总有一天我们会弄清楚这一切的。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2444,7 +2498,7 @@
                 <div class="text">挂断之前他还说了什么吗？除了这十个词之外？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2321%241.png" class="avatar" alt="古米">
             </div>
@@ -2453,7 +2507,7 @@
                 <div class="text">其实是十二个词。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2462,7 +2516,7 @@
                 <div class="text">还有两个词？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -2471,7 +2525,7 @@
                 <div class="text">对，还有两个词分别是“石棺”和“卫星城”。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2480,7 +2534,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -2489,7 +2543,7 @@
                 <div class="text">前十个词各自代表一本书，都是标题里有对应词语的儿童读物。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2497,7 +2551,7 @@
                 <div class="text">也是小时候爸爸读给我听过的书。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2506,7 +2560,7 @@
                 <div class="text">如果我想得没错，你父亲应该不是只想让我们找到这几本童书。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%2311%241.png" class="avatar" alt="古米">
             </div>
@@ -2515,7 +2569,7 @@
                 <div class="text">他解释了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2523,7 +2577,7 @@
                 <div class="text">他说前十个词语依次对应着十本书的出版物号的前两位，另外两个词，则是取其首字母。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%239%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2532,7 +2586,7 @@
                 <div class="text">......数字加字母，二十二位，乌萨斯军用设施识别码的常规格式。至于是哪里的军用设施——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%237%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2541,7 +2595,7 @@
                 <div class="text">答案已经很明显了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2550,7 +2604,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2559,7 +2613,7 @@
                 <div class="text">......坚雷女士、古米，如果赶时间的话，我们现在就可以出发去封锁区。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_196_sunbr_1%233%241.png" class="avatar" alt="古米">
             </div>
@@ -2568,7 +2622,7 @@
                 <div class="text">嗯......我有想过，之前你们和我说的话。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2576,7 +2630,7 @@
                 <div class="text">我不想让大家担心，但我想帮上大家的忙，我会去找封锁区内熟悉的学生，偷偷做一些工作。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2585,7 +2639,7 @@
                 <div class="text">好啊，那弑君者——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1502_crosly_1%231%241.png" class="avatar" alt="弑君者">
             </div>
@@ -2594,7 +2648,7 @@
                 <div class="text">我送完你们之后，就会回来联络那些还在地下坚持的工人。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2603,7 +2657,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%231%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2612,7 +2666,7 @@
                 <div class="text">咳——咳——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2620,7 +2674,7 @@
                 <div class="text">凛冬？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%235%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2630,7 +2684,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2639,7 +2693,7 @@
                 <div class="text">你怎么也过来了？自治团的大家呢？她们都还好吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%231%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2648,7 +2702,7 @@
                 <div class="text">当然，但现在最该担心的是你。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%238%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2657,7 +2711,7 @@
                 <div class="text">这烟尘是怎么一回事？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2666,7 +2720,7 @@
                 <div class="text">巴普洛维奇的人袭击了营地，放了把火就走了，说是对我们的报复。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2674,7 +2728,7 @@
                 <div class="text">......真像个笑话。我在这里见过了一场又一场大火，它们反而扑灭了我脑海里的那场，切尔诺伯格的。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%237%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2683,7 +2737,7 @@
                 <div class="text">凛冬，如果切尔诺伯格让你——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2692,7 +2746,7 @@
                 <div class="text">不，教官，感谢你......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2700,7 +2754,7 @@
                 <div class="text">如果在朋友、同伴都陷入危险的时候，还在纠结是否要去面对自己的恐惧......这似乎不太像我，我已经习惯了先让身体动起来。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2708,7 +2762,7 @@
                 <div class="text">何况我不只有自己的拳头。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%232%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2717,7 +2771,7 @@
                 <div class="text">你是说——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%232%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2726,7 +2780,7 @@
                 <div class="text">“团结”。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2734,7 +2788,7 @@
                 <div class="text">以前我只想带头冲锋，但现在......只要想到身后还有那群家伙在，只要知道我们向着同一个终点......我就有信心做成一切。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%233%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2743,7 +2797,7 @@
                 <div class="text">那接下来，你打算怎么办？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%234%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2752,7 +2806,7 @@
                 <div class="text">会用放火这种低效的方式，再次说明巴普洛维奇已经失去了所有重武器。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2761,7 +2815,7 @@
                 <div class="text">他们以为在散布恐惧，实际上是在暴露虚弱......这是好时机。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2769,7 +2823,7 @@
                 <div class="text">后天清晨，我们该和巴普洛维奇算个总账了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2777,7 +2831,7 @@
                 <div class="text">我需要你的帮助，教官。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_260_durnar_1%231%241.png" class="avatar" alt="坚雷">
             </div>
@@ -2786,7 +2840,7 @@
                 <div class="text">当然没问题，不过烈夏不是在你这里吗？我怎么没看到她。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1051_headb2_1%231%242.png" class="avatar" alt="凛冬">
             </div>
@@ -2795,7 +2849,7 @@
                 <div class="text">遇袭之后，我让她去向我们的盟友预警，顺便约定一起攻城。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2808,7 +2862,7 @@
         <div class="narration">他昂着头，注视着在火焰上方盘旋不散的浓烟、断裂的梁柱，还有被抛向空中的许多书页。他看起来似乎就和往常一样平静。</div>
         <div class="narration">但那是他的房子，他亲手敲下每一枚钉子的房子......无缚者的据点，也是我们的“家”。</div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_4224_turdus_1%238%241.png" class="avatar" alt="乌克西克">
             </div>
@@ -2817,7 +2871,7 @@
                 <div class="text">是谁！到底是谁！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2825,7 +2879,7 @@
                 <div class="text">马特维......他们——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_4224_turdus_1%237%241.png" class="avatar" alt="乌克西克">
             </div>
@@ -2834,7 +2888,7 @@
                 <div class="text">*乌萨斯粗口*！*乌萨斯粗口*！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2160_1%232%241.png" class="avatar" alt="马特维">
             </div>
@@ -2845,7 +2899,7 @@
         </div>
         <div class="narration">他脸上还是没什么别的表情，也可能是我被泪水糊了眼睛，看不清楚。</div>
         <div class="narration">马特维叹了口气，然后蹲了下来，试图擦掉我的眼泪。我看见他的半边脸上全是血污，却找不见伤口在哪。</div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2160_1%232%241.png" class="avatar" alt="马特维">
             </div>
@@ -2854,7 +2908,7 @@
                 <div class="text">“别为打翻的瘤奶哭泣”，记得吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_4224_turdus_1%2310%241.png" class="avatar" alt="乌克西克">
             </div>
@@ -2863,7 +2917,7 @@
                 <div class="text">可是瘤奶很贵！我只有新年的时候喝过一次！</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2160_1%238%241.png" class="avatar" alt="马特维">
             </div>
@@ -2872,7 +2926,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2160_1%2310%241.png" class="avatar" alt="马特维">
             </div>
@@ -2882,7 +2936,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_194_leto_1%232%241.png" class="avatar" alt="烈夏">
             </div>
@@ -2891,7 +2945,7 @@
                 <div class="text">安托沙，如果你们有什么需要......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2157_1%2310%241.png" class="avatar" alt="安托沙">
             </div>
@@ -2900,7 +2954,7 @@
                 <div class="text">不了，我们还有一些储备，也和你们分过了战利品。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_194_leto_1%2313%241.png" class="avatar" alt="烈夏">
             </div>
@@ -2909,7 +2963,7 @@
                 <div class="text">守在营地还是太被动了......索尼娅让我告诉你，我们决定在后天的清晨发起进攻。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_194_leto_1%239%241.png" class="avatar" alt="烈夏">
             </div>
@@ -2918,7 +2972,7 @@
                 <div class="text">目标就是，那座城墙。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2157_1%235%241.png" class="avatar" alt="安托沙">
             </div>
@@ -2927,7 +2981,7 @@
                 <div class="text">......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2157_1%231%241.png" class="avatar" alt="安托沙">
             </div>
@@ -2936,7 +2990,7 @@
                 <div class="text">告诉索尼娅，无缚者没有理由不出现在巴普洛维奇的面前。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2944,7 +2998,7 @@
                 <div class="text">我们决定伺机突袭他的指挥部，这是我们很早之前就确定好的战术。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_194_leto_1%236%241.png" class="avatar" alt="烈夏">
             </div>
@@ -2953,7 +3007,7 @@
                 <div class="text">我得和索尼娅商量这件事。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2157_1%231%241.png" class="avatar" alt="安托沙">
             </div>
@@ -2962,7 +3016,7 @@
                 <div class="text">你们尽管商量，但我不会听她的，这就是我的结论。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2157_1%232%241.png" class="avatar" alt="安托沙">
             </div>
@@ -2971,7 +3025,7 @@
                 <div class="text">但是相信我......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -2980,7 +3034,7 @@
             </div>
         </div>
         <div class="section-break"></div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2162_1%231%241.png" class="avatar" alt="瓦西里">
             </div>
@@ -2989,7 +3043,7 @@
                 <div class="text">近卫军直属营已经按照命令分批调度至封锁区外围，我们现在就出发迎回陛下吗？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
             </div>
@@ -2998,7 +3052,7 @@
                 <div class="text">不，再等等。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2162_1%239%241.png" class="avatar" alt="瓦西里">
             </div>
@@ -3007,7 +3061,7 @@
                 <div class="text">可根据内卫传来的消息，封锁区即将面临更大的混乱——</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
             </div>
@@ -3016,7 +3070,7 @@
                 <div class="text">正因如此，我们才需要趁机让某些旁观者的谋划暴露得更加彻底。在陛下准确的去向被公布之前，在我们将他平安迎回宫中之前......</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
             </div>
             <div class="dialogue-content">
@@ -3024,7 +3078,7 @@
                 <div class="text">无论是因得知真相而企图趁机加害陛下的狂悖之徒，还是因陛下失踪而轻易动摇，选择转头向叛军献媚的投机者，他们都会加快动作。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
             </div>
@@ -3033,7 +3087,7 @@
                 <div class="text">而我们要做的，则是将他们一网打尽。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2162_1%2310%241.png" class="avatar" alt="瓦西里">
             </div>
@@ -3042,7 +3096,7 @@
                 <div class="text">可如果其中有人及时醒悟过来了呢？</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%233%241.png" class="avatar" alt="维特">
             </div>
@@ -3051,7 +3105,7 @@
                 <div class="text">那就希望，我们会在迎接陛下归来的队伍里，看到他们或焦急或激动的熟悉面孔吧。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
             </div>
@@ -3060,7 +3114,7 @@
                 <div class="text">在过去那些反复拉扯和试探的时日里，陛下已经给过他们足够多的机会了。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2162_1%233%241.png" class="avatar" alt="瓦西里">
             </div>
@@ -3069,7 +3123,7 @@
                 <div class="text">......听上去，乌萨斯已经病入膏肓。</div>
             </div>
         </div>
-        <div class="dialogue">
+        <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%2311%241.png" class="avatar" alt="维特">
             </div>

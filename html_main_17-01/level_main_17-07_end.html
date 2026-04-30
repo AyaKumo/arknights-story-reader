@@ -1,0 +1,2668 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main_17-07_end</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>main_17-07_end</h1>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">认真的学生</div>
+                <div class="text">我们已经在第二区下方了，我记得这条通道，水泥柱上还有颜色不一样的标记。前面就是出口了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%233%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">请等一下，我们就这样离开吗？可是你们还有许多同伴留在后面，他们怎么办？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2183_1%237%241.png" class="avatar" alt="认真的学生">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">认真的学生</div>
+                <div class="text">老师和帕洪都让我们走，肯定有其中的道理。也许我们不过是先行一步，等他们和军队周旋完，一定还会来会合的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">认真的学生</div>
+                <div class="text">嘘——靠边躲起来，有人来了！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">紧张的声音</div>
+                <div class="text">我刚才看到有人影，他们一定是往这边逃了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凶狠的声音</div>
+                <div class="text">别被带偏了，其他几个感染者死活都无所谓，唯独那个卡特斯，小将军一定要找到她！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%233%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">这些人......是在找我？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">电子音</div>
+                <div class="text">放下武器，从轻处置！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">电子音</div>
+                <div class="text">放下武器——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%2310%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">把那玩意儿给我关掉。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2232_1%231%241.png" class="avatar" alt="恭敬的卫兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">恭敬的卫兵</div>
+                <div class="text">是、是！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">恭敬的卫兵</div>
+                <div class="text">把喇叭关掉！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%239%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">抓住的人比我想象的少啊。汇报情况。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2232_1%231%241.png" class="avatar" alt="恭敬的卫兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">恭敬的卫兵</div>
+                <div class="text">报告长官，情况是这样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">恭敬的卫兵</div>
+                <div class="text">一开始是三点左右，巡逻队在第三区地下层的出入口附近发现了一拨人，他们似乎是想通过地下层偷偷潜入住宅区。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">恭敬的卫兵</div>
+                <div class="text">由于人数悬殊，加上元帅有不能伤害“感染者资源”的明文规定，我们在追逐中不慎失去了其中一部分人的踪迹——</div>
+            </div>
+        </div>
+        <div class="narration">杀人者持续按着额头，尝试缓解难耐的头痛。在挥刀时，他连看都没看一眼。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%2310%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">......给我换个说话更利索的来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%238%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1976_1%231%241.png" class="avatar" alt="诚实的卫兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵</div>
+                <div class="text">报、报告长官！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵</div>
+                <div class="text">本来——本来不止有这么些人，但我们巡逻的人数不够，导致其中一部分人在能确认身份之前逃回了地下层。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵</div>
+                <div class="text">地下层情况复杂，难以追踪。但一开始就不该发生这样的错误，这是我们的失误！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">你倒是很会说话，也很会反思。但这弥补不了失误，是不是？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1976_1%231%241.png" class="avatar" alt="诚实的卫兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵</div>
+                <div class="text">我、我——</div>
+            </div>
+        </div>
+        <div class="narration">士兵的眼睛突然不受控制地向下，开始神经质地瞟着数秒前才倒下的、尚且温热的同僚的身躯。</div>
+        <div class="narration">他莫名想起那个传言。小将军阿纳托利讨厌啰嗦的人、讨厌不自量力的人、讨厌——</div>
+        <div class="narration">讨厌不说实话的人。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%231%241.png" class="avatar" alt="诚实的卫兵&沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵&沉稳的青年</div>
+                <div class="text">我愿意接受惩罚！/还是让我来解释吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%239%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1976_1%231%241.png" class="avatar" alt="诚实的卫兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵</div>
+                <div class="text">你——你什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%238%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">还是让我来解释吧，我是当事人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%231%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">噢，一位自告奋勇的英雄。你对你和你同伴身上非法集会以及拒捕的指控怎么看？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1979_1%231%241.png" class="avatar" alt="帕洪">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">帕洪</div>
+                <div class="text">老师——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%238%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">（摇头）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%239%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">我们并非拒捕，因为我们并没有举行非法集会，留在这里也只是为了等待公正的到来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%234%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">还以为你会有什么新颖的说法......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">无聊。</div>
+            </div>
+        </div>
+        <div class="narration">在沉稳的青年来得及补充任何说明之前，小将军就已经转过身去，面对士兵的队伍。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%239%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">这里所有感染者都拒绝配合你们的工作，是不是？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">那就是拒捕了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%239%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">先生！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">一两个人拒捕，你们还可以强行扭送。一群人拒捕，你们就不知道该怎么办了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">要我说，这实在太愚蠢又不知变通了些。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1976_1%231%241.png" class="avatar" alt="诚实的卫兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">诚实的卫兵</div>
+                <div class="text">请您责罚——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%231%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">但没关系，我是个宽容的人。所以我会为大家示范一次，在这种情况下应该怎么做。</div>
+            </div>
+        </div>
+        <div class="narration">下一秒，说话的人动了。</div>
+        <div class="narration">刀光比身形更先来到沉稳的青年眼前。如果不是有人先一步上前将自己拉开，青年几乎完全来不及闪躲。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%235%241.png" class="avatar" alt="帕洪">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">帕洪</div>
+                <div class="text">咳呃——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%235%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">——帕洪！</div>
+            </div>
+        </div>
+        <div class="narration">即使先前已经见过这把刀如何轻易取走一个装备精良的士兵的性命，此刻青年也难以接受它以同样的方式，轻易带走了自己的同伴。</div>
+        <div class="narration">年长的矿工甚至没来得及说出一句完整的话。他只是睁大了眼睛，生命就已经停留在紧紧拽住青年双手的时刻。</div>
+        <div class="narration">直到身后队伍中爆发出难忍的尖叫和啜泣，青年才意识到这已成定局。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%2310%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">......就像这样，给他们警告。杀一个不行，那就两个。直到有人愿意配合，或者不得不配合。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">母亲的命令当然重要，但情况足够特殊的话，比如现在......活的感染者，死的感染者，又有什么区别呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">这是我的判断。而我，阿纳托利·斯维特拉诺夫·卜捷里宁，对这里的一应事务全权负责。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%231%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">好了，在我的刀斩下另一个人的头颅之前，有谁愿意告诉我，你们不服管理的同伴跑去了哪里？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1970_1%231%241.png" class="avatar" alt="悲愤的矿工">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">悲愤的矿工</div>
+                <div class="text">你这个疯子，我们不会——</div>
+            </div>
+        </div>
+        <div class="narration">尸体横倒在地，诉说着两条生命已经远去的事实。</div>
+        <div class="narration">同伴的血漫上了青年的靴子，但是它的主人却并没有低头去看，而是昂起头，直视着小将军的眼睛。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%239%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">何必如此生气呢？您失败了，这是您抹去多少生命都无法改变的事实。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2225_1%236%241.png" class="avatar" alt="沉稳的青年">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">您宣称自己有权做任何事，可您显然没有办法让世事如您的意。您没有办法用刀撬开我们的嘴，没有办法得到您想要的消息。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的青年</div>
+                <div class="text">更何况，在您困于自己的愤怒的时候，我们已经为自己的同伴争取了足够的时间。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%237%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">你竟敢——</div>
+            </div>
+        </div>
+        <div class="narration">怒意让少年的脸变得扭曲，他想要再次挥起屠刀，可他无法从眼前青年的脸上看到任何一丝他想要看到的怯意。</div>
+        <div class="narration">不仅是这个青年，还有站在这人身后的同伴，他们明明只是一些矿工，农民。可没有一人慌乱、退缩——就像他见惯的那样。</div>
+        <div class="narration">阿纳托利突然间醒悟，这样一视同仁的杀戮只会令这些殉道士如愿。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%2310%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">......够了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">今晚我已经看了太多让人厌烦的戏码。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%239%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">把他们都杀了，然后赶紧把这里收拾一下，接着去找——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">停下！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%236%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">——！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%236%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">希尔达——？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%232%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">希尔达！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%232%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">抱歉，阿纳托利，我听说你在这里——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%233%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">你还是回来了！你没有准备逃走！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%235%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">可如果是这样，你先前又为什么要一个人离开？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">你应该一直在我身边，这是你向我承诺的。你难道不明白承诺意味着什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%238%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">我......我很抱歉，让你误会了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%2310%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">可是这里......又发生了什么？</div>
+            </div>
+        </div>
+        <div class="narration">阿纳托利迎上前去，不断试图用自己的身体去挡住希尔达的视线。然而视线可以遮盖，气味却不行。</div>
+        <div class="narration">即使是夜晚的低温中，血腥气也早已弥漫开来。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%2310%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">......阿纳托利。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">你答应过我，不会再随便杀人。</div>
+            </div>
+        </div>
+        <div class="narration">希尔达希望自己的声音里不带有指控的意味。她无意继续激怒对方，也不想使情况有任何恶化的可能。</div>
+        <div class="narration">如果自己已经摸清应该如何与这个喜怒无常又大权在握的孩子相处......那该有多好。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%235%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">对，我答应过你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%2310%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">阿纳托利......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">可你没有兑现你的承诺。你离开了我。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%232%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">只是在你熟睡的时候，去做一些我力所能及的事。我和你提起过的，你也答应了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%235%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">即使我真的答应了任何事，那也都是在我们一起行动的前提下。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%238%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">......唉。如果你总是擅自修改条件，那我也许真的不知道该怎么继续——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%233%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">不，你先听我说——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%236%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">是谁让你心中产生了这样恐怖的想法？是谁给你灌输了这样的思想——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%237%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">你明明从来不曾质疑！</div>
+            </div>
+        </div>
+        <div class="narration">长刀铛的一声，像废铁一样被摔在地上。</div>
+        <div class="narration">阿纳托利抓住卡特斯瘦小的肩膀。甚至不仅如此，在众人的惊呼下，他的右膝又接着砸了下去——</div>
+        <div class="narration">他在希尔达身前单膝跪地。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%233%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">啊——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">看来有人对你产生了恶劣的影响。告诉我，我该怎么做？我要怎么做才能使你回心转意？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">只有我才能让你的愿景成真，让你继续挥洒伟大的禀赋，只要——只要你不再离开我的身边。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">我原谅了！我原谅你的一切错误，原谅这场不辞而别。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">我只求你，求你不要再离开我......任何时候都不要再说那种可怕的话。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%232%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">......我答应你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%2310%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">只要你也答应我，答应我不再滥杀无辜......</div>
+            </div>
+        </div>
+        <div class="narration">斟酌词句的时间里，希尔达抬头，看向道路中央的尸体，又看向尸体之后的感染者。</div>
+        <div class="narration">他们脸上大都有着相似的、疼痛且警惕的表情。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%232%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">不再继续残害这里剩下的感染者......不要剥夺任何一个无辜的人的生命。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">我就答应你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">从此以后，我会在你身边，再也不会离开。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">副官。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1982_1%231%241.png" class="avatar" alt="胆大的侍从">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">胆大的侍从</div>
+                <div class="text">......在，小将军？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%238%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">把这些败类都放了，赶回住宅区，找一幢空楼集中关押。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">再从我名下调一支炮兵部队，安排在他们周围，严密看管。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%233%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">阿纳托利？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%234%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">够了，不要再将精力花费在这些下贱的人身上了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2235_1%233%241.png" class="avatar" alt="阿纳托利">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿纳托利</div>
+                <div class="text">让我们回去吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2246_1%2310%241.png" class="avatar" alt="希尔达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">希尔达</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">废弃仓库中只余下一人，她静坐度过了这个夜晚，天边即将破晓。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%232%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">“先让他们明白，这件事与他们的生命安全息息相关”......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%238%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">我该怎么告诉他们......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%236%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">泽尔格勒，不是家园......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你还好吗，瑭雅？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%234%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">纳杰日达医生......</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">久等了，最近的急症患者越来越多，一忙起来就停不下手。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">你的状态看上去不太好，需要我给你配一些安神的药吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%2311%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">不，我没事。您为我和我的妹妹已经做了许多，我十分感激。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%234%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">所以她的情况——</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%236%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">不要着急，瑭雅，你昨天才匆忙地送她过来，我要先试着控制她的病情，还有许多问题没来得及问你呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">首先我需要知道，你们家中其他人有出现类似的症状吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%231%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">没有，暂时没有。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%232%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">保险起见，我把其他的弟弟妹妹都托付给了邻居，再按您的建议排查了感染源。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%233%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">有头绪吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%238%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">只有一种可能......我的工作外套。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">那件外套是园区发给我们的，材质很厚，不会透风。停电那几天，我怕妮娜受凉，就把外套裹在她身上——我不该这样做的！</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%232%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">而且您知道，她待在家里能接触到的外面的东西，就只有我放在她身边的那件工作外衣。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%238%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">我去查看外衣的时候，也确实发现了一种奇怪的......粉尘。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%235%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">粉尘？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%231%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">是......我从没见过那种东西，它就像是粉尘一样，沾在外衣的表面，应该是我洗衣服时沾染上的。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%235%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">你在为谁洗衣服？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%232%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">第一集团军......准确说是为集团军的内部研究员，最近一直为他们洗外套。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%2313%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">等等，你的意思是，这种怪病和他们有关？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%236%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">......还不能肯定。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">瑭雅，我知道你在想什么，如果真是那个粉尘导致的病症，我们也没有办法证实。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">那是得跨过那面墙才能知道的事情，对吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%2312%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">......我的妹妹会怎么样？这个病会对她有什么影响？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%237%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">抱歉，瑭雅，我翻了许多书，至今为止没有找到哪种已知的病有相似的症状。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%233%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">至少在第二个病人，甚至更多的病人出现之前，我不能确定这是否只是个例。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">关于这个怪病，我需要更多的情报......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%238%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">唉......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的声音</div>
+                <div class="text">独自清醒的感觉并不好受，对吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%236%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">是......我完全不知道怎么才能让大家信任我。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的声音</div>
+                <div class="text">不要责怪你的同伴，女士。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的声音</div>
+                <div class="text">也许自他们降生之日起，这片大地便从未对他们承诺过任何未来。当他们抓住了眼前唾手可得的幸福，便彻底失去了直视真相的勇气。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的声音</div>
+                <div class="text">他们不会感谢将他们唤醒的人，只会责怪你为何要惊动他们的美梦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的声音</div>
+                <div class="text">当未来已经绝望，“短视”，就变成了属于部分人的生存智慧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%232%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">我不会责怪任何人......我知道对他们来说，这并不是近在眼前的危险。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%237%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">......等等，你是谁？我从没见过你！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_415_1%231%241.png" class="avatar" alt="优雅的女性">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">别紧张，我也是工人队伍的一员，与他们一同进入了城里。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">我本无意打扰你们的生活，此行只是为了......一位老朋友。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">她会出现在这里吗？我也不知道......不过，她很少会缺席盛大的场面。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%237%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">我不明白你在说什么，如果你没有别的事——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_415_1%231%241.png" class="avatar" alt="优雅的女性">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">那就可惜了，毕竟我能理解你在说什么......而且我也知道，你在寻找什么。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">而我习惯去做的，就是帮助沉睡的人清醒，让懦弱的人强大。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">或许，你我可以互相帮助，只要你愿意。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4225_tanya_1%2313%241.png" class="avatar" alt="瑭雅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑭雅</div>
+                <div class="text">？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_415_1%231%241.png" class="avatar" alt="优雅的女性">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">优雅的女性</div>
+                <div class="text">啊，忘记自我介绍了——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_415_1%231%241.png" class="avatar" alt="卡谢娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡谢娜</div>
+                <div class="text">很高兴认识你，瑭雅女士。我是一名老师，你可以叫我......卡谢娜。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2249_1%238%241.png" class="avatar" alt="西尔卡">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2249_1%237%241.png" class="avatar" alt="西尔卡">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">（这次应该......彻底甩掉了。）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2249_1%2311%241.png" class="avatar" alt="西尔卡">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">（伤口都在腿上，卫兵想废除我的行动能力——为什么不直接毙命？）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">古怪......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2249_1%235%241.png" class="avatar" alt="西尔卡">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">......呼......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">......呃——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你还在流血。血腥味会把追兵引来的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">谁——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2247_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">长话短说。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我知道你做了什么，也帮你清理了一些追兵。按照你现在的出血量，最多再过三分钟，你就会陷入失血过多导致的休克状态。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">现在我会先给你止血，然后把你送到一个......相对安全的地方。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">......你是谁？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2247_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">不重要，而且你也没得选了。也许你死前用尽全力还可以刺伤我，但这得不偿失。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">西尔卡</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2247_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">对，就像这样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">别再说话，保存体力吧。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">雷德，我出去看了。你猜怎么着？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">白天我们撞到的那几个人，还有跟他们一起进来的那些家伙都不见了，整个三楼到五楼都空了。而且我们几乎都没听到脚步声，是不是？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">为了确认是不是普遍现象，我还撬了几个锁进去看——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">下次别撬锁，敲门就行。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">如果他们和我们的情况差不多，来这儿的第一晚不可能睡得安稳。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">你说他们到底是像之前那批人一样被悄悄带走了，还是自己离开的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">那伙人都是矿工，看装备至少是从北边一路过来的，不过目前不能确定是不是远北。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">我们先去找情报里的那个园区。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">我一直都没问，你就这么相信她吗？万一她根本没有在找之前被带走的那批人，带回来的情报也是错的——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">那在这两年多的时间里，她早就有无数这样的机会，可以害死我们所有人然后逃走。她为什么不做？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">我怎么知道她安的什么心？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">不知道，就闭嘴，别再让我听到这样的话。否则你就回九那边去，先把脑子重新整好再出来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">......我只是保持质疑！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">可以，但现阶段最好都放在心里。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">因为我们还远没到可以停下来清算的时候。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">......没人啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">......这也不像最近还有人工作过啊，都荒废好长一段时间了吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">顶棚都破了，也没什么设施，看样子都搬走了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">产业转移。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">我们刚进来，卫兵在给我们介绍房子的时候提到过。之前住在我们那栋楼的住户，都“碰巧”因为产业转移，被调到其他园区去了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">但这很奇怪。先不论有多“碰巧”，产业转移很少发生在一个移动城市的不同区域之间。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">一般只有伦蒂尼姆或者圣骏堡那类超大型移动城市才会出现这种需求，也才有实现它的能力。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">而且，伦蒂尼姆曾经进行产业转移的所有企业，最终都还是把工厂转去了周边的小型移动城市，而不是城里的其他地块。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">......你怎么对这些东西说得头头是道的，谁教你的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">多看书。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">行吧......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">但泽尔格勒确实也就是个中型移动城市......我记得还是在小型移动城市基础上改建的，到处都是不在地图上的扩展地块。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">问题很多，但一个一个来。这里没有人，宿舍里也是一样，暂时可以排除——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">等等。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_328_1%241.png" class="avatar" alt="雷德">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">......前面有东西——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">喂！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">不。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_080.png" class="avatar" alt="瓦利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦利亚</div>
+                <div class="text">什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">你说得对，下次我们确实该问问她到底在做什么。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">雷德</div>
+                <div class="text">那家伙在这儿留了个人给我们。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">没错，的确是典型的源石技艺过载症状，不过还并发了急性神经衰弱，所以单一的应急药物不完全管用。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">我这里也没什么更好的医疗手段，打过镇定剂后好好休息吧，在神经衰弱症状缓解之前，不要再使用源石技艺。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%236%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">（小声）还好......不是那种病例。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%235%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">医生......您是说？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">没什么......说起来，你们对这位病号的症状判断倒是挺准确的，前期的处理也算妥当，懂点医疗常识？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%235%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">“懂点医疗常识”？我可是——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%233%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">难怪......也真是好笑，最近来到泽尔格勒的“医生”还真不少。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">好了，这里没我什么事，我就回去——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%235%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">医生，请等一下！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%231%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">我想问问您，刚刚我送去诊所的那位病人......您还知道什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%236%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">只是又一个没能得救的可怜人......你还希望我说明什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%237%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">那位病人被送去诊所的时候，您看到那样奇怪的症状，但是并不惊讶。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%236%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">您之前就见过这种症状的病人对不对？这座城市里还有多少得了这种病的人？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">孩子，这片大地上不是只有矿石病一种绝症，有的是其他能杀死人的病。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">何况在泽尔格勒，如果一件事刻意被按下，那一定是有原因的。我可不想自找麻烦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">我不管你们是什么医生，又为什么要来到泽尔格勒，我能给你们的建议只有尽快离开这儿，不要卷进这堆麻烦事里。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%238%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">可是您自己都没有离开，不是吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">您还是没有放弃抢救这里的每一位病人，那么我们的目的应当是一致的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%236%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">我只是做一点本职工作来混口饭吃，不用给我戴高帽子。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%233%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">哈......我就是听信这种除了好听一文不值的话，才弄丢我的执照的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2222_1%231%241.png" class="avatar" alt="纳杰日达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">......好吧，事先说明，我依然非常不建议你们卷进这茬事里。可如果你们就是决定要一查到底......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳杰日达</div>
+                <div class="text">这里有一位工人告诉我，她从那墙的后面，带出了一件“脏衣服”......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%239%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">博士，阿米娅和那位医生描述的情况让我很担忧......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%232%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">五年前在切尔诺伯格的时候，凯尔希已经完全关闭了石棺才对。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%231%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">可当下乌萨斯显然对石棺进行了非常激进的破解，在亲眼见到石棺之前，我也不能确定他们的研究做到了哪一步。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%236%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">总之，我们不能再等了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Raidian</div>
+                <div class="text">......我也同意......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%232%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">Raidian！打完针要好好休息，医生也是这么说的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%2315%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">虽然这话不该我说，但精英干员应该更善于判断情况？先好好躺着吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1730_1%235%241.png" class="avatar" alt="Raidian">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Raidian</div>
+                <div class="text">我之前......在探知石墙内部的情况的时候，遭到了很强烈的反制攻击......这里早有防备......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Raidian</div>
+                <div class="text">除了军方的电磁干扰......我能感觉到，整座城市的磁场都很奇怪......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1730_1%237%241.png" class="avatar" alt="Raidian">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Raidian</div>
+                <div class="text">抱歉，博士......我暂时，没法做到更多......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">好了，博士的话你总该听吧？喏，要坐起来的话，毯子得好好披着，刚才看你还一直打寒颤呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%236%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">博士，从我刚刚见到的情况来看，泽尔格勒的奇怪状况比我们想的还要多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%233%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">那个病得很重的病人，还有古怪的生物......第一集团军一定还在隐瞒更恐怖的事情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1037_amiya3_1%236%241.png" class="avatar" alt="阿米娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿米娅</div>
+                <div class="text">集团军对帝国议会的态度也充满了抵抗，这种情况下，我们不能期待第一集团军会配合我们的行动......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4179_monstr_1%2310%241.png" class="avatar" alt="Mon3tr">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Mon3tr</div>
+                <div class="text">嗯嗯！反正这种情况我们也不是第一次经历了，如果需要打架的话都交给我吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%2310%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">我相信“没有不透风的墙”，即使是乌萨斯的集团军，也会有疏漏的地方。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%2314%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">作为天才黑客，我最擅长找防火墙的漏洞了！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">停！别*乌萨斯粗口*走来走去的了，晃得我眼睛疼。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">头儿已经被带走两天了，我们到底什么时候打过去把他抢回来？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">对这种事我们有预案的，他要一周没回来，外头也没别的动静，就让奥列格顶上，准备跑路......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">你说的是人话吗？头儿是让我们随机应变，不是让我们随时甩手走人！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">也没多大区别。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">区别大了去了，喝酒时唱的那些东西你都忘了？“自由民通往自由的路只有两条，一条是不断拔刀前进，一条是最终流血倒下”——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">除了像条听话的牙兽一样到处咬人，来这里之后，我们还什么都没有做呢！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">停战期间，擅离驻地立刻就会被发现，周围都是叶甫根尼的人，我们要做的是先听老大的话把船守好，别人无论问什么都不要回答。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">奥列格已经在规划撤退路线了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">那走之前，至少也得让那些看不起我们的家伙付出点代价。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">抢东西要紧还是保命要紧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">可我们不是叶甫根尼那疯子圈养的牙兽！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">连牙兽被逼急了都会把篱笆咬烂，要是西尔卡在这儿，肯定也会同意我说的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">可她不在，这才是现实。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">不过，你说得对。要是西尔卡在，现在我们估计已经带刀夜访旗舰了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">我想她了。早知道我也学一学她那些把戏，真该死......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%236%241.png" class="avatar" alt="激动的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">激动的军官</div>
+                <div class="text">都别偷懒了，斯乔帕那家伙全须全尾地回来了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">激动的军官</div>
+                <div class="text">给你们三分钟时间，快把烟酒还有违规施术单元都藏起来——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">我们没喝！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2240_1%231%241.png" class="avatar" alt="沉稳的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的士兵</div>
+                <div class="text">我也没抽。施术单元早就收起来了，怕叶甫根尼派人来查。上次来一趟缴了一堆走，连还在维修的都不放过，简直连吃带拿。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">奥列格，头儿他人呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%232%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">甲板上呢！没人知道他啥时候回来的，反正我看到的时候就已经在那儿了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">问他他也就笑笑不说话，人没事就得了。你也知道十二月那事之后，大家都神经兮兮的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">那我们下一步怎么办，还走吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%231%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">警报暂时解除，先干自己的事去吧，该执勤执勤，该睡觉睡觉。我绕一圈，完了有情况再通知——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">奥列格，你在这儿啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">头儿！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%237%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">嗯。还醒着的都到甲板上集合吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%233%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">我有重要的事要宣布。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%237%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">人都到齐了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%231%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">晚上值班的都在这儿了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%237%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">换班之后，其他人还需要你去通知。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%235%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">到底是什么事啊，全都要动员？上次这样还是......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%239%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%233%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">还记得不久前在中部爆炸的那玩意儿吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%237%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">哦天，那谁能忘得了。隔这么远我都感觉听到了动静，据说炸完除了颜色奇怪的灰，地上什么都不剩，维伊吃人的场面也不过如此了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%233%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">哈，“维伊吃人”......你说得对。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%2311%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">那就是第一集团军的新武器，上头的人非常眼热。而我们特殊战术兵团，在这种时候总是能派上用场——</div>
+            </div>
+        </div>
+        <div class="narration">男人耸耸肩，转过身去面向更多的人。再开口时，周围就安静下来。他抬高声音，脸上挂着一贯嬉笑的表情。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%232%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">简而言之，我们接了单大的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="吵嚷的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吵嚷的士兵</div>
+                <div class="text">什么意思啊？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%235%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">你是说——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%231%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">是的，我们要去把第一集团军的新武器抢过来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2241_1%236%241.png" class="avatar" alt="奥列格">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">等下。首先如果我理解没错，要去第一集团军的方向，无论如何都得经过前线。这意味着我们还得先把第二集团军打掉。这可能吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥列格</div>
+                <div class="text">还是说，我们直接绕路——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2239_1%231%241.png" class="avatar" alt="疑惑的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">疑惑的士兵</div>
+                <div class="text">或者，这是某种战术的一环吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">疑惑的士兵</div>
+                <div class="text">也许我们只需要执行命令，就像之前镇压叛乱一样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%233%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%232%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">你说的没错。尊敬的叶甫根尼总司令已经为我们准备好了能从第二集团军的阵线上顺利通行的手段。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">我们要做的，就只是......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4226_veen_1%231%241.png" class="avatar" alt="斯乔帕">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斯乔帕</div>
+                <div class="text">前进。</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
