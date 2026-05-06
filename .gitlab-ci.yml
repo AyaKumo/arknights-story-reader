@@ -1,0 +1,22 @@
+image: alpine:latest
+
+pages:
+  stage: deploy
+  before_script:
+    - apk add --no-cache rsync
+  script:
+    - mkdir -p public
+    - >
+      rsync -a
+      --exclude='.git'
+      --exclude='.gitlab-ci.yml'
+      --exclude='.github'
+      --exclude='public'
+      --exclude='.specstory'
+      ./
+      public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
