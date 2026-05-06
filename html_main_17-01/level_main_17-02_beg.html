@@ -93,12 +93,128 @@
             text-decoration: none;
             border-radius: 5px;
         }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">返回目录</a>
     <h1>main_17-02_beg</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_main_17-01_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_main_17-03_end.html">下一章 →</a>
+    </nav>
     <div class="story-container">
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>嘶......呼......</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>......好冷......</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_1037_amiya3_1%2316%241.png" class="avatar" alt="阿米娅">
@@ -117,6 +233,14 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">稍微忍耐一下吧，一会进到萨列夫格勒区里面会好很多。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我还以为，这次还是会只允许我一个人去觐见。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我还以为，皇帝陛下也会对我们多有提防。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -170,6 +294,14 @@
                 <div class="text">首先......想必你们应该大概清楚，陛下召见你们的意图。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>尽管那位陛下有仁慈之名——</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>他应该也不会无故允许我们接触对石棺的研究。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1966_1%2320%241.png" class="avatar" alt="阿洛伊泽">
@@ -212,6 +344,21 @@
                 <div class="text">在这期间，他们不断地向议会提出诉求，要求乌萨斯为他们即将发动的战争提供一切支持。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>这也实在令人好奇。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>如果第四集团军的真实目的是对外开战——</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>他们此刻也应该在乌萨斯的国境线，而非圣骏堡城外。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -246,6 +393,14 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">并且我们有理由相信，直到现在，城内还潜伏着刺客的同谋，一名，或多名间谍。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>第四集团军不过是眼前的难题。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>乌萨斯总要直面矿脉枯竭的现实。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -282,6 +437,22 @@
                 <div class="text">可就算是这样......</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>石棺的研究显然是不顺利的。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>除了研究的进度之外，议会应该还面临着其他困难。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们不是作为石棺研究的学者被邀请的。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我们是被议会，而非被第一集团军邀请的。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -309,6 +480,13 @@
                 <div class="text">就现在的消息来看，第一集团军的确有所隐瞒......具体的情况，还是等陛下亲自告诉你吧。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>在你看来，那位陛下是什么样的人？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1966_1%231%241.png" class="avatar" alt="阿洛伊泽">
@@ -317,6 +495,14 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">哈......哪怕是在这样私密的场合，你问我这样的问题，也会让人怀疑你心有不轨的。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我只是想听听你的看法。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我只是想做好准备。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -725,6 +911,14 @@
         <div class="narration">随着近侍离开的脚步声，你环视四周。</div>
         <div class="narration">这房间的陈设在一路走来所见的富丽风格当中，称得上是回归了简朴，但又无处不彰显着它主人特殊的身份。</div>
         <div class="narration">在白日里也要拉上的窗帘，毫不顾忌地点亮的数盏电灯，堆在推车上的齐整文书......以及桌角用黄金修补过的痕迹。</div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>这个办公室应该挺经常被使用的。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>你就直接这样带我们进来了？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[1] 这个办公室应该挺经常被使用的。】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -751,6 +945,9 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">最好不要乱猜。</div>
             </div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[2] 你就直接这样带我们进来了？】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -786,6 +983,16 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">所以最好还是保持恭敬。寻常的交谈是被允许的，但不要随意评论。</div>
             </div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>抱歉，我无意冒犯。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -861,6 +1068,14 @@
         </div>
         <div class="narration">青年脚跟并拢，行了个板正的军礼，然后转身离去。</div>
         <div class="narration">被称为议长的男人注视着她离开的方向，直到大门完全阖上，才回过头来。</div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>您好，议长大人。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>久仰，维特议长。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[1] 您好，议长大人。】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -871,6 +1086,9 @@
                 <div class="text">你好，远道而来的客人。感谢二位愿意抽出时间接受邀约。</div>
             </div>
         </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[2] 久仰，维特议长。】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
@@ -879,6 +1097,9 @@
                 <div class="name">维特</div>
                 <div class="text">嗯......看来我们都通过不同的方式了解过彼此。</div>
             </div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1149,6 +1370,35 @@
                 <div class="text">希望你们不要见怪，我必须得说，我非常感谢你们在远北矿区的行动。我们今日在此对话的前提都是基于此。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>再一次，我们无意冒犯。尊敬的议长阁下。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>请先允许我进行自我介绍。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我是Dr.{@nickname}。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>罗德岛的医疗顾问。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>罗德岛的源石专家。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[1] 罗德岛的医疗顾问。】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1168,6 +1418,9 @@
                 <div class="text">作为医疗顾问却能代表罗德岛应约前来，看来你在罗德岛承担的责任很多。</div>
             </div>
         </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[2] 罗德岛的源石专家。】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
@@ -1177,6 +1430,9 @@
                 <div class="text">唔，源石专家，你的到来或许对乌萨斯而言另有价值。</div>
             </div>
         </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
@@ -1185,6 +1441,13 @@
                 <div class="name">维特</div>
                 <div class="text">总之，请讲吧。罗德岛的博士。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们知道乌萨斯正在寻找凯尔希。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="narration">你注意到他的手杖在地上点了点，而后隐秘地交换了双腿受力的位置。</div>
         <div class="narration">他在斟酌着要给出的回答。</div>
@@ -1205,6 +1468,13 @@
                 <div class="name">维特</div>
                 <div class="text">这是个很好的切入点，你们主动提起，并不企图遮掩，这代表我们也许能达成一致。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>你们寻找凯尔希，是为了打开石棺吗？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1277,6 +1547,14 @@
                 <div class="text">......</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>您为什么这样问？</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>您不相信中尉告诉您的消息。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[1] 您为什么这样问？】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1304,6 +1582,9 @@
                 <div class="text">我只是不希望我们的谈话建立在不必要的欺瞒之上。</div>
             </div>
         </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[2] 您不相信中尉告诉您的消息。】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
@@ -1320,6 +1601,9 @@
                 <div class="name">维特</div>
                 <div class="text">我当然可以接受合作方保留一些自己的秘密，但前提是你们正面回答必要的疑问。</div>
             </div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1550,6 +1834,13 @@
                 <div class="name">阿米娅</div>
                 <div class="text">但在展开合作之前，我们需要确保，罗德岛的安全可以得到保障。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>阿米娅——</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="narration">阿米娅侧头对你眨了眨眼。你意识到她有自己的安排，于是不再继续。</div>
         <div class="section-break"></div>
@@ -1820,6 +2111,15 @@
                 <div class="text">博士，这还是需要由你来决定，我们到底要不要把开启石棺的权力再交到乌萨斯手中。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>阿米娅，你觉得呢？</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>Mon3tr你怎么看？</div>
+            <div class="decision-option"><span class="decision-value">[3]</span>可露希尔你有什么主意？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[1] 阿米娅，你觉得呢？】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue grayscale">
             <div class="avatar-container">
@@ -1847,6 +2147,9 @@
                 <div class="text">我们也需要，石棺能带来的奇迹......</div>
             </div>
         </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[2] Mon3tr你怎么看？】</span>
+        </div>
         <div class=" dialogue grayscale">
             <div class="avatar-container">
                 <img src="../img/avg_4179_monstr_1%231%241.png" class="avatar" alt="Mon3tr">
@@ -1872,6 +2175,9 @@
                 <div class="name">Mon3tr</div>
                 <div class="text">但是，凯尔希当时选择对石棺进行封存，而非毁灭。她应该是还相信着......在某个适当的时候，石棺能为泰拉的人们所用。</div>
             </div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 若玩家选择：[3] 可露希尔你有什么主意？】</span>
         </div>
         <div class=" dialogue grayscale">
             <div class="avatar-container">
@@ -1899,6 +2205,31 @@
                 <div class="name">可露希尔</div>
                 <div class="text">也许，我可以再给这些资料上一道保险。我们可以先用资料达成和乌萨斯的合作条件，等到真的确定时机合适的时候，再给资料解锁呢？</div>
             </div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>事态很紧急。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>不论是对我们，还是乌萨斯而言，都是如此。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们需要尽可能选择合作，而非对抗。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我们都需要交付一点信任。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -2012,6 +2343,29 @@
                 <div class="name">维特</div>
                 <div class="text">是的，我只想听到你们亲口告诉我的答案。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>罗德岛的答案从利益角度并不是可信的。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我们希望能从理想主义的角度请您相信。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们希望您愿意相信。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>这片大地上依然有人愿意为不囿于国别的正义而战。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>这片大地上依然有人想为所有人保留一个未来。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -2437,6 +2791,14 @@
             </div>
         </div>
         <div class="narration">你拿出了方才取得的那一纸通行令。</div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们与议长达成了合作。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我们得到了接触石棺的机会。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -2465,6 +2827,22 @@
                 <div class="name">Raidian</div>
                 <div class="text">博士，阿米娅，维特议长允许我们进入泽尔格勒，他应该也提出了别的条件？</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们需要分享一部分情报作为交换。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>他们需要有人协助揭开石棺的秘密。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>维特议长对我们没有敌意。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>阿米娅表现得像是一位真正的外交家。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -2501,6 +2879,13 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">只是姑且一提......你们离开后，还有足够的人手，留守圣骏堡的感染者收治中心吗？</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>有人会威胁感染者矿工的安全？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -2565,6 +2950,14 @@
                 <div class="text">虽然你们得到了来自议会的许可，但最好不要期待在泽尔格勒的任务会多顺利。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们已经习惯了。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>这次会有什么不同吗？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1966_1%233%241.png" class="avatar" alt="阿洛伊泽">
@@ -2581,6 +2974,14 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">现在驻守泽尔格勒的人，是卜捷里娜元帅的独生爱子，阿纳托利将军。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>这个人很危险？</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>这个人很强硬？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -2616,6 +3017,13 @@
                 <div class="text">她不可能不知道泽尔格勒的战略意义，此时此刻她做出这样的用人决定，很难让人相信只是为自己的孩子谋一份军功。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们会小心行事的。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_1966_1%231%241.png" class="avatar" alt="阿洛伊泽">
@@ -2624,6 +3032,14 @@
                 <div class="name">阿洛伊泽</div>
                 <div class="text">总之，祝你们找到自己需要的东西，也能帮乌萨斯解决这个麻烦吧。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>你说石棺是“麻烦”？</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>难道不是一种“希望”？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -3436,6 +3852,10 @@
                 <div class="text">唉，不过，咱也管不着别人。</div>
             </div>
         </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_main_17-01_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_main_17-03_end.html">下一章 →</a>
+    </nav>
     </div>
 </body>
 </html>

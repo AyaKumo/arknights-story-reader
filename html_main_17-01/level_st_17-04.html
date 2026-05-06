@@ -93,11 +93,119 @@
             text-decoration: none;
             border-radius: 5px;
         }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">返回目录</a>
     <h1>st_17-04</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_st_17-03.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="README.html">下一章 →</a>
+    </nav>
     <div class="story-container">
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1735,6 +1843,13 @@
                 <div class="text">我完成了，你要做的事吗？</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>你确定要这么做吗？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue grayscale">
             <div class="avatar-container">
@@ -1769,6 +1884,20 @@
                 <div class="name">凯尔希</div>
                 <div class="text">从另一种角度讲，石棺很适合将“AMa-10”这个名字埋葬。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>像是某种巧合。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>新的故事总是从这里开始的。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue grayscale">
@@ -1838,6 +1967,13 @@
                 <div class="text">不是一味地保守......而是选择站在“希望”的这一边。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>听上去你像是放下了一些担子。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue grayscale">
             <div class="avatar-container">
                 <img src="../img/avg_1052_kalts2_1%233%242.png" class="avatar" alt="凯尔希">
@@ -1854,6 +1990,14 @@
                 <div class="name">凯尔希</div>
                 <div class="text">从我听到的消息来看，你应该也做出了一样的选择。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>可是这也意味着......</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>你不会再拥有下一次“生命”。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class=" dialogue grayscale">
             <div class="avatar-container">
@@ -1940,7 +2084,29 @@
                 <div class="text">说得对！我们带回了凯尔希！这是罗德岛完完全全的胜利！</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们做了自己能做的事。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>从结果来看，也不错。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="narration">你看向了走在后面的凯尔希。</div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>凯尔希？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>你还好吗？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -2032,6 +2198,22 @@
                 <div class="text">博士，我需要你尽快告知你要求我来这里的目的。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>耐心一点。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>马上就到了。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>可露希尔为这次重逢准备了很久。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>希望能给你一个惊喜。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="cg-container">
             <img src="../CG/73_i25_1.png"
                  alt="CG - 73_i25_1"
@@ -2056,6 +2238,13 @@
                         --x-scale: 1;
                         --y-scale: 1;">
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>欢迎回到罗德岛。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="cg-container">
             <img src="../CG/73_i25_4.png"
                  alt="CG - 73_i25_4"
@@ -2073,6 +2262,13 @@
                 <div class="text">......</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>被震惊到说不出话了？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
             </div>
@@ -2088,6 +2284,20 @@
                 <div class="name">凯尔希</div>
                 <div class="text">......你们做到了。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>就像你说的，罗德岛不会因为某人的离开而停下。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>但我们也由衷地希望，每个人都不会离开。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="cg-container">
             <img src="../CG/73_i25_2.png"
@@ -2114,6 +2324,14 @@
                 <div class="text">这是罗德岛最新的研究？</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>花了不少功夫。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>为了防备上一次的意外再度发生。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
             </div>
@@ -2121,6 +2339,13 @@
                 <div class="name">凯尔希</div>
                 <div class="text">令人赞叹的结果......但是恐怕这还不足以与她完全对抗。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们依然不知道她真正的目的......</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="cg-container">
             <img src="../CG/73_i25_4.png"
@@ -2163,6 +2388,13 @@
                 <div class="text">也就是说......石棺中的代码，是她在苏醒后植入其中的。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>她为什么要这么做？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
             </div>
@@ -2186,6 +2418,13 @@
                 <div class="name">凯尔希</div>
                 <div class="text">你们所经历的事情更加证实了，她对如今的泰拉，更像是持旁观的态度。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>其实，在远北矿场，我听到了她的声音。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="cg-container">
             <img src="../CG/73_i25_4.png"
@@ -2219,6 +2458,13 @@
                 <div class="name">凯尔希</div>
                 <div class="text">向她证明——如今的泰拉文明，有存续下去的可能，以及价值。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们选择接受这个邀请。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="cg-container">
             <img src="../CG/avg_ep17.png"
@@ -2475,6 +2721,10 @@
                         --x-scale: 1;
                         --y-scale: 1;">
         </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_st_17-03.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="README.html">下一章 →</a>
+    </nav>
     </div>
 </body>
 </html>

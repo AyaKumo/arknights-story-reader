@@ -93,12 +93,128 @@
             text-decoration: none;
             border-radius: 5px;
         }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">返回目录</a>
     <h1>main_17-17_end</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_main_17-17_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_st_17-01.html">下一章 →</a>
+    </nav>
     <div class="story-container">
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>快......</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我找到她了......</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
             </div>
@@ -253,6 +369,14 @@
                 <div class="text">......人？</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>这也是感染生物吗？</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>感染生物......会说话？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -307,6 +431,14 @@
                 <div class="text">听好了，我不是什么“感染生物”，也不是什么“东西”！我是鸡，母鸡！很难懂吗？</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>听起来好像很熟悉......</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>可你看上去像个房子。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2244_1%231%241.png" class="avatar" alt="？？？">
@@ -340,6 +472,14 @@
                 <div class="text">我不是让凯尔希那家伙把我放到黑家伙外面埋了吗？怎么不仅没死成，而且再睁眼就在这玩意儿里面了？</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>这里是石棺的“观察室”。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>欢迎来到一万年以后。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class=" dialogue">
             <div class="avatar-container">
                 <img src="../img/avg_npc_2244_1%231%241.png" class="avatar" alt="？？？">
@@ -348,6 +488,14 @@
                 <div class="name">？？？</div>
                 <div class="text">（不可名状的尖锐鸣啼）什么——</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们必须先马上想办法从这里出去。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>这个小房子认识凯尔希，我们得把它也一起带走。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -466,6 +614,22 @@
                 <div class="name">克利姆</div>
                 <div class="text">我不知道......没有人知道完整的情况。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我们不能就这样把石棺交到任何一个集团军手中。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>至少要想办法暂时把它隐藏一下。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>石棺聚集的能源有一个合理的出口。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我们可以利用出口将石棺的能量反应降至最低。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="section-break"></div>
         <div class=" dialogue">
@@ -1959,7 +2123,13 @@
             </div>
         </div>
         <div class="narration">出鞘的弯刀突然斩向持刀者自己的脖颈，只需一瞬，锐利的刀锋就会将皮肉连着骨头斩断——</div>
-        <div class="narration"><color=#888888>斯乔帕</color></div>
+        <div class="spell-with-speaker">
+            <div class="name">斯乔帕</div>
+        <div class="spell-incantation" lang="mul">
+            <div class="spell-line">“风收一息，止住。”</div>
+            <div class="spell-line">“Ветер задержит дыхание, остановись.”</div>
+        </div>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -1970,7 +2140,13 @@
                 <div class="text">你——</div>
             </div>
         </div>
-        <div class="narration"><color=#888888>斯乔帕</color></div>
+        <div class="spell-with-speaker">
+            <div class="name">斯乔帕</div>
+        <div class="spell-incantation" lang="mul">
+            <div class="spell-line">“箭随浪去，放手。”</div>
+            <div class="spell-line">“Стрела уходит с волной, отпусти.”</div>
+        </div>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -2025,7 +2201,13 @@
                 <div class="text">但我不会再给你们机会了。我知道你们都会使用无声咒语，但是，你们不会比我更精通那些早已被废弃的短咒。</div>
             </div>
         </div>
-        <div class="narration"><color=#888888>斯乔帕</color></div>
+        <div class="spell-with-speaker">
+            <div class="name">斯乔帕</div>
+        <div class="spell-incantation" lang="mul">
+            <div class="spell-line">“夜雪无痕，噤声。”</div>
+            <div class="spell-line">“Hoчной снег без следа, молчи.”</div>
+        </div>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -2118,6 +2300,10 @@
                 <div class="name">斯乔帕</div>
                 <div class="text">......</div>
             </div>
+        </div>
+        <div class="spell-incantation" lang="mul">
+            <div class="spell-line">“火尽灰散，同归。”</div>
+            <div class="spell-line">“Огонь угас, пепел рассеян, вместе падём.”</div>
         </div>
         <div class="narration">咒语的最后一个音节落下。陡然升腾的、深紫到与黑色无二的火焰，将对峙的双方尽数吞没。</div>
         <div class="section-break"></div>
@@ -2542,6 +2728,21 @@
                 <div class="text">也许凯尔希之所以独特，是因为属于她的那条最初的自修改指令，并没有像被设计的那样只改变结构，而是建立了一个自我调用的闭环。</div>
             </div>
         </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>在那个充斥着信息流的空间里，我看到了一些东西。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>如果按照你的比喻——</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>凯尔希，是自己选择了维持这个“闭环”。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -2578,6 +2779,28 @@
                 <div class="name">可露希尔</div>
                 <div class="text">那一定就是那条最初的自修改指令了。</div>
             </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>......</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>......</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我明白了。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>开始吧，可露希尔。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
         </div>
         <div class="narration">可露希尔拿出从石棺中拆出的储能块，和硬盘、散热片一起组装。</div>
         <div class="narration">许多黑色的线缆从临时组装的机箱上延伸出去，连接到用玻璃小屋充当的固定架上。</div>
@@ -2636,6 +2859,10 @@
         <div class="narration">她按下确认。</div>
         <div class="narration">欢迎回来。</div>
         <div class="narration">凯尔希。</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_main_17-17_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_st_17-01.html">下一章 →</a>
+    </nav>
     </div>
 </body>
 </html>

@@ -93,11 +93,119 @@
             text-decoration: none;
             border-radius: 5px;
         }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-to-index">返回目录</a>
     <h1>main_17-17_beg</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_main_17-16_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_main_17-17_end.html">下一章 →</a>
+    </nav>
     <div class="story-container">
         <div class="narration">如果你有机会，为之后兴起的文明留下一点可以解读的语言，你会留下什么？</div>
         <div class="narration">为什么突然问起这个，这是你最近看到的性格测试吗？</div>
@@ -769,12 +877,12 @@
                 <div class="text">好吧，念吧......你的声音总比冷风呼啸的声音好听。</div>
             </div>
         </div>
-        <div class="narration"><i>人们总会对生命倾注爱意，也渴求从希望或恐惧中获得解脱。以至于他们选择向目所未睹的神明祈祷......</i></div>
-        <div class="narration"><br><br><i>——祈祷生命永不陨落。</i></div>
-        <div class="narration"><i>但这又如何能够如愿呢？连最疲惫的河流也终将汇入大海。</i></div>
-        <div class="narration"><br><br><i>最后的时刻到来那天，连日月星辰的光芒都会变得黯淡......不再有水波摇曳的声音，一切的声响与景色都已消失。</i></div>
-        <div class="narration"><i>不再有冬叶或春色，日与夜的界限也就此模糊——</i></div>
-        <div class="narration"><br><br><i>唯独剩下了永恒长夜中无尽的沉睡。</i></div>
+        <div class="narration">&lt;i&gt;人们总会对生命倾注爱意，也渴求从希望或恐惧中获得解脱。以至于他们选择向目所未睹的神明祈祷......&lt;/i&gt;</div>
+        <div class="narration"><br><br>&lt;i&gt;——祈祷生命永不陨落。&lt;/i&gt;</div>
+        <div class="narration">&lt;i&gt;但这又如何能够如愿呢？连最疲惫的河流也终将汇入大海。&lt;/i&gt;</div>
+        <div class="narration"><br><br>&lt;i&gt;最后的时刻到来那天，连日月星辰的光芒都会变得黯淡......不再有水波摇曳的声音，一切的声响与景色都已消失。&lt;/i&gt;</div>
+        <div class="narration">&lt;i&gt;不再有冬叶或春色，日与夜的界限也就此模糊——&lt;/i&gt;</div>
+        <div class="narration"><br><br>&lt;i&gt;唯独剩下了永恒长夜中无尽的沉睡。&lt;/i&gt;</div>
         <div class="section-break"></div>
         <div class=" dialogue">
             <div class="avatar-container">
@@ -944,6 +1052,10 @@
             </div>
         </div>
         <div class="narration">长生的漂泊之人垂下头，镜子般的湖泊中倒映出漫天繁星，还有一副略显疲惫的面容。</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_main_17-16_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_main_17-17_end.html">下一章 →</a>
+    </nav>
     </div>
 </body>
 </html>
