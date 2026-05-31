@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宿命流转，苍霆激荡 &#183; TD-8 &#183; 行动前</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>宿命流转，苍霆激荡 &#183; TD-8 &#183; 行动前</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act50side_07_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act50side_08_end.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%234%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">所有人听着！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%239%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我犯了一个巨大的错误。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我将国家存亡，“试炼”的意义，“雷之主”的强大这些东西挂在嘴边，但归根结底，我想，我在恐惧面对它。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">一旦对某件事产生了恐惧，人就会退缩，就会为自己找各种各样的借口进行逃避。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">建立狩猎团，将你们按照士兵的方式进行训练，阻止陛下前往挑战“雷之主”，并不是因为我有多么深谋远虑，而仅仅是因为——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%237%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我不够强大。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我甚至将这种恐惧传递给了你们。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我要求你们审慎，要求你们学会见机行事，要求你们不要为了狩猎拼上性命......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">但是，我却没有把最重要的东西传达给你们。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2103_1%231%241.png" class="avatar" alt="斑弥罗">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斑弥罗</div>
+                <div class="text">唉，我说你啊，总是这么悲观又自大。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斑弥罗</div>
+                <div class="text">泡影国就算真的毁灭了，也不是你一个人的责任。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="随从武士">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">随从武士</div>
+                <div class="text">没错，将军，正如您平时告诫我们的那样，我们并非只是盲从您的命令而选择了保守。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">随从武士</div>
+                <div class="text">我们选择成为狩猎团的一员，我们选择以成为武士的方式守卫我们的家园，是因为我们也认为，这样是正确的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">随从武士</div>
+                <div class="text">您从来没有做错过什么，如果我们真的失败了，那也只是我们做得不够好，仅此而已。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%232%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%235%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">说的也是，或许比起后悔，我更应该庆幸。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">庆幸我最终得知了真相，庆幸我并没有成为想象中那个绝情的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">庆幸我此时此刻，至少还有能为陛下做到的事情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%237%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">陛下。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我不断说服自己没有错，我不断告诉自己，我已经在诸多不好的选择中选择了相对正确的那一个。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%239%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">久而久之，它竟然似乎变成了唯一的答案......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">我早该多和您聊一聊，我早该和您齐心协力。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%234%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">这一点，或许吾也是一样的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%233%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">回去之后，吾会和你开诚布公地聊一聊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="随从武士们">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">随从武士们</div>
+                <div class="text">在！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%231%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">以方阵为单位行动，向前推进，为宝巫迦陛下和“异兽猎人”开辟道路！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%234%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">为了我们的未来！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="随从武士们">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">随从武士们</div>
+                <div class="text">是！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">随从武士们</div>
+                <div class="text">冲啊！为了泡影国，为了宝巫迦陛下！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2103_1%231%241.png" class="avatar" alt="斑弥罗">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斑弥罗</div>
+                <div class="text">哈哈，我也来助你们一臂之力！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%234%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">说真的，老朋友。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%235%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">世事当真是难以预料。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">想要做的事情总是一件也没有做好，结果，在以为自己即将失败的时候，却突然又发现，自己好像也没有那么失败。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2103_1%231%241.png" class="avatar" alt="斑弥罗">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斑弥罗</div>
+                <div class="text">这你就不懂了，在我们发明界，这样的事情，几乎每天都要发生一次！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斑弥罗</div>
+                <div class="text">成功总是偶然的！但是，只要结果够好，不就可以了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%238%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">哈，说的也是！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2101_1%235%241.png" class="avatar" alt="月见夜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">月见夜</div>
+                <div class="text">陛下，去吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2103_1%231%241.png" class="avatar" alt="斑弥罗">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斑弥罗</div>
+                <div class="text">陛下，要是需要火力支援就喊我，正好让我测试一下射程！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%233%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">嗯！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%231%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">这里......这座祭坛......过去的泡影国的人们就是在这里......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%238%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">越是靠近这里，吾越是能清晰地感觉到“诅咒”的气息。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%234%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">吾终于明白，在雪山时，那股牵引吾的力量究竟是什么了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">吾曾以为是“雷之主”，其实应该是“御轮”，一直以来，都是“御轮”在牵制吾......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%238%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">母亲，一切的元凶，“试炼”的真相，是“御轮”，对吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%239%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">吾来了，“雷之主”。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%235%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">宝巫迦，趁现在！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%236%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">嗯！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%238%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">求你了，“雷之主”，吾等只希望你能把力量借给吾等！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%2310%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">唔——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%2313%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">怎么办，梓兰姐？好像不起效啊！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%2310%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">啧，真是个顽强的家伙。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">明明我们已经对它造成了那么多的伤害，它居然毫无怯意，不仅如此，它还愈战愈勇。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%239%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">是“诅咒”剥夺了它的意志吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%233%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">还是说，是它——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%237%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">梓兰姐，不对，“雷之主”的样子——</div>
+            </div>
+        </div>
+        <div class="narration">异变陡生。</div>
+        <div class="narration">在挣脱了宝巫迦的力量之后，这一次，“雷之主”并没有立刻袭来，而是开始了痛苦的嘶吼。</div>
+        <div class="narration">“雷之主”的身体在不断地挣扎，黑气在它身上如同蒸汽一般冒出，令人毛骨悚然。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%2315%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">梓兰姐，它的样子，它看起来要被“诅咒”彻底吞噬了！难道我们只能杀死它了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%238%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">......空爆，不能留手了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%239%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">如果“雷之主”真的被“诅咒”吞噬，一定会酿成大祸。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%2315%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">......我知道了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%236%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">宝巫迦，明白了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">不必考虑任何事，我们已经尽了我们最大的努力，无论得到什么样的结果，我们也只能坦然接受。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%2311%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">......嗯。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%237%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">雷光虫？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%235%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">什么时候......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%238%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">是从竹林那边飞过来的！</div>
+            </div>
+        </div>
+        <div class="narration">灰暗的地下遗迹之中，不知何时，架起了一道青色的“桥”。</div>
+        <div class="narration">而组成这道“桥”的，正是从地下竹林的方向飞来的雷光虫们。</div>
+        <div class="narration">它们越来越多地开始在“雷之主”身边环绕，仿佛正在酝酿着什么。</div>
+        <div class="narration">随着雷光虫的增多，“雷之主”身上的黑气也变得更加旺盛。</div>
+        <div class="narration">但是，在那些青色萤火的照耀下，“雷之主”竟也显得少了几分污浊，多了一丝危险的美丽。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%234%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">它们难道是受到了“雷之主”的召唤？但是......为什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">“雷之主”，难道你——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%2312%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">梓兰姐，我有一种直觉。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">它没有被“诅咒”完全侵染......它一直都在和“诅咒”对抗，并且，现在，它快要赢了？</div>
+            </div>
+        </div>
+        <div class="narration">在所有人迟疑之际，“雷之主”的痛苦似乎减弱了几分，它敏捷地跳上了高处。</div>
+        <div class="narration">它站在那里，高昂地抬起了它的头颅，发出一声悠长的吼声。</div>
+        <div class="narration">然后——地裂山崩。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="受伤的武士">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">受伤的武士</div>
+                <div class="text">唔——我还能战斗！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2108_1%231%241.png" class="avatar" alt="泡影国百姓">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">泡影国百姓</div>
+                <div class="text">别逞强。你的位置有其他武士顶上，现在先好好休息吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="受伤的武士">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">受伤的武士</div>
+                <div class="text">我，我杀了好几只野兽！我没有给将军丢人！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2108_1%231%241.png" class="avatar" alt="泡影国百姓">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">泡影国百姓</div>
+                <div class="text">放心吧，所有人都是好样的。现在，好好休息吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">泡影国百姓</div>
+                <div class="text">（低声）陛下，斑弥罗大人，还有各位，我们会把我们的国家保卫好，请你们一定要平安无事啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="受伤的武士">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">受伤的武士</div>
+                <div class="text">咦......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2108_1%231%241.png" class="avatar" alt="泡影国百姓">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">泡影国百姓</div>
+                <div class="text">嗯？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2107_1%231%241.png" class="avatar" alt="受伤的武士">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">受伤的武士</div>
+                <div class="text">我是不是眼花了？我怎么看到“御轮”那里，聚集起了乌云？</div>
+            </div>
+        </div>
+        <div class="narration">泡影城中，人们共同抬起了头，看向了“御轮”——</div>
+        <div class="narration">一道粗壮的天雷突破夜晚的乌云，砸在了“御轮”方向的雪山之中。</div>
+        <div class="narration">若是有人离得近一些，他会发现，天雷居然生生地在地上砸出一个大洞，而大洞通往的地方，深不见底。</div>
+        <div class="narration">但他一定听得到，那一声从地底传来的震天怒吼——</div>
+        <div class="cg-container">
+            <img src="../CG/71_i09.png"
+                 alt="CG - 71_i09"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="narration">那是饱含野性的怒吼。</div>
+        <div class="narration">伴随着怒吼，粗壮的天雷击穿了或许本就没有那么牢固的岩盘，砸在了“雷之主”的身上。</div>
+        <div class="narration">虽然只是刹那间的电光，却让原本灰暗的地下空间都仿佛为之一震。</div>
+        <div class="narration">沐浴在雷光之下的“雷之主”，仿佛完成了最后一点蜕变，它再次发出一声怒吼。</div>
+        <div class="narration">这一次，青色的闪电缠满了它的周身。</div>
+        <div class="narration">竖立的鬃毛像纯白的浪涛被骤然定格，每一缕都裹着闪电，电弧在毛尖炸裂，洒下碎星。</div>
+        <div class="narration">鳞甲犹如碧玉，其间流淌着金白光河。尾巴甩动，电火花在空中拉出一条条琥珀色的光鞭，将黑暗划开一道道裂痕。</div>
+        <div class="narration">天雷砸开的洞中，洒下一缕月光。</div>
+        <div class="narration">在月光照耀之下，它恍若世间最尊贵的王者。</div>
+        <div class="narration">所有的野兽都在这一刻停下了它们的行动。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%234%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">它......难道依靠雷电自己清除了诅咒？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%237%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">不，梓兰姐，你仔细看。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">它的身上依然散发着“诅咒”的黑气......但是它的行动，看起来和之前很不一样......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">它不是清除了“诅咒”，而是克服了“诅咒”，完全把“诅咒”变成了自己力量的一部分！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%231%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">梓兰姐，看来好像是我们多此一举了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%237%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">......是啊，这片大地上的事情真是永远不能一概而论。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%231%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">我们自以为从前代陛下那里得到了关键的情报，以为我们要做的事情是拯救“雷之主”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">我们心心念念地想要拯救“雷之主”，想要将它从“诅咒”的深渊中解放出来......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%232%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">结果，它看来并不怎么需要我们的拯救。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%234%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">也不一定啦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%239%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">野兽总是在战斗中磨练自己，如果没有和我们的战斗，它恐怕也没有办法克服“诅咒”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%235%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">从这个角度来说，我们也算是“拯救”了它，不是吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1048_orchd2_1%237%242.png" class="avatar" alt="梓兰">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">......也许吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4215_buddyC_1%231%241.png" class="avatar" alt="政宗">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">政宗</div>
+                <div class="text">陛下，趁现在，对它使用御龙术喵！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">政宗</div>
+                <div class="text">让它的力量为你所用喵！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%239%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">吾试一试——</div>
+            </div>
+        </div>
+        <div class="narration">一道雷光劈下，直接将宝巫迦手中的翔虫打落，“雷之主”不屑地喷了喷气，似乎并不满意宝巫迦的行为。</div>
+        <div class="narration">但它没有进行下一步行动，只是静静地看着宝巫迦。</div>
+        <div class="narration">像是在等待着什么。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1049_catap2_1%236%242.png" class="avatar" alt="空爆">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">看来，不彻底战胜它，它是不愿意让你对它使用御龙术的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2100_1%238%241.png" class="avatar" alt="宝巫迦">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">......是啊。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/71_i10.png"
+                 alt="CG - 71_i10"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">在得知真相后，吾是对你心存愧疚的，“雷之主”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">毕竟，你只是“诅咒”的受害者，况且，如果不是你凭借本能捕食被“诅咒”的野兽，或许“诅咒”的蔓延会更加迅猛。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">但是，将你招至泡影国的并非吾等，这些年吾的国家和国民也一直生活在你的阴影之下。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">况且，无论如何，吾最敬爱的母亲还是死在你的手上......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">吾也不能就这样轻易放下心中的怨怼。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“雷之主”</div>
+                <div class="text">（低吼）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">它听不懂你说的这些的，宝巫迦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">它只是野兽，它既不会因为被“御轮”传送到一个奇特的国度就对自己的境遇产生迷茫，也不会因为被“诅咒”侵扰而痛恨自己的命运。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">它只是凭借着自己的本性去扛起了这一切。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">来到了新的天地，那就在新的天地活下去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">被“诅咒”侵扰，那就克服“诅咒”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">咒鬼要杀它，它就杀死咒鬼。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">除此之外，它不关心你是否恨它，也不关心你是否爱它，这对它来说，并不重要......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">梓兰</div>
+                <div class="text">生命的本能，就只是活下去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">没错，即使还有“御轮”这个威胁当前，它还是不愿意和我们联手。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">毕竟，我们要做的事情，可是在挑战它作为王者的威严。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">空爆</div>
+                <div class="text">说到底，最后还是要交给手中的武器嘛。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">宝巫迦</div>
+                <div class="text">......说得也是。</div>
+            </div>
+        </div>
+        <div class="narration">旭日东升，今天是个狩猎的好日子。</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act50side_07_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act50side_08_end.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

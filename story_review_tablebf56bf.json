@@ -23773,8 +23773,8 @@
                 }
             ],
             "Name": "众生行记",
-            "RemakeEndTime": -1,
-            "RemakeStartTime": -1,
+            "RemakeEndTime": 1780603199,
+            "RemakeStartTime": 1779436800,
             "Rewards": null,
             "StartShowTime": 1748462400,
             "StartTime": 1746072000,
@@ -27727,6 +27727,512 @@
             "StartTime": 1770678000,
             "StoryCompleteMedalId": null,
             "StoryEntryPicId": "storyEntryPic_act49side",
+            "StoryMainColor": null,
+            "StoryPicId": null
+        },
+        "act50side": {
+            "ActType": 1,
+            "CustomType": 0,
+            "EndShowTime": -1,
+            "EndTime": -1,
+            "EntryType": 1,
+            "Id": "act50side",
+            "InfoUnlockDatas": [
+                {
+                    "AvgTag": "幕间",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_st01"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-ST-1",
+                    "StoryDependence": null,
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_st01",
+                    "StoryInfo": "info/activities/act50side/level_act50side_st01",
+                    "StoryName": "风沙渐起",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 1,
+                    "StoryTxt": "activities/act50side/level_act50side_st01",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_01"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-1",
+                    "StoryDependence": "act50side_level_act50side_st01",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_01_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_01_beg",
+                    "StoryName": "硬壳下的胆小鬼",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 2,
+                    "StoryTxt": "activities/act50side/level_act50side_01_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_01"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-1",
+                    "StoryDependence": "act50side_level_act50side_01_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_01_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_01_end",
+                    "StoryName": "硬壳下的胆小鬼",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 3,
+                    "StoryTxt": "activities/act50side/level_act50side_01_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_02"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-2",
+                    "StoryDependence": "act50side_level_act50side_01_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_02_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_02_beg",
+                    "StoryName": "狩猎太棒啦！",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 4,
+                    "StoryTxt": "activities/act50side/level_act50side_02_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_02"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-2",
+                    "StoryDependence": "act50side_level_act50side_02_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_02_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_02_end",
+                    "StoryName": "狩猎太棒啦！",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 5,
+                    "StoryTxt": "activities/act50side/level_act50side_02_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_03"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-3",
+                    "StoryDependence": "act50side_level_act50side_02_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_03_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_03_beg",
+                    "StoryName": "不能掉以轻心",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 6,
+                    "StoryTxt": "activities/act50side/level_act50side_03_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_03"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-3",
+                    "StoryDependence": "act50side_level_act50side_03_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_03_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_03_end",
+                    "StoryName": "不能掉以轻心",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 7,
+                    "StoryTxt": "activities/act50side/level_act50side_03_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_04"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-4",
+                    "StoryDependence": "act50side_level_act50side_03_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_04_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_04_beg",
+                    "StoryName": "赤雪之兆",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 8,
+                    "StoryTxt": "activities/act50side/level_act50side_04_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_04"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-4",
+                    "StoryDependence": "act50side_level_act50side_04_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_04_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_04_end",
+                    "StoryName": "赤雪之兆",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 9,
+                    "StoryTxt": "activities/act50side/level_act50side_04_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_05"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-5",
+                    "StoryDependence": "act50side_level_act50side_04_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_05_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_05_beg",
+                    "StoryName": "只能成功，不能失败",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 10,
+                    "StoryTxt": "activities/act50side/level_act50side_05_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_05"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-5",
+                    "StoryDependence": "act50side_level_act50side_05_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_05_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_05_end",
+                    "StoryName": "只能成功，不能失败",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 11,
+                    "StoryTxt": "activities/act50side/level_act50side_05_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_06"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-6",
+                    "StoryDependence": "act50side_level_act50side_05_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_06_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_06_beg",
+                    "StoryName": "来自过去的亡魂",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 12,
+                    "StoryTxt": "activities/act50side/level_act50side_06_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_06"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-6",
+                    "StoryDependence": "act50side_level_act50side_06_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_06_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_06_end",
+                    "StoryName": "来自过去的亡魂",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 13,
+                    "StoryTxt": "activities/act50side/level_act50side_06_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_07"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-7",
+                    "StoryDependence": "act50side_level_act50side_06_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_07_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_07_beg",
+                    "StoryName": "为什么全是死脑筋？",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 14,
+                    "StoryTxt": "activities/act50side/level_act50side_07_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_07"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-7",
+                    "StoryDependence": "act50side_level_act50side_07_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_07_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_07_end",
+                    "StoryName": "为什么全是死脑筋？",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 15,
+                    "StoryTxt": "activities/act50side/level_act50side_07_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动前",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_08"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-8",
+                    "StoryDependence": "act50side_level_act50side_07_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_08_beg",
+                    "StoryInfo": "info/activities/act50side/level_act50side_08_beg",
+                    "StoryName": "宿命流转，苍霆激荡",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 16,
+                    "StoryTxt": "activities/act50side/level_act50side_08_beg",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "行动后",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 2,
+                            "StageId": "act50side_08"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-8",
+                    "StoryDependence": "act50side_level_act50side_08_beg",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_08_end",
+                    "StoryInfo": "info/activities/act50side/level_act50side_08_end",
+                    "StoryName": "宿命流转，苍霆激荡",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 17,
+                    "StoryTxt": "activities/act50side/level_act50side_08_end",
+                    "UnLockType": 0
+                },
+                {
+                    "AvgTag": "幕间",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "RequiredStages": [
+                        {
+                            "MaxState": 3,
+                            "MinState": 1,
+                            "StageId": "act50side_st02"
+                        }
+                    ],
+                    "StageCount": 1,
+                    "StoryCanEnter": 1,
+                    "StoryCanShow": 1,
+                    "StoryCode": "TD-ST-2",
+                    "StoryDependence": "act50side_level_act50side_08_end",
+                    "StoryGroup": "act50side",
+                    "StoryId": "act50side_level_act50side_st02",
+                    "StoryInfo": "info/activities/act50side/level_act50side_st02",
+                    "StoryName": "幻梦终醒，猎魂不息",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 18,
+                    "StoryTxt": "activities/act50side/level_act50side_st02",
+                    "UnLockType": 0
+                }
+            ],
+            "Name": "泡影苍霆",
+            "RemakeEndTime": -1,
+            "RemakeStartTime": -1,
+            "Rewards": null,
+            "StartShowTime": 4078583999,
+            "StartTime": 1780268400,
+            "StoryCompleteMedalId": null,
+            "StoryEntryPicId": "storyEntryPic_act50side",
             "StoryMainColor": null,
             "StoryPicId": null
         },
@@ -58071,6 +58577,123 @@
                 }
             ],
             "Name": "去荒野的路",
+            "RemakeEndTime": 0,
+            "RemakeStartTime": 0,
+            "StartShowTime": 0,
+            "StartTime": 0,
+            "StoryCompleteMedalId": null,
+            "StoryEntryPicId": null,
+            "StoryMainColor": null,
+            "StoryPicId": null
+        },
+        "story_surfer_set_1": {
+            "ActType": 0,
+            "CustomType": 0,
+            "EndShowTime": 0,
+            "EndTime": 0,
+            "EntryType": 0,
+            "Id": "story_surfer_set_1",
+            "InfoUnlockDatas": [
+                {
+                    "AvgTag": "幕间",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "StageCount": 0,
+                    "StoryCanEnter": 0,
+                    "StoryCanShow": 0,
+                    "StoryCode": null,
+                    "StoryDependence": null,
+                    "StoryGroup": "story_surfer_set_1",
+                    "StoryId": "story_surfer_set_1_story_1",
+                    "StoryInfo": "info/obt/memory/story_surfer_1_1",
+                    "StoryName": "顶峰之景",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 0,
+                    "StoryTxt": "obt/memory/story_surfer_1_1",
+                    "UnLockType": 0
+                }
+            ],
+            "Name": "顶峰之景",
+            "RemakeEndTime": 0,
+            "RemakeStartTime": 0,
+            "StartShowTime": 0,
+            "StartTime": 0,
+            "StoryCompleteMedalId": null,
+            "StoryEntryPicId": null,
+            "StoryMainColor": null,
+            "StoryPicId": null
+        },
+        "story_kroos2_set_1": {
+            "ActType": 0,
+            "CustomType": 0,
+            "EndShowTime": 0,
+            "EndTime": 0,
+            "EntryType": 0,
+            "Id": "story_kroos2_set_1",
+            "InfoUnlockDatas": [
+                {
+                    "AvgTag": "幕间",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "StageCount": 0,
+                    "StoryCanEnter": 0,
+                    "StoryCanShow": 0,
+                    "StoryCode": null,
+                    "StoryDependence": null,
+                    "StoryGroup": "story_kroos2_set_1",
+                    "StoryId": "story_kroos2_set_1_story_1",
+                    "StoryInfo": "info/obt/memory/story_kroos2_1_1",
+                    "StoryName": "蒙眬",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 0,
+                    "StoryTxt": "obt/memory/story_kroos2_1_1",
+                    "UnLockType": 0
+                }
+            ],
+            "Name": "蒙眬",
+            "RemakeEndTime": 0,
+            "RemakeStartTime": 0,
+            "StartShowTime": 0,
+            "StartTime": 0,
+            "StoryCompleteMedalId": null,
+            "StoryEntryPicId": null,
+            "StoryMainColor": null,
+            "StoryPicId": null
+        },
+        "story_beagle_set_1": {
+            "ActType": 0,
+            "CustomType": 0,
+            "EndShowTime": 0,
+            "EndTime": 0,
+            "EntryType": 0,
+            "Id": "story_beagle_set_1",
+            "InfoUnlockDatas": [
+                {
+                    "AvgTag": "幕间",
+                    "CostItemCount": 0,
+                    "CostItemId": null,
+                    "CostItemType": 0,
+                    "StageCount": 0,
+                    "StoryCanEnter": 0,
+                    "StoryCanShow": 0,
+                    "StoryCode": null,
+                    "StoryDependence": null,
+                    "StoryGroup": "story_beagle_set_1",
+                    "StoryId": "story_beagle_set_1_story_1",
+                    "StoryInfo": "info/obt/memory/story_beagle_1_1",
+                    "StoryName": "小队的盾牌",
+                    "StoryPic": null,
+                    "StoryReviewType": 0,
+                    "StorySort": 0,
+                    "StoryTxt": "obt/memory/story_beagle_1_1",
+                    "UnLockType": 0
+                }
+            ],
+            "Name": "小队的盾牌",
             "RemakeEndTime": 0,
             "RemakeStartTime": 0,
             "StartShowTime": 0,

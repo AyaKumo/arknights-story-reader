@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章节目录</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-sub: #888888;
+            --accent-color: #00d2ff;
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        .header h1 {
+            font-size: 2rem;
+            letter-spacing: 5px;
+            margin: 0;
+            font-weight: 300;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .header .subtitle {
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+        .back-to-main {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .back-to-main:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-3px);
+        }
+        .story-list {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .story-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .story-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--accent-color);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+            transform-origin: bottom;
+        }
+        .story-card:hover {
+            background-color: var(--card-hover);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .story-card:hover::before {
+            transform: scaleY(1);
+            transform-origin: top;
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .card-id {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            font-family: Consolas, monospace;
+        }
+        .arrow-icon {
+            opacity: 0.3;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .story-card:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(5px);
+            color: var(--accent-color);
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.5rem; }
+            .story-card { padding: 15px 20px; }
+            .back-to-main { top: 10px; left: 10px; padding: 8px 15px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-to-main">← 返回主目录</a>
+    <header class="header">
+        <h1>CHAPTER LIST</h1>
+        <div class="subtitle">章节选择 // 请选择阅读内容</div>
+    </header>
+    <div class="story-list">
+        <a href="level_act50side_st01.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0s;">
+            <div class="card-info">
+                <span class="card-title">风沙渐起 &#183; TD-ST-1 &#183; 幕间</span>
+                <span class="card-id">FILE // level_act50side_st01</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_01_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.08s;">
+            <div class="card-info">
+                <span class="card-title">硬壳下的胆小鬼 &#183; TD-1 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_01_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_01_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.16s;">
+            <div class="card-info">
+                <span class="card-title">硬壳下的胆小鬼 &#183; TD-1 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_01_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_02_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.24s;">
+            <div class="card-info">
+                <span class="card-title">狩猎太棒啦！ &#183; TD-2 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_02_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_02_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.32s;">
+            <div class="card-info">
+                <span class="card-title">狩猎太棒啦！ &#183; TD-2 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_02_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_03_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.4s;">
+            <div class="card-info">
+                <span class="card-title">不能掉以轻心 &#183; TD-3 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_03_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_03_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.48s;">
+            <div class="card-info">
+                <span class="card-title">不能掉以轻心 &#183; TD-3 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_03_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_04_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.56s;">
+            <div class="card-info">
+                <span class="card-title">赤雪之兆 &#183; TD-4 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_04_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_04_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.64s;">
+            <div class="card-info">
+                <span class="card-title">赤雪之兆 &#183; TD-4 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_04_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_05_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.72s;">
+            <div class="card-info">
+                <span class="card-title">只能成功，不能失败 &#183; TD-5 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_05_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_05_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.8s;">
+            <div class="card-info">
+                <span class="card-title">只能成功，不能失败 &#183; TD-5 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_05_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_06_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.88s;">
+            <div class="card-info">
+                <span class="card-title">来自过去的亡魂 &#183; TD-6 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_06_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_06_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 0.96s;">
+            <div class="card-info">
+                <span class="card-title">来自过去的亡魂 &#183; TD-6 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_06_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_07_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.04s;">
+            <div class="card-info">
+                <span class="card-title">为什么全是死脑筋？ &#183; TD-7 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_07_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_07_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.12s;">
+            <div class="card-info">
+                <span class="card-title">为什么全是死脑筋？ &#183; TD-7 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_07_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_08_beg.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.2s;">
+            <div class="card-info">
+                <span class="card-title">宿命流转，苍霆激荡 &#183; TD-8 &#183; 行动前</span>
+                <span class="card-id">FILE // level_act50side_08_beg</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_08_end.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.28s;">
+            <div class="card-info">
+                <span class="card-title">宿命流转，苍霆激荡 &#183; TD-8 &#183; 行动后</span>
+                <span class="card-id">FILE // level_act50side_08_end</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+        <a href="level_act50side_st02.html" class="story-card" style="animation: fadeIn 0.5s ease-out forwards 1.36s;">
+            <div class="card-info">
+                <span class="card-title">幻梦终醒，猎魂不息 &#183; TD-ST-2 &#183; 幕间</span>
+                <span class="card-id">FILE // level_act50side_st02</span>
+            </div>
+            <div class="arrow-icon">→</div>
+        </a>
+    </div>
+</body>
+</html>
