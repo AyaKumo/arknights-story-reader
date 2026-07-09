@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退行性猎犬病 &#183; 幕间</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>退行性猎犬病 &#183; 幕间</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act21mini_st01.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act21mini_st03.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class="narration">她做了一个不会飞的梦。</div>
+        <div class="narration">赤裸的双脚结实地落在潮湿的土地上，旋即沾满泥泞，肺里的空气被挤压出胸腔。</div>
+        <div class="narration">于是她伸出手向前奔去。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">这里是......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">......头......好痛。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你醒了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">昨晚你睡了五个小时，比以往都要长呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">这是哪里？你又是谁？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我是你的主治医生，洛伦茨。这里是猎犬病防控镇治疗中心。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我病了？什么病？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%238%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">猎犬病。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">这样的问题，你每次醒来都会问我一次。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我......完全不记得......我失忆了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%235%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">是的，猎犬病会导致失忆，而且你的记忆还会不断流失。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">今天感觉怎么样，亚娜？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">头......很疼......</div>
+            </div>
+        </div>
+        <div class="narration">一双温热的手轻轻按在了亚娜的额头两侧，她闻到一股淡淡的愈创木香味。</div>
+        <div class="narration">头疼也因此得到了缓解。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2310%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">闭上眼，深呼吸——现在告诉我，你还记得昨天吃了哪些东西吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2310%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">呃，玉米饼？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%238%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">那是前天的晚饭。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">昨天......不记得了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">没关系，不用这样勉强自己。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">外面天气不错，不如出去走走，多和其他人聊聊天？</div>
+            </div>
+        </div>
+        <div class="narration">那双温暖的手揉着亚娜额侧的肌肉，让头痛的病人神情舒缓下来。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">亚娜，我们该打今天的特效药了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">特效药？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">可以缓解头痛，还能稍微减缓记忆衰退。</div>
+            </div>
+        </div>
+        <div class="narration">洛伦茨医生拿起治疗盘上放置的一小瓶液体，熟练地将药液抽进注射器。亚娜伸出胳膊，看着透明的液体随着芯杆的推进缓缓流进身体。</div>
+        <div class="narration">废弃的药瓶上贴着猎犬头的标志，她好奇地拿起来看了看。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">小心，这个可不能随意拿走，要回收的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">好，好的。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭......阿尔芭！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%236%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">怎么了，亚娜？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭是我的妹妹！我想起来了医生！她也在这里，她和我一样得了猎犬病，你一定见过她！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%236%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">冷静些，别太激动——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%238%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">很高兴你能记起一些过去的事，但登记的病人里，并没有一位叫阿尔芭的女性。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">可以和其他被收治的病人问问？也许他们知道你妹妹的下落。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">现在深吸一口气，感觉怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">头......没那么疼了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">那就好。那么，今天的例行检查就结束了。我还要继续查房，有空多和其他人说说话，要对康复有信心噢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">医生。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">还有什么事吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">外面......是春天吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2310%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">是呢，看来你还记得。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2310%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阳光，好舒服......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">当心！</div>
+            </div>
+        </div>
+        <div class="narration">一只飞旋的足球正中亚娜的大腿，差点让她摔倒。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">嘶——好痛......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">对不起亚娜姐姐！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你是？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我是伊拉里奥！大个子卡梅洛的弟弟。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你认识我？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">当然了！你是亚娜，我哥哥是卡梅洛，我是伊拉里奥，我们三个每天都会互相提醒的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%231%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">太好了，那你记得阿尔芭吗？她是我的妹妹。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">阿尔芭姐姐？啊！她是我哥哥的——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">伊拉里奥，你在这里！不是说不准乱跑吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我们得一直待在一起。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">还有这位......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">阿尔芭？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你认识她？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我在这里很好，医生都在尽心治疗我们。等我痊愈了，我会想办法带你离开种植园......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我叔叔——对，我叔叔在边境高原有一个小农场，我们可以去那里。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我不是阿尔芭。但你认识她？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">你在说什么傻话呀，你是我的未婚妻，我忘了谁也不会忘了你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭也在这里？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我就知道你会到这里找我的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">对了，你饿不饿？我把前天的晚饭存下了一点，有你喜欢的玉米饼和香肠。</div>
+            </div>
+        </div>
+        <div class="narration">卡梅洛拉着亚娜在长椅坐下，从口袋里掏出一个用旧报纸包裹的东西，放到亚娜手中。</div>
+        <div class="narration">亚娜小心地拆开，从沾满油渍的报纸上，她只能依稀辨认出“特里蒙”和“弧光”几个词。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">嘿嘿，在种植园里，香肠可不多见呢，我都留着给你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">不是的！哥哥你认错了，她是亚娜姐姐，不是阿尔芭姐姐！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">啊，我认错了......这不是香肠，是香蕉？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">唉......哥哥......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">哥哥的病比昨天更严重了，他好像......认不出你了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">也许......阿尔芭确实在这里。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">关于阿尔芭，你还记得什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">嗯......她是你的妹妹，头发很长......呃、呃......</div>
+            </div>
+        </div>
+        <div class="narration">伊拉里奥突然捂住头。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">不行了，想不到更多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你打过特效药吗？打完会舒服很多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">我、今天医生给我打过了，一天只有一针。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">抱歉，让你难受了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">没关系，亚娜姐姐，我也想帮你的忙。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">谢谢你，伊拉里奥，我再自己走走。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">......照顾好你哥哥。</div>
+            </div>
+        </div>
+        <div class="narration">年轻的佩洛女人走在公园里，耳边时不时传来孩子们嬉戏玩闹的声音。</div>
+        <div class="narration">她看到平和的表情出现在每一位病人的脸上，她感到一阵陌生的幸福。</div>
+        <div class="narration">她觉得或许该再走一点路。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">我昨天吃了菜汤和炸香蕉。香蕉好像有点焦了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">炸香蕉是你前天吃的，昨天是豆子泥。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">这么说，我又记错了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">也许是我记错了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">不如我们来谈点别的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">是时候谈点别的了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">这里的香蕉送来时总是黑的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">黑色的香蕉，和夜晚一样黑。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">和黑色的蛛网一样黑。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">你也看见了黑色的蛛网。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">银白的蜘蛛，在黑色的蛛网上闪烁。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">噼啪噼啪。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">绵延的蛛网，银白蜘蛛在爬行。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">没有蜘蛛，是停电。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">是停电。你想起来了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">没错，是停电。那晚突然很黑，安赫尔在病房里尖叫。我堵住了耳朵。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">安赫尔在停电后消失了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">第二天、第三天都没有出现。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">第四天，我听到他的叫声从地下传来。他的嗓子哑了，叫声像野兽。一头随时会咬人的野兽。听起来就像——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">啊啊啊啊啊啊啊不要咬我！</div>
+            </div>
+        </div>
+        <div class="narration">亚娜静静听着两位病人的谈话，视线被不远处的一大片设施吸引了。</div>
+        <div class="narration">越过那片浓密的香蕉树林，在这座几乎看不见其他民生建筑的防控镇外围，那一大片设施仿佛平摊的壁画一样明显。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">那是什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">再往前面走，就是防控镇的边缘了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%233%241.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你是谁？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我叫佩德洛。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你也是病人？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">算是吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你......还能记得多少过去的事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">我？我记得那时种植园还不存在，混乱仍未降临于这片土地。许多土地亟待开垦，挥舞锄头的人们脸上还有笑容。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">我们快活了一阵子，直到那些外来者侵占了脚下的大地......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">直到这座小镇被建立......后来，哥伦比亚人发明的武器在树海中被启动，猎犬病就爆发了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你为什么会记得那么多？而且......而且......</div>
+            </div>
+        </div>
+        <div class="narration">佩洛女人感到一阵眩晕。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">那是很久很久之前的事了吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%231%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">嗯，很久之前了。久到我都不记得多少年了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">某种程度来说，我也是一位猎犬病患者了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我要怎么做，才能像你一样不失去记忆？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">如果你想的话......</div>
+            </div>
+        </div>
+        <div class="narration">佩德洛从口袋里掏出一小瓶液体，亚娜几小时前才见过上面的猎犬头标志。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">你见过这种东西吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">特效药......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我知道的，我打完之后确实清醒很多，医生说这样下去，我总会痊愈的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">痊愈......？不，不可能，特效药只能暂缓症状的加深，猎犬病没有根治的办法。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">真的吗？医生为什么要骗我......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%239%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">不只是医生，这整座小镇，都是一个巨大的谎言。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">我可以帮你拆穿这个谎言，但是需要一些你的帮助。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">你能帮我搞到更多这样的特效药吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我不确定，医生说，这种药物，就连空药瓶也要回收......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">的确如此......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">如果这种药物可以让我想起更多事，我是不是，就能找到阿尔芭了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">阿尔芭？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我不记得了，她应该是我的妹妹。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我很不安。医生给我打了特效药后，妹妹的名字一直在脑子里循环。我需要做些什么，如果她真的在这里，至少让我见到她......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">请告诉我，哪里能找到这种药物？</div>
+            </div>
+        </div>
+        <div class="narration">佩德洛头顶的耳朵抖了抖，似乎在思考。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">我只知道特效药需要保存在温度很低的地方，平时应该没什么人去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">很冷的地方......说不定阿尔芭......</div>
+            </div>
+        </div>
+        <div class="narration">佩德洛的耳朵再次抖了抖，他把手里那瓶珍贵的特效药连同注射器一起放在亚娜手里。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%2311%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">你......量力而行。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我会的。对了——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%241.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">怎么了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我叫亚娜，如果有一天我记不得自己是谁，希望你能提醒我。</div>
+            </div>
+        </div>
+        <div class="narration">整整一个下午，亚娜都在防控镇里寻找关于阿尔芭的记忆，也没有忘记答应佩德洛的事。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">很冷的地方......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">第四天，我听到他的叫声从地下传来。他的嗓子哑了，叫声像野兽。一头随时会咬人的野兽。听起来就像——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">还有地下的叫声......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">嘶......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">这是哪里......</div>
+            </div>
+        </div>
+        <div class="narration">她赶紧找到一张长椅坐下，取出口袋里的特效药，学着医生的样子将药液抽到针筒里。</div>
+        <div class="narration">深吸一口气，亚娜对准胳膊上残留的针孔打了进去。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">不能再忘记......必须要做些什么。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">姐姐......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">这里好冷好黑......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭！</div>
+            </div>
+        </div>
+        <div class="narration">她一路谨慎地跟随着医护人员，走到了不知哪里的地方，直到感到一股强劲的冷空气从某栋建筑的大门后传来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">找到了！很冷的地方——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">刚才那个医生按的数字是......</div>
+            </div>
+        </div>
+        <div class="narration">她庆幸自己提前注射了特效药，大门的密码被她记得一清二楚。</div>
+        <div class="narration">就在她转身，大门即将合上的瞬间，一个高大的人影跟了进来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">谁！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">卡梅洛？怎么是你！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我实在是担心你，阿尔芭。我......我一个下午都跟在你后面，这里让我很不安，我们回去吧......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我不是阿尔芭——呼......我不能回去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">阿尔芭！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你回去吧，我会自己找到阿尔芭。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">你不回去，我也不回去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我不会丢下你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">......跟紧我。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">还有......我不是阿尔芭。我是亚娜。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">里面的空间......居然这么大......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">这是......黑色的桶，不......这么多......</div>
+            </div>
+        </div>
+        <div class="narration">在前行的两人眼前展开的，是一桶桶严密堆放的黑色液体，仿佛一道坚不可摧的城墙。</div>
+        <div class="narration">还有整齐码在墙壁两侧的数不清的棺材一样的金属货箱。</div>
+        <div class="narration">卡梅洛突然痛苦地蜷缩在地上，发起抖来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">呵、呵......啊啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">卡梅洛？卡梅洛！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我没有特效药了，我该怎么办......说话，对，说话，卡梅洛，能听到我说话吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">阿尔芭......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">醒醒，不能倒在这里......不能——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%234%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭！不能倒在这里！我带你出去！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">种植园的日子总是不舒心。</div>
+        <div class="narration">可是弯腰低头的日子哪会有舒心的呢？</div>
+        <div class="narration">我弄丢了我老妈给我编的草帽，日头就这样晒干了我。</div>
+        <div class="narration">我把手按在泥地的巨大脚印里，发现填不满。</div>
+        <div class="narration">后来他们剪掉了你的长头发，因为上面虫子太多了。</div>
+        <div class="narration">她倒在了黑色的水里，再也没能起来。</div>
+        <div class="narration">春天。我们就打开那扇门。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">我不能再失去......</div>
+            </div>
+        </div>
+        <div class="narration">她咬破了自己的胳膊，将伤口对准昏迷的卡梅洛，鲜血缓缓流入高个子佩洛的嘴里。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">希望有用，我的血液里还有特效药——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%234%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">醒醒，卡梅洛！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">咳咳——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%234%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你待在这里别动，我很快就回来！我要，我必须要——</div>
+            </div>
+        </div>
+        <div class="narration">顺着两侧棺材一样的货箱望去，那扇铁门突兀地出现在亚娜眼前。</div>
+        <div class="narration">她的头痛得更厉害了，特效药正在失效。越来越多的名字如风一般向后掠去，她艰难地迈开腿朝门前进。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">姐姐......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">这里好冷好黑......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭！是你吗？你在箱子里吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">好黑......好冷......好多人......和我在一起，我们被关在门后。</div>
+            </div>
+        </div>
+        <div class="narration">阿尔芭哭泣起来。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">......我们离不开！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%234%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭！我会救你，救你们出去！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">很可怕的东西在门后，会毁了所有人！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">都别想活......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">打开门......摧毁它......救......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">打开......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2400_1%231%241.png" class="avatar" alt="伊拉里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊拉里奥</div>
+                <div class="text">打开......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2324_1%231%241.png" class="avatar" alt="眼神迷离的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">眼神迷离的病人</div>
+                <div class="text">打开......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2325_1%231%241.png" class="avatar" alt="表情平淡的病人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">表情平淡的病人</div>
+                <div class="text">打开......</div>
+            </div>
+        </div>
+        <div class="narration">“打开那扇门。”</div>
+        <div class="narration">亚娜死死盯着铁门上的电子锁，触摸面板上的红点在她眼中闪烁。</div>
+        <div class="narration">她想起偶尔停留在种植园的羽兽，和它们落在坟茔上的样子。</div>
+        <div class="narration">她早就不记得坟头上写的名字是什么，但她记得有一片墓地，所有累死的劳工就随便挖个坑丢进去。</div>
+        <div class="narration">那时她手里握着一把锄头。</div>
+        <div class="narration">此时她握着从地上捡到的铁片。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">呼......呼......该死的......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">等到春天。姐姐，我们打开那扇门——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">阿尔芭......我打开了......那扇门......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">你没有听到吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">什么？</div>
+            </div>
+        </div>
+        <div class="narration">眼前的一切都消失了，只剩下那扇门，和种植园一模一样的铁门。</div>
+        <div class="narration">地下深处的门打开了。没有可怕的东西，也没有被关押的病人。</div>
+        <div class="narration">门后一片漆黑，安静得亚娜能听到自己的呼吸声。一只黄色的蝴蝶穿越黑暗向她飞来，落在她肩膀上。</div>
+        <div class="narration">阿尔芭抱着草扎的羽兽玩偶站在不远处，她有两条粗细不一的麻花辫，就如亚娜记忆中那样。</div>
+        <div class="narration">父母依然在烈日下劳作着，汗水浸湿了草帽的内沿，不久之后会结成白霜。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">你没有听到吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">缥缈的声音</div>
+                <div class="text">你没有听到吗？</div>
+            </div>
+        </div>
+        <div class="narration">数十只黑色的猎犬吼叫着，从门后的阴影中冲了出来，它们扑向呆愣着的亚娜，也扑向意识模糊的卡梅洛。</div>
+        <div class="narration">准备疯狂撕咬病人的猎犬们仿佛被按下了暂停键，维持着奔跑的姿势，静止在原地。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%237%241.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">亚娜！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">......医生？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2312%241.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">你们得离开这——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">卡、卡梅洛，先让他走！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%237%241.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">我维持不了多久，亚娜，快过来！</div>
+            </div>
+        </div>
+        <div class="narration">猎犬们恢复了动态，龇牙咧嘴准备进行下一次狩猎。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%234%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">得有人引开它们。他就交给你了，医生！</div>
+            </div>
+        </div>
+        <div class="narration">洛伦茨医生从未如此手忙脚乱过，她拉起卡梅洛，用尽全身力气架起他，几乎是拖着他行走。</div>
+        <div class="narration">高大的佩洛青年却挣扎着向亚娜的方向跑去。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">阿尔芭！！！快过来！！！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%234%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">别过来！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%231%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">......等你逃出去了，我们就结婚，住在边境高原的农场......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%237%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">你每天都要做玉米饼给我吃。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">阿尔芭——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%237%242.png" class="avatar" alt="亚娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">亚娜</div>
+                <div class="text">活下去，卡梅洛。</div>
+            </div>
+        </div>
+        <div class="narration">被猎犬撕咬的一瞬间没有那么痛，难以忍受的是之后剧烈的头痛，像凿子在敲椰壳。</div>
+        <div class="narration">亚娜以为之后的意识会一片空白，但相反，她看到了一些早就被遗忘的事。</div>
+        <div class="narration">阿尔芭没有跟着她逃出种植园的铁门，从箱子钻出来时，一条猎犬咬掉了妹妹的一条腿。</div>
+        <div class="narration">她想救出阿尔芭，却被三条猎犬一齐撕咬，失去了大部分记忆。</div>
+        <div class="narration">阿尔芭早就死在了那个逃跑失败的黄昏。</div>
+        <div class="narration">这就是她来到防控镇治疗中心的真相。</div>
+        <div class="narration">她睁开眼，洛伦茨带着卡梅洛安全离开了，紧急安全门缓缓落下。</div>
+        <div class="narration">肩上的黄色蝴蝶飞舞着离开了她的身体。</div>
+        <div class="narration">一周后。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">今天感觉怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">好多了，只是头疼得厉害。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">我给你开一些止痛药，但不要过量服用，好吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">谢谢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%238%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">最近......和其他人交流有想起什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">他们在说新来的看守，看得大家都很不自在，也很不安。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我们在这里真的安全吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">广播里说，是为了保护病人们增设的守卫，是这样吗，医生？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2315%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">我还听说前几天有个冒失的病人造成了一场混乱，为此才会新增看守。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">那个病人叫......呃......叫......好痛......我好像忘记了很重要的人......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%238%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">没事的，卡梅洛。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">你会得到治疗，这里也很安全。一切都会好转的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">......医生，你没有听到吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%236%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">听到什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">你没有听到猎犬叫吗？</div>
+            </div>
+        </div>
+        <div class="narration">一只黄色的蝴蝶落在了洛伦茨肩膀上，翅膀翕张的节奏和她的呼吸重叠在一起。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">想一起去看看伊拉里奥吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1042_1%231%241.png" class="avatar" alt="卡梅洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">卡梅洛</div>
+                <div class="text">......那是谁？</div>
+            </div>
+        </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act21mini_st01.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act21mini_st03.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

@@ -1,0 +1,2416 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专性寄生 &#183; 幕间</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>专性寄生 &#183; 幕间</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act21mini_st03.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act21mini_st05.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class="narration">风是少有的。</div>
+        <div class="narration">偶尔有一阵灼热的气流贴着地面爬过，混合着发酵物和受潮火药的味道，毫不讲理地钻进众人的衣领。</div>
+        <div class="narration">那气流像是长了两排细密的牙，不断啃噬着粗糙的皮肤。</div>
+        <div class="narration">泥黄色的种植园在干烈的日光下惨白一片。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">*玻利瓦尔粗口*，什么鬼天气。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%232%241.png" class="avatar" alt="懒散的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">懒散的士兵</div>
+                <div class="text">前些时候下雨你要骂，好不容易出了太阳，你还要骂。哈啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">懒散的士兵</div>
+                <div class="text">真有这力气，不如去给那淹死的可怜虫收个尸。</div>
+            </div>
+        </div>
+        <div class="narration">不远处，几只羽兽正争抢着一条死循兽的碎肉。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">喂！红头发的小鬼，去把那边收拾了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%231%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">是！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">你！也去。杵在这儿屁都不放一个，还以为是哪儿来的哑巴。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">是。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%232%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">哈啊......这谈判都谈多久了，签还是不签？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%232%241.png" class="avatar" alt="懒散的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">懒散的士兵</div>
+                <div class="text">哪儿有那么简单。你看上头那几个，没日没夜地吵，都吵成什么样了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">懒散的士兵</div>
+                <div class="text">要是今天真能签字......唉，那可真是谢天谢地咯。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%232%241.png" class="avatar" alt="懒散的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">懒散的士兵</div>
+                <div class="text">（低声）但我听说，上个月月底，马丁上校跟汉科将军吵完，一气之下，直接带着一帮弟兄跑了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">啥？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%232%241.png" class="avatar" alt="懒散的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">懒散的士兵</div>
+                <div class="text">（低声）你小点声......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%232%241.png" class="avatar" alt="士兵们">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">士兵们</div>
+                <div class="text">......中尉。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="中尉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">你们这是在站岗，还是在等那帮畜生来看玻利瓦尔人的笑话？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">二十圈。跑不完，谁都别想吃饭。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">中尉，我们这——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="中尉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">如果上校在场，你们要跑的就是五十圈。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="焦躁的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">焦躁的士兵</div>
+                <div class="text">嘁......</div>
+            </div>
+        </div>
+        <div class="narration">轻佻的士兵恶狠狠地朝中尉脚下啐了口唾沫。随后才缓缓转过身，骂骂咧咧地向训练场跑去。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">中尉......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="中尉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">他给你们派活，你们就照做？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">等今天签完字，大家就会各自散了。没必要在这时候起冲突。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="中尉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">呵，也是。把这摊东西收拾完就去侧门站着吧，联合政府的家伙也快到了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">是。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%242.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">队长，我们今天，真能签订和平协议吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">应该吧。前后拖了两个多月，已经到最后的期限了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">那......和平之后，真的就再也不用打仗、再也不会死人了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%231%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">应该吧。听上面的意思，字签完就会解散军队。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">欸？真的会解散吗？！</div>
+            </div>
+        </div>
+        <div class="narration">塞拉起初说得谨慎，见小队长面色平和地认真听着，便稍微大胆了些。</div>
+        <div class="narration">她的眼睛逐渐眯成了两道弯弯的月牙，心也被“和平”两个字塞得满满当当。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%238%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">（回家......）</div>
+            </div>
+        </div>
+        <div class="narration">他早就不记得家的样子了。</div>
+        <div class="narration">愤怒的上校径直将协议书拍在了案前，厚重的文件瞬间散落一地。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">按照昨晚的谈判结果，条约上的第十九条应是——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">“除在各通商口岸保留必要的军队外，其余七成的哥伦比亚武装部队将撤离玻利瓦尔本土。”</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">“作为交换，玻方需解散现有的真正玻利瓦尔人军队。之后，西线与辛嘉斯政府的争端，将由哥伦比亚出面调停解决。”</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%235%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">——可是今天，正式的签字文件上为何会突然多出这一行？！</div>
+            </div>
+        </div>
+        <div class="narration">协议书的最后一页，一段新添上的钢笔字格外扎眼。</div>
+        <div class="narration">“为保障解散人员的个人安全及社会安全，强制要求：</div>
+        <div class="narration"><br><br>“所有士兵需按规定前往各区种植园，参与劳动和重建工作。”</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将军，我需要一个解释。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%239%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">叙拉古的葡萄酒，由哥伦比亚商人从东边运来，价格是本地酒的一半。尝尝看，味道如何？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将军，我在和你谈论正事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%239%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">不喝吗？可惜。</div>
+            </div>
+        </div>
+        <div class="narration">他若无其事地跨过满地的白纸，踱向墙角的镜子。</div>
+        <div class="narration">镜中曾映照过一张年轻、英俊的脸。如今那张脸老了，眼睛也逐渐没了光。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%235%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%239%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">老何塞刚和我聊完这事。现在，他应该已经去会场做准备了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">连他这个老东西都能看清现在的局势——哥伦比亚的舰队就停在拉乌尼达，联合政府有的是底气增加那一条。上校，你不会看不清吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">就因为哥伦比亚增派了两支舰队，我们就要在条款上一让再让？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">不然呢？你还打算把多少人扔进这台绞肉机？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">把士兵们送回种植园，和把他们送回战场有什么区别？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%232%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">这会是被送进种植园的最后一批人。自此之后，玻利瓦尔不会再有新的伤亡。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%239%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">而你，上校。作为功臣，作为我的心腹，我会给你在安保小队另谋一份工作，你不用回到种植园。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%234%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">或者，你可以离开玻利瓦尔。我尊重你的选择。</div>
+            </div>
+        </div>
+        <div class="narration">说罢，他俯下身，从那只载着他毕生荣耀的皮箱里取出一摞沉甸甸的奖章，郑重其事地将它们逐一别上军服。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">你说这些话的样子让我作呕，将军。</div>
+            </div>
+        </div>
+        <div class="narration">失去了光泽的奖章不合时宜地从将军手中滑落。奖章中心已然凹陷。</div>
+        <div class="narration">杜宾知道那处凹痕意味着什么。在两年前的一场战役中，正是这枚奖章，在心脏的位置，替将军挡下了一场致命的刺杀。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%232%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">注意你的用词，上校。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......还是说，你打算在这时候背叛我？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="中尉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">会场在庄园中心的红顶礼堂。请各位代表配合完成安全检查，随我步行前往。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_177.png" class="avatar" alt="哥伦比亚商人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人</div>
+                <div class="text">够了，蠢货！你在我身上摸了多久？想借着安检的名义顺东西？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%233%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">先生，我只是按照规定——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_177.png" class="avatar" alt="哥伦比亚商人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人</div>
+                <div class="text">我的赤金腕表呢？好啊，是不是你偷了？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%238%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">我没——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">先生，方才在载具上，我见您亲手将腕表摘下，放入了左侧的衣袋里。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_177.png" class="avatar" alt="哥伦比亚商人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人</div>
+                <div class="text">你又是哪——哦？洛伦茨小姐，您怎么没跟着代表们一起从正门进？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%239%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">先生是本土有名的农业大亨，理应知晓：这座庄园可是玻利瓦尔境内数一数二的咖啡种植园和加工厂。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">条约签订后，本土和联合政府也会陆续派遣专员来此洽谈合作事宜。因此，我便先替代表们考察一二。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2313%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">怎么，是有哪里冒犯了您？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_177.png" class="avatar" alt="哥伦比亚商人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人</div>
+                <div class="text">哈，当然没有......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_177.png" class="avatar" alt="哥伦比亚商人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人</div>
+                <div class="text">哎哟您看，表真在兜里！肯定是这路太颠，晃得我都晕了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人</div>
+                <div class="text">咳，不打扰您。那边的佩洛，礼堂是吧？好好带路吧。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="中尉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">那这位助理小姐......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中尉</div>
+                <div class="text">佩德洛，塞拉，你俩带这位哥伦比亚的小姐在园里逛逛。记住，别去什么危险的地方。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%231%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">是！</div>
+            </div>
+        </div>
+        <div class="narration">咖啡田一望无垠。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%232%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">年景好时，这片地最多能供应咖啡厂三分之一的原料。加上其他采购，工厂的总产量基本能满足半个南部的市场需求。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%236%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">真是意外。身为士兵，塞拉小姐竟然对种植园和工厂的事这么熟......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">其他真正玻利瓦尔人的士兵也像您这样熟悉种植园吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">欸......</div>
+            </div>
+        </div>
+        <div class="narration">塞拉没有立刻回答。她有种难以言说的不悦。</div>
+        <div class="narration">眼前的女人是个名副其实的哥伦比亚人。不久之前，或者说，在和平条约正式签订之前，她都还是自己的“敌人”。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">（中尉叮嘱过，在条约正式签订前，不要和对方争论。可是......）</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">我们......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%231%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">几乎每个玻利瓦尔人都会干农活，哥伦比亚的小姐。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%231%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">原来如此。那在条约签订之后，两位会留在这座种植园吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">什么？！留在这里？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2313%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">欸？是会去到别处的种植园？我看塞拉小姐似乎很有咖啡种植的经验，就以为——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">......你在说什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">抱歉，我们不明白你的意思。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2313%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">欸，难道二位还不知道——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%235%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%239%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">请见谅。我只是......只是作为联合政府的秘书员，我也想听听合作方的意见。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%239%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">（警惕地动了动耳朵）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4229_aphris_1%2315%242.png" class="avatar" alt="洛伦茨">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">......仅仅是收集意见。比如二位未来想做什么、去哪些地方......我，我并没有别的意思。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">洛伦茨</div>
+                <div class="text">不然刚才，我也不会替塞拉小姐得罪那位来头不小的农业大亨了，不是吗？</div>
+            </div>
+        </div>
+        <div class="narration">二人面面相觑。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%239%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">......如果还有的选，我绝不会留在种植园。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%238%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">至于未来一定要做什么......嗯，和平条约签订后，我的确不再有必须战斗的理由。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%234%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">非要说的话，可能就是替那些死掉的战友，去看看这个新生的玻利瓦尔到底是什么样的吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%235%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%2310%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">塞拉？</div>
+            </div>
+        </div>
+        <div class="narration">她对未来有过各种各样的设想。</div>
+        <div class="narration">和平......不用打仗后，她会有大把大把的时间。</div>
+        <div class="narration">要不先去北边，游览那座名为多索雷斯的不夜之城？</div>
+        <div class="narration">还是沿着战斗过的内河抵达中部，看看那片“怎么都看不够”的丰饶的原野？</div>
+        <div class="narration">或者说，先稳定下来，在拉乌尼达这样的大都市里，找一份体面的工作？</div>
+        <div class="narration">......可偏偏在这时，她又听到了那个最熟悉的词。</div>
+        <div class="narration">就像一根针，扎进了某个还没长好的地方。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2310%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">■■■！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">抱歉！我刚才——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">我、我也不知道为什么，突然就想起了一些事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%2311%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">塞拉......</div>
+            </div>
+        </div>
+        <div class="narration">惊魂未定的女孩不再抬头。她捏紧了拳头，看向自己的脚尖。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">我......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">哥伦比亚的小姐，就当是我对你刚才的帮助的感谢......或是提醒，请别再提“种植园”这个词。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">你不是玻利瓦尔人，你也不明白这个词对我们而言，究竟意味着什么。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%2311%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">（低头）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%2311%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">没有人想一辈子被困在这片看不到头的咖啡地里。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将军，我从未打算背叛。我忠于玻利瓦尔。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%239%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">忠于玻利瓦尔？哈，别用这么漂亮的话装点自己的门面，上校。你过去干了什么，我们都心知肚明。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">我不计较你肮脏的履历，我以为你在那么多将军身边待过，应该有能力看清——除了我，没人能给玻利瓦尔带来和平。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%235%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">靠出卖士兵换来的和平绝不是玻利瓦尔想要的和平！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">别和我讲什么“出卖不出卖”“想要不想要”的，上校。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">这里的事实就是——“背叛”每时每刻都在发生，绝对的独立压根就不存在。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">看看那个马丁，打上个月走后，他有再给我们写过信吗？得了吧，那家伙正忙着重新组建军队，好从我手里抢走战果。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%237%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">再往西看——内河一战死伤惨重，那几个将军却忙着和辛嘉斯政府在前线称兄道弟，巴不得东边的人再死一千个、一万个！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%238%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">而在条约即将签订之时，又有十几个家伙突然离去——他们是对“妥协”不满，还是对“坐上这位子的人不是他们”不满？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">我不否认......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%237%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">军阀们永远学不会团结，那就让种植园来教会他们团结！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">军阀......汉科，你眼里只有和你一样的军阀头子，早就没了真正在前线拼杀的士兵！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">你还记得小胡安吗？那个黑发的孩子，他爬过种植园的铁丝网，蹚过沼泽，躲过猎犬......他找到你，说——“将军，我愿意为你打仗。”</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%235%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">而后，他在内河的战役中把你推上了河岸，自己却永远留在了河底！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">看看窗外，看看那个年轻的士兵——你要为了你毫无人性的“清洗”计划，把她也送进种植园？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%232%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">这将是最后一轮牺牲，杜宾。我以我的荣誉起誓。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">是哥伦比亚人给了你承诺？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%238%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%237%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">呵，我算是彻底看明白了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%235%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">汉科，你不过是个卖国求荣的混蛋！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%234%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">住口！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%237%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">你懂什么？我朝哥伦比亚举刀时，你还不知道在什么地方！</div>
+            </div>
+        </div>
+        <div class="narration">将军的胸前挂满了奖章，它们重得像要把他压垮一般。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%237%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">你以为你说的这些我没听过？要不是看在你还算有点忠心的分上，你早就被轰出去了！</div>
+            </div>
+        </div>
+        <div class="narration">可他还是执拗地将它们一枚枚别正，仿佛这样，就能让那张衰朽的脸重新焕发光芒。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%238%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">持续的内战让你目光短浅：玻利瓦尔现在最需要的，是拥有我们自己的作物和工厂。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">只需要哥伦比亚人的一点微小的助力，我就能让耕地和工厂无限扩大、让玻利瓦尔重新拥有站起来的可能。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">在哥伦比亚人的操控下重建起的种植园和工厂，当真还属于玻利瓦尔？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">即便不能立刻将所有的产业收归我们自己管辖，但循序渐进，我们总能做到！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">“循序渐进”......？循序渐进地，变成下一个联合政府？！</div>
+            </div>
+        </div>
+        <div class="narration">头顶的吊灯忽明忽暗。老毛病了，东西老了就会这样。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">就当是我的请求，别把你自己逼上绝路。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%232%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将军，我曾真的期待过，你会是那个给玻利瓦尔带来不同的人。可现在的你，究竟把追随你的士兵当成了什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">一群为不存在的东西丢掉性命的傻子？还是你为博取你虚伪的功绩，所投入地里的、再平常不过的肥料？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%238%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">肥料......呵，有的人天生就是肥料。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%235%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......汉科！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%237%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">够了！我已决定在这份协议上签字，这件事无法改变！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%234%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">若你想要改变——杀了我——这是你唯一的办法！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%234%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%231%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">你没这个胆。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">退下吧，杜宾，你说的我都听过......我已经累了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">仪式就要开始，我需要最后再检查一遍我的着装，退下吧。</div>
+            </div>
+        </div>
+        <div class="narration">勋章在镜中闪耀。将军的身后，杜宾能看清那一排排勋章，能看清他厚实的背影，却看不清他此刻的表情。</div>
+        <div class="narration">“下一个联合政府。”</div>
+        <div class="narration">这是他用半个世纪为玻利瓦尔找到的答案。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">汉科，你说过：“为了玻利瓦尔的利益，我们应当什么事都做得出来。”</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%237%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">包括背信弃义。</div>
+            </div>
+        </div>
+        <div class="narration">锋利的匕首穿透了将军的后背。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%234%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......你？</div>
+            </div>
+        </div>
+        <div class="narration">她想象中的他应当暴跳如雷，就像他在牌桌上辱骂马丁时那样。</div>
+        <div class="narration">但此刻，他比她想象中要安静太多。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">呵，我的确教过你......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">那么......是谁？......马丁？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">你是从什么时候开始......与他勾结......决定做出这样的......背叛？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%231%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">不，将——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%2310%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">汉科，我没有和任何人勾结，这是我自己的选择。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">仅仅是我，一个在泥地里翻滚，看着那些被诅咒的、却被哥伦比亚人称为“赐福”的烂泥......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将我的亲人、友人，一个接一个埋入地底的玻利瓦尔人......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">这个玻利瓦尔士兵......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2322_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">这个士兵的战友。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">这个士兵的手足。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="？？？">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">这个士兵的子女。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%231%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">一个人的愤怒。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">哈哈......你会是第一个带着血走出这个房间的人，上校。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">而后......你会沾染上更多的血......你会被自己的血呛死。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">但我始终记得自己的血为何而流。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">......这就是你要对我说的最后一句话？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%237%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">倒数第二句，将军......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%231%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">最后一句是，向你曾为玻利瓦尔人争取的一切，致以感谢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">好，很好......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">真正属于玻利瓦尔人的玻利瓦尔......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">*激烈的玻利瓦尔粗口*！那样的玻利瓦尔压根就不存在！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1256_1%231%241.png" class="avatar" alt="哥伦比亚商人A">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人A</div>
+                <div class="text">拉乌尼达在建的那条观光火车线路就挺适合投资的，之后来旅游的联邦公民只会越来越多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1258_1%231%241.png" class="avatar" alt="哥伦比亚商人B">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人B</div>
+                <div class="text">我看未必。联邦的人显然更喜欢去多索雷斯度假，拉乌尼达的旅游业赚不了几个钱。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1256_1%231%241.png" class="avatar" alt="哥伦比亚商人A">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人A</div>
+                <div class="text">唉，再怎么赚钱，也赚不过之前的军火商啊......你看那个黎博利，放在两年前，他有什么资格和我们出现在同一个场合？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人A</div>
+                <div class="text">依我看，不如趁着西边还没打完，我们也赶紧去分杯羹！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1258_1%231%241.png" class="avatar" alt="哥伦比亚商人B">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人B</div>
+                <div class="text">急什么？你真信这群玻利瓦尔人今天签了字，就再也不会死人？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="激动的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">激动的士兵</div>
+                <div class="text">你说什么？！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1256_1%231%241.png" class="avatar" alt="哥伦比亚商人A">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人A</div>
+                <div class="text">刚才是不是敲过钟了，怎么还不开始？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1258_1%231%241.png" class="avatar" alt="哥伦比亚商人B">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">哥伦比亚商人B</div>
+                <div class="text">要我说，有些家伙也就只能这样了，连最基本的守时都做不到。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_223.png" class="avatar" alt="联合政府代表">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">时间到了，何塞上校。我一直以为汉科将军是个守信的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">还是说，将军会像他在战场上那般神出鬼没？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_081.png" class="avatar" alt="何塞">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">何塞</div>
+                <div class="text">向您致歉，阁下。将军他——</div>
+            </div>
+        </div>
+        <div class="narration">喧哗声如潮水般退去，所有人的目光都汇聚到她身上。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_081.png" class="avatar" alt="何塞">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">何塞</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">疑惑的士兵</div>
+                <div class="text">杜宾长官？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">疑惑的士兵</div>
+                <div class="text">汉科将军呢，里面发生了什么？！</div>
+            </div>
+        </div>
+        <div class="narration">人群再次骚动起来，猜测，困惑......直至恐慌。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">疑惑的士兵</div>
+                <div class="text">血，那是谁的血？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">迷茫的士兵</div>
+                <div class="text">难道说，是......汉科将军？可是为什么——</div>
+            </div>
+        </div>
+        <div class="narration">人们不敢确信，那件事情是否已经发生。</div>
+        <div class="narration">即使那件事在玻利瓦尔每天都会上演。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_223.png" class="avatar" alt="联合政府代表">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">呵，令人遗憾。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">但签字仪式仍需继续。请签字吧，杜宾上校。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">将最后一条——“所有士兵需按规定前往各区种植园，参与劳动和重建工作”从协议中删除。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">否则，我不会签。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_081.png" class="avatar" alt="何塞">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">何塞</div>
+                <div class="text">（杜宾......！）</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">疑惑的士兵</div>
+                <div class="text">什么，回种植园？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">激动的士兵</div>
+                <div class="text">哪个畜生养的加的这条，咱们这么多年的仗白打了？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">迷茫的士兵</div>
+                <div class="text">汉科将军......将军他怎么会同意这条......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">愤怒的士兵</div>
+                <div class="text">*激烈的玻利瓦尔粗口*！不然马丁上校为什么会走？我就说马丁上校走的时候我们就该走！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_223.png" class="avatar" alt="联合政府代表">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">安静！现在是签字仪式，安静！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_223.png" class="avatar" alt="联合政府代表">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">抱歉，上校。这条条款由我方与汉科将军共同商议决定。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">若您不签字，您便不再有资格代表汉科将军的意志——相应地，您也不该再出现在这方谈判桌前了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">不会有任何一个玻利瓦尔人同意这条条款。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_223.png" class="avatar" alt="联合政府代表">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">哦，是吗？我倒比您乐观得多，上校。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/075_mini02.png"
+                 alt="CG - 075_mini02"
+                 class="cg-image"
+                 style="--fade-duration: 3.5s;
+                        --x-scale: 1.3;
+                        --y-scale: 1.3;">
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">各位与会嘉宾，在过去的两个多月里，联邦政府、联合政府与真正玻利瓦尔人共同努力，终于拟定了这份和平协议。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">这份协议来之不易......可就在和平即将到来之时，汉科将军却惨遭不幸，我方对此深表遗憾。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">但是——这份协议是汉科将军的遗志！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">你们谁来签字，谁就有资格成为将军的接班人，获得与将军同等的地位！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">谁——就是今后的玻利瓦尔实际的领导者！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">没有人会相信你的鬼话......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">那么现在，你们谁来签字？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">迷茫的士兵</div>
+                <div class="text">玻利瓦尔的......领导者？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">何塞</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">摇摆的军阀</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">犹疑的雇佣兵</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">不会有人同意......</div>
+            </div>
+        </div>
+        <div class="narration">她能看清台下每个人的表情：愤怒，迷茫，恐惧，叹息......可当他们目光相接时，所有的表情都一碰即碎。</div>
+        <div class="narration">人们开始窃窃私语，三五成群地围成一圈，像是一片等待投食的羽兽。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">联合政府和哥伦比亚都期待着，未来，能在更多领域与真正玻利瓦尔人展开深入合作。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">而你——签字的勇者，你将搭建起哥、玻两国间交流的桥梁，成为开启新时代的那个人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">联合政府代表</div>
+                <div class="text">那么现在，你们谁来签字？</div>
+            </div>
+        </div>
+        <div class="narration">西装革履的代表仍保持着端坐的姿态。他的语调并无太多起伏，可在台下，人群愈发躁动。</div>
+        <div class="narration">各种各样的声音同时涌入杜宾的脑海，直到——</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我！我来！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">啧......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_493_1%231%241.png" class="avatar" alt="摇摆的军阀">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">摇摆的军阀</div>
+                <div class="text">*激烈的莱塔尼亚粗口*！你有什么资格？这字非得老子来签！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_008.png" class="avatar" alt="犹疑的雇佣兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">犹疑的雇佣兵</div>
+                <div class="text">都是从烂地里爬出来的，不来白不来——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1256_1%231%241.png" class="avatar" alt="激动的种植园主">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">激动的种植园主</div>
+                <div class="text">你们懂什么？这时候就该我们这种最懂行的——</div>
+            </div>
+        </div>
+        <div class="narration">人们争先恐后地向签字台涌来。</div>
+        <div class="narration">杜宾感觉自己像是站在河水中央。看着那河水一点一点没过腰身、没过胸腔......直至最后，漫过她的头顶。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%238%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">她并非没有在湍流中跋涉过。但此时，这条河正以无可挽回的态势吞噬她的身躯。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2300_1%232%241.png" class="avatar" alt="汉科">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">汉科</div>
+                <div class="text">退下吧，杜宾，你说的我都听过......我已经累了。</div>
+            </div>
+        </div>
+        <div class="narration">“下一个联合政府。”</div>
+        <div class="narration">这是他用半个世纪为玻利瓦尔找到的答案。</div>
+        <div class="narration">仅仅是出于求生的本能。溺水的循兽挣扎着转过身，逆着蜂拥而来的水潮，快步往岸上跑。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">欸？里面怎么这么吵，签字仪式结束了？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">抱歉......！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%236%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">啊，您是——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%239%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">■■■，你为什么不在训练场？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">啊——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">杜宾上校，协议已经签订了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%235%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">上校？！您身上怎么会有这么多的血，里面发生了什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%231%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">她神情复杂地看着眼前陌生的孩子。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4234_pedro_1%232%242.png" class="avatar" alt="佩德洛">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">佩德洛</div>
+                <div class="text">上校，要下雨了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%231%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">是的，做好准备吧孩子。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2320_1%237%241.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">我们又一次失去了和平。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%241.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">啊......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2323_1%231%241.png" class="avatar" alt="绝望的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">绝望的士兵</div>
+                <div class="text">塞拉......不用管我。跨过内河，继续向北跑......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">绝望的士兵</div>
+                <div class="text">*极端的玻利瓦尔粗口*！何塞那个畜生压根就没打算留我们的活口，亏我们还——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">绝望的士兵</div>
+                <div class="text">......塞拉？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2321_1%239%242.png" class="avatar" alt="塞拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">箭矢如雨点般落下，她怔怔地看着身前呼啸而来的黑色河流。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塞拉</div>
+                <div class="text">我们——</div>
+            </div>
+        </div>
+        <div class="narration">我们不用再打仗了。</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act21mini_st03.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act21mini_st05.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>
