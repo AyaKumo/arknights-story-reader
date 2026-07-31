@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖纸星星 &#183; TO-ST-2 &#183; 幕间</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>糖纸星星 &#183; TO-ST-2 &#183; 幕间</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act53side_06_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_07_beg.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class="narration"><br>起初，那只是一种模糊的感觉，在我的信使工作出错的时候，我的法术失灵的时候，我有想说的话说不出口的时候......</div>
+        <div class="narration"><br>但很快，这种模糊的感觉就随着一件事，一件我恐怕永远无法忘记的事，变成了刺人的现实。</div>
+        <div class="narration"><br>罗德岛遭遇袭击，承载着我和许多人回忆的舰船被毁；一位极受爱戴的医生离去，那位医生对罗德岛的博士来说，是非常重要的人。</div>
+        <div class="narration"><br>就算现在凯尔希医生已经回到我们身边，我仍然无数次想回到被要求离开罗德岛的那一天......</div>
+        <div class="narration"><br>选择留下，选择站在重要的人身边，选择去做让我自己不会留下遗憾的事。</div>
+        <div class="narration"><br>我开始加倍刻苦地锻炼法术，却无论如何也做不到游刃有余，我加倍努力地完成信使的工作，却小错不断。</div>
+        <div class="narration"><br>我有很多很多想说的话，却不知道该如何开口......这个问题一直困扰着我。</div>
+        <div class="narration"><br>我多想说服自己，我只是罗德岛一个普通患者兼见习术师，我只是一个不成熟的信使，我那些想说的话只是每个人脑子里都有的怪念头。</div>
+        <div class="narration"><br>可我明明又不想这样。我讨厌这样。我觉得我本来可以做到更多，我可以飞到更高的地方......</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">华、华法琳医生！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%231%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">坐。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">好的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%239%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">别这么拘谨。你的体检是我做的，我就来和你聊聊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%235%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">是......结果不乐观吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%239%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">恰恰相反，你的情况不算太糟，只要从现在开始干预，生存期和生存质量都是有保证的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%236%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">生存期......生存质量？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%2310%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">啧，果然患者听了这种术语反应都不好......</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>她是说，你可以回归正常生活。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%238%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">这位是......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%231%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">博士？你不是正在和凯尔希她们开会吗？</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>现在你也得来开会了。</div>
+            <div class="decision-option"><span class="decision-value">[2]</span>我们现在需要你的意见。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%237%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">唉，行吧。我看看医疗部现在还有谁闲着，谁闲谁来给患者做宣教——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">啧，都忙......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">我没关系的！知道能回归正常生活就比什么都强了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%231%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">这倒没错。高兴一点，精神状态是很重要的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">你感染程度没有特别深，症状却比较明显，这其实也不是坏事，说明你的免疫系统至少还在正常工作。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">控制症状比控制感染加深简单，和逆转感染程度相比，控制感染加深又简单太多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">等我们研发出能逆转体细胞与源石融合程度的药物，那个时候，才算是真正在矿石病面前有了像样的武器。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">为了那一天早点到来，我......可以帮忙吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%239%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">虽说行不行一般取决于人事部，但既然博士就在这儿，博士，你觉得呢？</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>当然可以。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>罗德岛欢迎每个志同道合的人。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>患者怎么样了？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%237%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>上次见面，她的状况还很稳定。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%2310%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">因为急着开会，虽然宣教按流程做完了，但有关矿石病人施术的问题强调得还不够......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">患者对感染者施术可能造成的后果没有概念，自告奋勇帮人搬东西，结果......激发的不是施术单元，而是自己体内的源石。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">这样的事情以前在她身上发生过许多次，只是一直没有爆发，直到刚才......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%238%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">......是我的问题。</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>......不，是我催的你，我们都有责任。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%231%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">现在不是抢着承担责任的时候。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%2310%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">凯尔希医生......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%231%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">为了避免这样的问题再次发生，医疗部以后会严格考评患者宣教的完成程度。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%2310%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">......嗯。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%231%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">此外，我需要你评估一下患者预后。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%2310%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">短期预后不良。患者体内的源石活性很高，尽管同化程度较轻，但稍有不慎......</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>你是说只要挺过这关，她就能好起来？</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%231%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">是这样的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%231%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">你在暗示我们正在会上研讨的新型抑制剂。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">我知道你在这种药物的开发上投入了大量精力，对它有很高的期待，但它的临床效果还需进一步确认。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">哪怕有效，它也只是一种新型抑制剂，而非根治矿石病的灵丹妙药。</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>没错。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>可这位患者需要它。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%231%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">......我赞同你的判断，但我们的时间很难谈得上充足。</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我会挤出时间。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_171_bldsk_1%231%241.png" class="avatar" alt="华法琳">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">华法琳</div>
+                <div class="text">既然博士都这么说了，我也去通知实验室准备加班。</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>多谢。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>我一定会让她好起来的——</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%235%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">博士，稍微出来一下。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%235%241.png" class="avatar" alt="凯尔希">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">患者躺在床上为矿石病所苦的情形的确令人同情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">凯尔希</div>
+                <div class="text">但我们绝不应该用模糊的话语给患者制造虚无缥缈的希望。</div>
+            </div>
+        </div>
+        <div class="player-decision">
+            <div class="player-decision-title">PLAYER CHOICE // 玩家选项</div>
+            <div class="decision-option"><span class="decision-value">[1]</span>......抱歉。</div>
+        </div>
+        <div class="branch-predicate">
+            <span class="branch-label">【以下剧情 &#183; 对应上述任一选项后的接续】</span>
+        </div>
+        <div class="narration">我起先并不相信自己真的能好起来。</div>
+        <div class="narration">上学时，我亲眼见过一个同学因病日渐虚弱。他是感染者的事实泄露时，家长们愤怒地冲到学校讨要说法。</div>
+        <div class="narration">而我那时看着校园里的混乱，半是烦躁半是悲哀地想着，啊，果然是矿石病，怪不得他一天比一天衰弱，只能走向注定的结局......</div>
+        <div class="narration">......但我竟然真的好起来了。</div>
+        <div class="narration">几天后，我从危重病房转移到了住院中心的普通病房。</div>
+        <div class="narration">腿部的结晶从入院前的一点点长到一眼可见，据说从此再也不可能消退了，可我其实并不那么在意。</div>
+        <div class="narration">因为我住院时见过了结晶长在咽部的人如何失声。</div>
+        <div class="narration">我见过了结晶深入骨骼的人如何惶惶不可终日，哪怕疼痛尚未开始，也会不停按铃，在恐惧的驱动下哀求医护给他留一针止痛剂。</div>
+        <div class="narration">新药一视同仁地对所有人起效，而我是其中最幸运的那个。</div>
+        <div class="narration">从病房搬到宿舍那天，尽管我还发着低烧，也没什么力气，照顾过我的医护们还是给我办了一场小小的庆祝会。</div>
+        <div class="narration">华法琳医生来了，Medic干员来了，照顾过我的实习医生芙蓉来了，连凯尔希医生也短暂地露了一面，尽管很快就又离开了。</div>
+        <div class="narration">她们说，多亏了博士，新药才得以顺利面世。</div>
+        <div class="cg-container">
+            <img src="../CG/76_i05_1.png"
+                 alt="CG - 76_i05_1"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1.15;
+                        --y-scale: 1.15;">
+        </div>
+        <div class="narration">而我也就一直期待着博士出现，好让我当面说声感谢，但直到大家散去也未能如愿。</div>
+        <div class="cg-container">
+            <img src="../CG/76_i05_4.png"
+                 alt="CG - 76_i05_4"
+                 class="cg-image"
+                 style="--fade-duration: 1s;
+                        --x-scale: 1.15;
+                        --y-scale: 1.15;">
+        </div>
+        <div class="narration">半梦半醒之间，我忽然想起那天在重症病房里的场景。</div>
+        <div class="narration">唔，原来是这样。</div>
+        <div class="narration">博士的确是不该来的。</div>
+        <div class="narration">博士给了我不切实际的希望，而这点不切实际的希望居然成了现实，这样的幸运，一个人一生恐怕也就只有一次了吧。</div>
+        <div class="narration">所以，博士不来是对的。</div>
+        <div class="narration">正当我这样说服了自己，打算就这么跟头痛和解，赶紧入睡的时候，我突然听见了敲门声。</div>
+        <div class="cg-container">
+            <img src="../CG/76_i05_1.png"
+                 alt="CG - 76_i05_1"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1.2;
+                        --y-scale: 1.2;">
+        </div>
+        <div class="cg-container">
+            <img src="../CG/76_i05_2.png"
+                 alt="CG - 76_i05_2"
+                 class="cg-image"
+                 style="--fade-duration: 1s;
+                        --x-scale: 1.2;
+                        --y-scale: 1.2;">
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Medic</div>
+                <div class="text">安洁莉娜小姐，差点忘了，送给你的糖果。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/76_i05_2.png"
+                 alt="CG - 76_i05_2"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">谢谢你......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Medic</div>
+                <div class="text">这不是我送的，是博士送的啦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Medic</div>
+                <div class="text">采购部新进了一批新口味糖果，糖纸又很好看，博士就给医疗部的每个患者都送了些。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">Medic</div>
+                <div class="text">还好我刚想起来你已经搬到了这边，不然就漏人啦，嘿嘿。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/76_i05_3.png"
+                 alt="CG - 76_i05_3"
+                 class="cg-image"
+                 style="--fade-duration: 1s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......嗯。</div>
+            </div>
+        </div>
+        <div class="narration">Medic离开之后，我剥开糖纸。</div>
+        <div class="narration">糖果的味道现在我已经记不清了。</div>
+        <div class="narration">我只记得，不知为何，在那一天之后，我养成了折纸星星的习惯。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_187_ccheal_1%231.png" class="avatar" alt="嘉维尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉维尔</div>
+                <div class="text">......这不是完全不碍事了嘛！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉维尔</div>
+                <div class="text">你的症状已经完全缓解，感染也进入了稳定期。按我们感染者的标准来说，你已经算是好啦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉维尔</div>
+                <div class="text">除了按时用药，以及不要擅自施术之外，医疗部对你没有更多限制了。作为庆祝，要不要来扳个手腕？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_130_doberm_ex%232.png" class="avatar" alt="杜宾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">通过。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">恭喜你，安洁莉娜干员，你的施术已经完全不会牵动体内的活性源石，换句话说，今后你可以自由施术了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">至于测试中磕磕绊绊的部分，重力操纵的确是相当罕见且有潜力的源石技艺，感到困难是正常的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">杜宾</div>
+                <div class="text">关于你今后的训练，我推荐咨询以下几位术师干员......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_201_moeshd%238.png" class="avatar" alt="可颂">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可颂</div>
+                <div class="text">这么厉害？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_201_moeshd%233.png" class="avatar" alt="可颂">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可颂</div>
+                <div class="text">不行，不行不行不行。能天使，再给我加五公斤的重量！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_103_angel_1%231%241.png" class="avatar" alt="能天使">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">能天使</div>
+                <div class="text">你可是在用蛮力跟人家的源石技艺对着干哦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_201_moeshd%233.png" class="avatar" alt="可颂">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可颂</div>
+                <div class="text">我才不信——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_201_moeshd%234.png" class="avatar" alt="可颂">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可颂</div>
+                <div class="text">哎呀！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_201_moeshd%232.png" class="avatar" alt="可颂">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可颂</div>
+                <div class="text">嘿嘿，没关系没关系。等哪天有新人来就可以怂恿他跟安洁莉娜比赛举重了，到时候只要全押安洁莉娜......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_373_lionhd%235.png" class="avatar" alt="莱恩哈特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">呼，安全着陆。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_373_lionhd%231.png" class="avatar" alt="莱恩哈特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">多亏你的法术，我们少跑了不少弯路，这样就有足够时间抵达安全区域了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_373_lionhd%236.png" class="avatar" alt="莱恩哈特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">欸？只能勉强让我不摔伤，做得还不够？要是能让整辆汽车飞起来就好了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_373_lionhd%233.png" class="avatar" alt="莱恩哈特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">哈哈，没人从一生下来就能当源石技艺大师的。放宽心放宽心。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_373_lionhd%231.png" class="avatar" alt="莱恩哈特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">看你对业务的熟悉程度，似乎不是第一次跟天灾信使出任务？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">唔，普罗旺斯啊......难怪你这么熟练，那个人很有责任心的。单论责任心，说不定比艾尔斯还强一些......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/char_373_lionhd%235.png" class="avatar" alt="莱恩哈特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">莱恩哈特</div>
+                <div class="text">我是不是还没跟你讲为什么这次艾尔斯留在本舰了？来来来，我跟你讲，事情还要从他宿舍的电源插座说起......</div>
+            </div>
+        </div>
+        <div class="narration">设身处地为患者着想的医生，最先考虑学员需求的教官，无论感染与否都能一同欢笑的朋友，脾气各异却又各有所长的同事......</div>
+        <div class="narration">我是信使安洁莉娜，罗德岛的信使，安心院安洁莉娜。</div>
+        <div class="narration">只要想起这件事，哪怕在楼群间冰冷的风中穿行整夜，胸膛处也总会保留一丝暖意。</div>
+        <div class="narration">罗德岛真的是个温暖得过分的地方，我想。</div>
+        <div class="narration">罗德岛甚至愿意为了一个尚且不够格预警天灾的信使，一个严格意义上还处在实习状态的干员，去和难缠的家族接洽......</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_973_1%231%241.png" class="avatar" alt="罗德岛外勤干员">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">罗德岛外勤干员</div>
+                <div class="text">怎么，好长时间不回家，紧张了？</div>
+            </div>
+        </div>
+        <div class="narration">当然了。</div>
+        <div class="narration">我紧紧地攥着那个已经填满的本子——丽萨送给我的——好半天说不出话。</div>
+        <div class="narration">天真的我既想亲手把那封解释我离家来龙去脉的信送到家门口的邮箱，却又始终无法下定与父母见面的决心。</div>
+        <div class="narration">是博士提醒我，两件事不必一同完成。先告诉家人自己一切安好，比什么都更加重要。</div>
+        <div class="narration">我听从了博士的建议，而父母的回信比我想象中来得更快......</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">不，我只是在后悔，之前不该一直拖着这件事情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">对了，家族的人难缠吗？罗德岛和他们打交道，有没有吃什么亏？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_973_1%231%241.png" class="avatar" alt="罗德岛外勤干员">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">罗德岛外勤干员</div>
+                <div class="text">嗐，与其在乎这些，不如好好想想一会儿和父母说些什么，这几天要怎么度过。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">罗德岛外勤干员</div>
+                <div class="text">你看，那边有个水果摊。我们大炎人回家看父母都要提点水果的，你看要不要也买些什么？</div>
+            </div>
+        </div>
+        <div class="narration">我在水果摊前想了许久。</div>
+        <div class="narration">葡萄？苹果？石榴？无花果？橄榄？</div>
+        <div class="narration">寓意美好的水果在我面前如宝石般展开，我却迟迟无法决定。</div>
+        <div class="cg-container">
+            <img src="../CG/76_i07_1.png"
+                 alt="CG - 76_i07_1"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1.05;
+                        --y-scale: 1.05;">
+        </div>
+        <div class="narration">究竟是何种甜美而酸涩、柔软又粗粝的水果，才能同时代表离去的仓促、寻觅的凄惶、善意的闪光，和即将相见的雀跃？</div>
+        <div class="narration">......我最终拾起一枚饱满的酸橙。</div>
+        <div class="narration">我不知道酸橙的寓意，我只是意识到自己唇间依稀的酸橙气味，又想起，那管唇膏是我从家里带出来的最后一支。</div>
+        <div class="narration">它是我。爸爸妈妈会知道，它就是我。我回来了。</div>
+        <div class="narration">是的，我回来了。</div>
+        <div class="narration">我躲在门后，不敢看爸爸妈妈的表情，直到我听见妈妈喉咙中滚动着的低泣。</div>
+        <div class="narration">我刚刚感染时，这样的声音常常在妈妈以为我睡下之后在家里回荡，而今那声音别无二致，其中传递的感情却只剩......</div>
+        <div class="cg-container">
+            <img src="../CG/76_i07_3.png"
+                 alt="CG - 76_i07_3"
+                 class="cg-image"
+                 style="--fade-duration: 0.3s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="cg-container">
+            <img src="../CG/76_i07_3.png"
+                 alt="CG - 76_i07_3"
+                 class="cg-image"
+                 style="--fade-duration: 0.5s;
+                        --x-scale: 1.03;
+                        --y-scale: 1.03;">
+        </div>
+        <div class="narration">重逢的喜悦。</div>
+        <div class="narration">我哭着，笑着，语无伦次地倾吐着歉意与思念。</div>
+        <div class="narration">我其实听不清他们在说什么，但我知道，我们是一样的。</div>
+        <div class="narration">久别后的重逢比这世上一切的宝物都更珍贵，它正在我们胸中搏动......</div>
+        <div class="narration">......而这一切甚至完美到不是一场梦。</div>
+        <div class="narration">而这一切......</div>
+        <div class="narration">虽然不是一场梦，却不知为何，迎来了梦醒的时刻。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">所以......其实不能选择不出外勤？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">你的心情我不是不理解啦，但这的确是为了各位干员的安全着想。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%234%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">你是罗德岛最信任的信使之一，只是......罗德岛确实需要处理一个很棘手的问题。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">而且，一旦真出了什么事，你也可以立刻将消息传递到罗德岛希望的地方。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%235%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">出了事之后......吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%2315%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">也不是一定会出事的啦！而且......这真的是为你的安全负责，真的没有别的意思。你别往心里去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......嗯。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">那......我可以问一下，有哪些干员可以留在罗德岛上吗？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_501_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">让我想想，最重要的当然是维持罗德岛基本功能的干员。</div>
+            </div>
+        </div>
+        <div class="narration">我尊敬的人。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">精英干员。</div>
+            </div>
+        </div>
+        <div class="narration">我憧憬的人。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_003_kalts_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">再就是凯尔希、华法琳、我......</div>
+            </div>
+        </div>
+        <div class="narration">我深知自己无力与之比肩的人。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">......大概也就这么多人吧？这次的情况确实特殊，本舰忽然这么冷清，我也挺不习惯的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">那博士......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%234%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">唔，对，还有那家伙，当然也得在这里了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%235%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......也对。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4228_closur_1%231%241.png" class="avatar" alt="可露希尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">可露希尔</div>
+                <div class="text">往好处想，这也算是一个改换心情的机会。再回家一趟，去叙拉古那边的办事处怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_291_aglina_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">不，罗德岛能让我和家人度过那段时间，我已经很开心了。这次......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......就把我安排在离本舰最近的地方吧。</div>
+            </div>
+        </div>
+        <div class="narration">但罗德岛本舰被毁的消息传来时，我已经无能为力。</div>
+        <div class="narration">我能做的不过是......弥补。</div>
+        <div class="narration">为了成为那些可以留下来的人，我加倍努力，期望能控制我独特的，被所有人寄予厚望，却总也无法稳定下来的源石技艺。</div>
+        <div class="narration">为了不让灾难重演，我主动承担更多的工作，期望我递送的每一封信都能成为罗德岛潜在的助力。</div>
+        <div class="narration">我做到了吗？</div>
+        <div class="narration">也许吧。</div>
+        <div class="narration">也许安洁莉娜已经成为了最可靠的信使，经她之手的信件和包裹从无错漏。</div>
+        <div class="narration">也许安洁莉娜的源石技艺已经炉火纯青，只要轻轻一挥法杖就可自如地操作重力，让一切围绕她旋转。</div>
+        <div class="narration">就像现在，也许只要安洁莉娜全力以赴，她可以颠倒这座城镇的上与下、轻与重。</div>
+        <div class="narration">也许她可以将水泥浇筑成血肉，将钢筋攒集成筋骨，将搏动的源石塞入胸膛，让风化的城镇恢复生机，让它站立在雷姆必拓的荒原中间。</div>
+        <div class="narration">也许她可以让城镇将那些绝望的人托在掌心，哪怕他们决心赴死，也将他们带离那片即将被天灾蹂躏的禁区。</div>
+        <div class="narration">也许在那之后，他们也会意识到自己的偏执，他们会像她一样，在绝望时看见朝自己伸出的手......</div>
+        <div class="narration">但那不是现在。</div>
+        <div class="narration">现在的安洁莉娜所能做的，只有站在红砂镇外等待，等待，一直等待到连她自己都绝望的时刻。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">安洁......该走了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">刚刚我陪着嘉辛塔去红砂镇入口处，守门的感染者说了很多很难听的话，最后差点动武。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">那个人最后说......里面的感染者都已经准备好了武器，假如我们敢强闯进去，就让我们用生命“赎罪”......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">乌露露刚刚带着回心转意的感染者们离开这里，她也一直在催我们赶紧动身。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">安洁......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%239%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">我咬紧嘴唇看了那座城镇最后一眼，城镇回我以沉默。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2349_1%231%245.png" class="avatar" alt="有袋鼷兽">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">有袋鼷兽</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2322%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">有袋......鼷兽？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">有袋鼷兽？这附近已经很危险了，它在哪里？</div>
+            </div>
+        </div>
+        <div class="narration">它飞得太快，我的视线追不上它的身影，但它应该是往南飞去了。</div>
+        <div class="narration">多谢它。多谢它出现在这里，偷走我接下来的话语，让我不至于在车上失声痛哭，让朋友们担心。</div>
+        <div class="narration">塔妮担忧地牵起我的手，我沉默着走上自己的车。</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act53side_06_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_07_beg.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

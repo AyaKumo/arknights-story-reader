@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勇敢的短耳朵 &#183; TO-5 &#183; 行动前</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>勇敢的短耳朵 &#183; TO-5 &#183; 行动前</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act53side_04_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_05_end.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2353_1%231%241.png" class="avatar" alt="严肃的负责人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">K3号管线井疑似塌方，井下连接中断，两人被困......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">那口管线井正好在采矿沉陷区，几年前还做过补强，按说不应该出事故。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">但现在全雷姆必拓的源石矿都在增产，怕不是哪个混蛋被钱迷了眼，把附近的支撑用矿柱给凿了，才会出这种事......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">算了，追责是之后的事。现在救人要紧。管线井先出问题也总比采空区出问题要好点。</div>
+            </div>
+        </div>
+        <div class="narration">负责人重重叹了口气，目光从三人脸上挨个扫过去。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2353_1%231%241.png" class="avatar" alt="严肃的负责人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">我知道卡特斯天生就不把下井和钻洞当回事，这次事故的起因也跟塔妮小姐没关系，但她现在毕竟是被困了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">作为她的朋友，你们几位的来头一个比一个大，你们倒是说说，现在想怎么办？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2317%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">太阳谷不追究我们的责任就已经是万幸了，我想罗德岛、坎贝尔家和纵贯红土公司更不会反过来追究别的事情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">至于怎么办......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">经阿梅利亚的改造，我们四人的终端都能接入远程通讯系统，而我听矿工说过，通讯塔特地为矿井做过信号增强——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">请允许阿梅利亚小姐现在就去维修通讯塔，这样就可以联系上被困的人了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2353_1%231%241.png" class="avatar" alt="严肃的负责人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">......行吧。我叫几个人来给你们带路。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2354_1%231%241.png" class="avatar" alt="健硕的矿工">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">健硕的矿工</div>
+                <div class="text">巴顿先生，情况我们都听说了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2353_1%231%241.png" class="avatar" alt="严肃的负责人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">好，那我不用解释了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2354_1%231%241.png" class="avatar" alt="健硕的矿工">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">健硕的矿工</div>
+                <div class="text">哪位是来维修的工程总监？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2311%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">是我——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2315%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">——呜啊，我我我自己会跑，别把我扛在肩膀上跑，我我我我恐高啊！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2363_1%234%241.png" class="avatar" alt="太阳谷联络员">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷联络员</div>
+                <div class="text">（高声）——还要帮什么忙都可以来找我啊，几位小姐！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">呼——呼——别紧张，别紧张塔妮！只是前面的路塌方了，你没有事，你没有受伤！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我我我现在应该做什么？对，先联系安洁莉娜，她在上面会通知其他人，帮忙想办法的！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2311%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">怎么办怎么办，怎么会在这个时候坏掉？啊啊，还有那个维修工，她肯定被困在下面了！</div>
+            </div>
+        </div>
+        <div class="narration">塔妮一急，又忍不住开始跺起脚来。</div>
+        <div class="narration">安静的地下通道中原本只有她自己一个人的声音，此刻呼应着她的跺脚声，一阵凌乱的声音从地下隐隐地传来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%237%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">——等一下，我好像听到了什么声音......？</div>
+            </div>
+        </div>
+        <div class="narration">咚咚、咚、咚咚咚！</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%234%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好像是跺脚的声音......很混乱，很慌张......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%237%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">是那个维修员发出来的吗......？</div>
+            </div>
+        </div>
+        <div class="narration">塔妮站在漆黑一片的通道里有些紧张。</div>
+        <div class="narration">她忍不住开始想，如果是奶奶在这里，奶奶会怎么做？</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">奶奶一定会用她超级厉害的源石技艺一下子就打开一条道路，把人救出来！可我不像奶奶这么厉害，我什么都不会......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我浑身上下只有耳朵像奶奶......欸，耳朵？</div>
+            </div>
+        </div>
+        <div class="narration">咚咚、咚、咚咚咚！</div>
+        <div class="narration">隐隐传来的跺脚声像是催促，又像是鼓励。</div>
+        <div class="narration">塔妮猛地竖起耳朵，认真分辨着声音传来的方位。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%234%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">......“那个小卡特斯和你一样，喜欢跺脚，可她没有学会求救的信号要怎么跺，只好急急忙忙乱跺一通”......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">“奶奶把耳朵贴在地上，听到了这个声音，就知道有一个像你一样的小卡特斯困在下面啦。”——那个人一个人在下面一定很害怕！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">虽然我、我也很害怕......但我从家里跑出来，不就是一直想做到点什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我的背包可以保护我，我的听力很好，现在没有通讯，但说不定我能找到她在哪里！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">塔妮，相信自己，你有能力做到点什么的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你、你可以先去找到那个维修员，让她不要那么害怕！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2354_1%231%241.png" class="avatar" alt="健硕的矿工">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">健硕的矿工</div>
+                <div class="text">要工具箱是吗？给！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2354_1%231%241.png" class="avatar" alt="强壮的矿工">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">强壮的矿工</div>
+                <div class="text">够不到上面的螺丝？我来！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%231%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">主柱无裂缝和弯曲，天线安装牢固，避雷接地的电阻值在规定范围内......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2311%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">快一点，我得再快一点——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">这次绝对不能出错......！</div>
+            </div>
+        </div>
+        <div class="narration">阿梅利亚手脚麻利地操作着，时间一分一秒地过去。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%234%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">好，新的通讯核心更换好了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%238%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">太好了阿梅！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2353_1%231%241.png" class="avatar" alt="严肃的负责人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严肃的负责人</div>
+                <div class="text">好，我已经把消息告诉了负责救援的矿工，他们已经在试图进入管线井了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%231%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">只是通讯效果还没有经过测试，可能不太稳定......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">塔妮，塔妮，拜托了，快接通讯......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">奇怪，这里怎么有这么多岔路......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%234%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">声音是从这里传来的，没错，顺着这条路下去应该就是维修员小姐所在的地方！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%237%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">欸？这里怎么有个坑......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜的声音</div>
+                <div class="text">——滋滋啦啦......塔妮！......你......哪里？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%237%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">安洁莉娜？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜的声音</div>
+                <div class="text">是我！塔妮，你怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乱糟糟的声音</div>
+                <div class="text">......打通了？快让她回来，下面岔路很多......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%232%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">——回去？不行，我——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乱糟糟的声音</div>
+                <div class="text">等等，扫描上看......她走的路是对的！......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嘿嘿，对吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乱糟糟的声音</div>
+                <div class="text">只需要再往下......你让她再往下走，遇到岔路左转，就能找到那个维修员了......！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">往下，左转......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜的声音</div>
+                <div class="text">塔妮你听到了吗？我就在上面等你......还有嘉辛塔——还有阿梅！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜的声音</div>
+                <div class="text">管线井的应急出口也都清理好了确保绝对安全，医疗人员和救援人员也都已经到了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜的声音</div>
+                <div class="text">加油加油！我们相信你一定能做到的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嗯！</div>
+            </div>
+        </div>
+        <div class="narration">咚咚咚，咚，咚咚！</div>
+        <div class="narration">像是听到了上方传来的声音，下面的跺脚声突然加快了速度。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">找到了，就是这里了！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">唔，好小的缝隙——还好还好，我挤得进去！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">唉，好像上面又没有声音了，果然，刚才应该就只是坍塌的声音......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">通讯断了，胳膊的状况好像也有点严重，我还是老老实实等待救援吧，说不定还能被发现......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">唉，这次还会有人像小时候那样把我救出去吗......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">那个又温柔又帅气的奶奶......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%231%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">啊，找到你了，没有学会跺求救信号的孩子。</div>
+            </div>
+        </div>
+        <div class="narration">伊娜拉伸出手摸了摸眼前这个浑身是泥的小卡特斯，手掌上粗糙的茧蹭得她忍不住又哭了起来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%2314%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">这么小的年纪就能挖出来这么长的一个洞，你很厉害呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">好了，趴到我的背上吧，我带你出去。</div>
+            </div>
+        </div>
+        <div class="narration">小卡特斯在伊娜拉的背上扭来扭去，一把抓住了伊娜拉的耳朵，像是终于安心下来了一样，不再抽抽噎噎。</div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%238%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">哈哈，也好，那你就抓紧点，别掉下去！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">那双短短的又毛茸茸的耳朵......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">我、我好像又看到了那双耳朵......真的是一模一样啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“记忆中的短耳朵”</div>
+                <div class="text">啊，找到你了，没有学会跺求救信号的维修员小姐！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">我是已经疼晕过去了在做梦吗......怎么连、连说的话都一样......！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="“记忆中的短耳朵”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“记忆中的短耳朵”</div>
+                <div class="text">嘿嘿，来，我找到出去的路了，跟着我走吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">——欸？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%237%243.png" class="avatar" alt="“记忆中的短耳朵”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“记忆中的短耳朵”</div>
+                <div class="text">等等，你不是维修员吗？这个大电钻是什么......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">是......是我的幸运物品啦......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%243.png" class="avatar" alt="“记忆中的短耳朵”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“记忆中的短耳朵”</div>
+                <div class="text">让我看看......你的手臂被压住了，但是......还好，有可以撬动的空间......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="“记忆中的短耳朵”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“记忆中的短耳朵”</div>
+                <div class="text">我会试着把土石撬起来！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">呼......呼......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">嘶......我们走、走到哪里了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">就快了！维修员小姐，我们只需要沿着这条路往上走，一定能出去的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">好......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">呼......呼......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">我好困......是井下缺氧了吗？我们会不会......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2311%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">不、不会的！我比你矮，我都没有问题，不会是缺氧的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">我们能......不走了吗？我太累了，而且好害怕，这里好黑......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">不能半途而废呀！你要是觉得累，就搭在我肩膀上吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">我不想拖累你......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">这不是拖累，而且......而且我们会成功的！这只是一次轻微的塌方——</div>
+            </div>
+        </div>
+        <div class="narration">塔妮忽然想起自己年幼时的事情。</div>
+        <div class="narration">那时的自己也和身边的人一样，又累、又痛、又害怕。</div>
+        <div class="narration">那时的奶奶是怎么做的呢？</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">奶奶......她给我讲了个故事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">......故事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">对，故事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我来给你讲故事吧。只要有故事、有同伴，再远的路程，也只要几个故事的时间就能走完了！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">呜呜——奶奶，我的耳朵好痛！</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%231%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">因为你的耳朵上又缠住带刺草果了。来，我帮你解开。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">不要不要不要，很痛！</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%231%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">不解开的话可是会缠成一团，到时候整个耳朵都不能要啦。要是愿意让我给你解开的话，我就给你讲故事，怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">嗯......好吧......</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%233%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">这次要讲，一座山谷里有一颗巨大耀眼的太阳的故事。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%238%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">因为那颗太阳又大又漂亮，所有人都想拥有它。但太阳只有一个，所以大家每天都在吵架、打架，就为了能够拥有这颗太阳。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">啊，那怎么办？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">奶奶是不是用自己的怀表把山谷里的太阳打成了碎块，变成了散落一地的星星？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%2314%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">哈哈......如果奶奶真有那么厉害的话......</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%231%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">......不过，不管过程如何，现在人们的确不再为争抢它而打架了，因为他们现在确实都拥有了美丽的星星。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">有太阳的山谷......洒满星星的山谷......</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">奶奶，真的有那个叫做太阳谷的地方吗？那里真的有这样的美景吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%231%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">当然是真的。等到我的小珊比长大了，也可以自己亲眼去看看呀。</div>
+            </div>
+        </div>
+        <div class="narration">地下的声音在塔妮的耳中听起来很是嘈杂。脚下有不断滑落的砂石，远处有轰隆作响的机械，前方似乎还有着人们嗡嗡的谈话声。</div>
+        <div class="narration">她使劲甩了甩耳朵，想把这一切包括刚刚冒出来的那个疑问都从自己的头脑中甩出去。</div>
+        <div class="narration">在意脚下的声音、犹豫前进的方向、总是想故事是真还是假......</div>
+        <div class="narration">不不不，那些都已经不重要了！</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2358_1%231%241.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">奶奶说的对，“自己亲眼去看”......我会自己去看的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我现在要做的事就只有一件，就是把维修员小姐救出去！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%236%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">不用着急，等你长大了，走在自己的路上，塔妮......</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">你也会在路上找到自己的“怀表”的。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">我自己的怀表？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">可我想要奶奶的怀表欸。有了奶奶的怀表，就能像奶奶一样厉害，把太阳变成星星了！</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%231%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小塔妮</div>
+                <div class="text">到底落在了哪里呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2346_1%237%241.png" class="avatar" alt="伊娜拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">伊娜拉</div>
+                <div class="text">嗯......落在了哪里呢？可能是大铁屯，可能是太阳谷，可能是南境......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2358_1%231%241.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嗯......落在了哪里呢？可能是大铁屯，可能是太阳谷，可能是南境......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">嗯......嗯！会找到的，一定会找到的......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">救援人员的声音</div>
+                <div class="text">......这里！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2358_1%231%241.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">是其他人的声音？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">救援人员的声音</div>
+                <div class="text">......外面！马上就到了！加油！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2358_1%231%241.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">太好了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">这里、这里是哪里......好亮......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">伊娜拉......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">别、别让我和短耳朵伊娜拉分开......呜呜，我们什么时候能出去......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2316%243.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">呃，哈哈......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">啊，我、我看到外面了！再走一步，维修员小姐，再走一步！</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/76_i04.png"
+                 alt="CG - 76_i04"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1.25;
+                        --y-scale: 1.25;">
+        </div>
+        <div class="narration">一阵裹挟着沙尘的强风刮过，本就在井下弄了一身灰的塔妮一下子更加灰头土脸。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">哈——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">天啊，看，维修员小姐！</div>
+            </div>
+        </div>
+        <div class="narration">新鲜的空气涌入鼻腔，塔妮忍不住张开嘴猛吸了一口充满太阳气息的空气。</div>
+        <div class="narration">身边的人原本因为恐惧而不住颤抖的身体在感受到阳光后慢慢松懈下来。</div>
+        <div class="narration">刺目的阳光下，她刚刚认识了没有几天的朋友们关心而又焦急地围在洞口，不知道是该冲上来，还是先让救援人员处理。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">呼......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">维修员小姐，故事讲完了......我们出来了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我们出来了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">太阳谷维修员</div>
+                <div class="text">......出来了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">出来了！</div>
+            </div>
+        </div>
+        <div class="narration">塔妮大口呼吸着巷道外新鲜的空气，脑子里忽然又想起那个怀表的事情。</div>
+        <div class="narration">如果能像奶奶那样，用怀表打开一条道路，是不是就不必这样狼狈了？</div>
+        <div class="narration">也许是的吧。大概是这样没错。</div>
+        <div class="narration">但此时此刻的自己，哪怕没有怀表，也把人救了出来，和奶奶做了一样的事情。</div>
+        <div class="narration">自己是不是已经有奶奶一半......</div>
+        <div class="narration">......四分之一厉害了呢？</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act53side_04_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_05_end.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

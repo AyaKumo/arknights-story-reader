@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>以决心做邮戳 &#183; TO-8 &#183; 行动前</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>以决心做邮戳 &#183; TO-8 &#183; 行动前</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act53side_07_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_08_end.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="管家">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">管家</div>
+                <div class="text">塔妮小姐，请稍等。我去通报一下坎贝尔先生，马上就来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%232%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好漂亮的房子......比我想象中的还离谱......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">这样的房子都能让你惊叹？所以我才说比起跟你们跑来跑去，只有在我们这里，她才能得到最好的照顾。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">您就是坎贝尔先生？我是来探望嘉辛塔的——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">多谢关心，嘉辛塔现在很好，请回吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2315%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">呃......探望可不是光知道她身体状况就行的呀。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">那你还想知道什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">塔妮小姐，你也感染了矿石病，难道你的家人就不担心你的身体状况吗？还是说，你其实也是从家里偷跑出来的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">哼，不懂事的孩子。不珍惜眼前安稳的生活，还要往外跑。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">你们永远不知道家人有多爱你们，把你们养这么大付出了多少代价！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">那为了回报你们付出的代价，我们这些孩子又应该做什么呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">听话，就这么一件事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">听话，像一件不该折损的财产一样待在家里，是吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">财产......你在胡说些什么！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">难道不是吗？按您说的，成本价越高的孩子就越应该听话，不是吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我不知道嘉辛塔对您的“付出”是怎么看的，但我知道我自己的感受。我很感激我的家人，我知道他们在关心我、保护我。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">但随着我长大，我的追求总有跟他们的想法相悖的时候，我当然会难过——因为我爱他们，但也爱我自己规划的生活。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">如果事事符合家人的心意才称得上一个合格的女儿，那我宁愿当一个坏孩子，宁愿得不到他们的认可！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2311%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">坎贝尔先生，在您强调自己为嘉辛塔付出多少，多爱她的时候，您有思考过她与您争吵是为了什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">你不必教训我。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2311%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">她与您争吵是因为她想得到您的认可，因为她很在意您和坎贝尔夫人，她希望能从自己爱的人身上得到支持！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你们不愿支持她，但她总会遇到更多愿意给她支持的人，而那些人不必是她的家人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">严厉的先生</div>
+                <div class="text">......任性的年轻人迟早会付出代价。我不会让你见她的。送客。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">......要不是安洁再三叮嘱我要注意礼貌，我本来也不需要得到您的同意啊，坎贝尔先生。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_020.png" class="avatar" alt="保镖">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">保镖</div>
+                <div class="text">嘉辛塔小姐，您不能下楼。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我听到楼下有声音......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_020.png" class="avatar" alt="保镖">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">保镖</div>
+                <div class="text">这么晚了，不会有人来的。您早点休息吧，已经是深夜了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">安洁......塔妮......还有......唉......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......谁？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">别唉声叹气啦，快来帮我开窗！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%236%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">塔妮？！你怎么会跑到这里？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">哇，这是你的房间？完全是一间病房啊，怎么一丁点你自己的东西都没有？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......在我得病之后，这间房间就被改造成便于治疗的病房了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你的身体怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">根本不是矿石病的事，医生说是因为昨天没吃饭，再加上被阿梅气到了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你......还在生阿梅的气啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2310%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我当然生气！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2310%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">她确实骗了我们，让她写十封肉麻的道歉书再全城广播都不过分。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">但你也看得出来，那个阿什顿部长肯定对阿梅说了什么，她本来就耳根软，还没什么自信——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2310%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我不是气这个！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%232%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">欸？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2310%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">难道你真觉得她一路上说的那些话就只是为了骗我们？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">你没看她说那些话时的样子？哪个骗子骗人之后还会嘿嘿傻笑的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">她明明就是在说自己想做却没胆量做的事情，而且她明明就做得到！鬼才信那个阿什顿的话！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我之前还好奇她为什么总是这副唯唯诺诺的样子，现在我总算知道了，全是纵贯红土打压她的结果！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">那你生气的地方是......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">她远比自己认为的更有担当，也更有野心，她甚至已经想好了要去南境收集数据，研发完全属于自己的尖端通讯技术！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">她不知道我有多......羡慕她......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嘉辛塔？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%235%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">得病之后，父母渐渐不再让我出门，后来更是把我送去了疗养中心。为了打发时间，我就开始学习各种技能。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">对啊，你在这种情况下还考了那么多资格证，已经很不容易了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2310%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">可是我拥有的只是一沓证书，从来没有实践过！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">驾驶证是用操作模拟器考的，学习驮兽驯养用的是木头做的机械驮兽，烘焙糕点的时候我不用自己亲手搅拌，也不被允许接近烤箱......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%239%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">这些资格证只能用来作为父母开酒会时的谈资。或许父亲是了解我的，我最擅长的事情就是扮演坎贝尔家知书达理的小姐......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">打断一下。嘉辛塔，想开车吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%236%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">欸？现在？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">因为好像有人发现我们了——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">——不是现在也得是现在了！我们得去城外躲躲！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">你、你真的确定？我警告过你了，我完全没有摸过真的方向盘，我——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%241.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我知道，我会陪着你，不用担心。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">（咽口水）</div>
+            </div>
+        </div>
+        <div class="narration">她的目光一一扫过越野车上的每个零件，试图将它们与操作模拟器上显示的东西对应起来——说实话，几乎没有零件能对应上。</div>
+        <div class="narration">但她闭着眼睛想了想。</div>
+        <div class="narration">回忆安洁莉娜和塔妮开车时的样子，回忆自己想要亲手握上方向盘的渴望——</div>
+        <div class="narration">她的手在颤抖。整辆越野车都在颤抖。</div>
+        <div class="narration">她深吸了一口气，踩下了油门。越野车缓慢地向前挪动，她不可置信地转头向塔妮确认。</div>
+        <div class="narration">塔妮只是笑了，没有做任何进一步的指示，但她受到了鼓舞。</div>
+        <div class="narration">踩下离合，换挡，提速，再踩下离合，换挡，提速......</div>
+        <div class="narration">嘉辛塔·坎贝尔行驶在路上，风吹翻了她的耳朵，她聆听着自己行驶在大地上的声音。</div>
+        <div class="narration">她发出自己有生以来最疯狂、最开怀的笑声，然后由着它们被自己行驶的速度甩在身后。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嘉辛塔——我就知道——你其实什么都能做得很好——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">现在——我也知道啦——哈哈哈哈——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">接下来——你想——做什么——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我要——阿梅——跟我们道歉——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我要——去公司——把她从——无聊的办公室——抓出来——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好——！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我要——我要跟你们——一起去南境！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好——！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">这个点了，不知道阿梅是不是还在加班......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2322%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">欸，怎么这么多人？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1260_1%231%241.png" class="avatar" alt="紧张的公司职员">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">紧张的公司职员</div>
+                <div class="text">警报怎么没响？人都进通讯塔了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无奈的公司职员</div>
+                <div class="text">天知道为什么！之前造成大断连给我们添了那么多乱子，现在还要逞能？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">紧张的公司职员</div>
+                <div class="text">你没听说吗？私底下都在传，是阿什顿部长故意用那个小姑娘的技术试错，出事了也好推卸责任......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无奈的公司职员</div>
+                <div class="text">行了，阿什顿部长已经赶过去了，我们也赶紧叫人，别让那小姑娘在工程总监来之前把塔修好，不然宣传案可就白做了！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%237%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">进通讯塔？......阿梅？</div>
+            </div>
+        </div>
+        <div class="narration">天色渐亮。</div>
+        <div class="narration">本应坐在办公室里把一封邮件翻来覆去发几百遍的阿纳缇，此时坐在大铁屯通讯塔的上层通路，一心一意地看着眼前的电路板。</div>
+        <div class="narration">大铁屯临近南境，大气源石浓度的变化复杂，她几乎在这里检测了一整夜的数据，抬起头的时候，她甚至没意识到太阳已经升了起来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%231%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">唔......好亮。终于调试完模块了，现在只需要把它连到通讯核心里，再放到——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的喊声</div>
+                <div class="text">阿梅利亚！你到底在做什么！你不想要自己的工作了吗！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的喊声</div>
+                <div class="text">现在立刻下来，不准动通讯塔，听见没！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%235%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">阿、阿什顿部长！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2311%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">糟糕......我的动作还是太慢了，得趁他们上来抓我之前把该做的事做完。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">安洁她们可能很快就要启程了，再快一点，再快一点——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">不然就赶不上了，不然这么高的塔都白、白爬了！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_222.png" class="avatar" alt="阿什顿">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">啧，怎么安保部队还没来，都是吃干萝卜的吗！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">算了，我还对付不了一个动不动就哭的小姑娘吗？我自己去把她——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">等一下。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2317%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">阿什顿部长，你要做什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_222.png" class="avatar" alt="阿什顿">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">我？我......唉，只是想阻止阿梅利亚做傻事啊！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2317%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">傻事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_222.png" class="avatar" alt="阿什顿">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">是啊。我好不容易从管理层手里保下她的工作，我是同情她母亲过世，父亲又在异地，她一个人来这里打拼不容易。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">结果倒好，她私自给自己开通了安保系统的权限，在通讯塔待了一夜，怕是要做不利于纵贯——不利于她前途的事啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">你是她的朋友，你应该知道阿梅利亚怕高，她现在一个人在塔上孤立无援，也是可怜。你快把她劝下来吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2317%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">劝下来？</div>
+            </div>
+        </div>
+        <div class="narration">安洁莉娜抬头。</div>
+        <div class="narration">刚升起的太阳照在阿梅利亚永远梳不直的头发上，显得她比安洁莉娜印象里的更加瘦小。</div>
+        <div class="narration">她坐在通讯塔上层的通路上一动不动，或许真如阿什顿部长说的那样，阿梅利亚此刻正在害怕。</div>
+        <div class="narration">但安洁莉娜了解她的朋友。</div>
+        <div class="narration">这一路上，这个一直冒冒失失、慌慌张张的孩子，只在一个时候会呈现出这样坚定的、认真的背影——</div>
+        <div class="narration">在她工作的时候。</div>
+        <div class="narration">而这也意味着，安洁莉娜还没有向阿梅利亚问出的问题——阿梅利亚究竟还去不去南境——已经得到了答案。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2324%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">我明白了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_222.png" class="avatar" alt="阿什顿">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">太好了。放心，安保部队很快就会到了，只要你先把她劝下来——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">嗯？我的腿......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿什顿</div>
+                <div class="text">连胳膊也......怎么突然这么重？中风？！</div>
+            </div>
+        </div>
+        <div class="narration">阿什顿回头，发现不止是自己，连已经赶到现场的第一批职员和安保人员，也都被未知的力量牵绊住了手脚。</div>
+        <div class="narration">而眼前的沃尔珀却轻盈地跳上了楼梯上的金属扶手，露出笑容。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">放心，阿什顿部长，你离中风还远着呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">不过，想必这些年你已经习惯在纵贯红土公司里，轻轻飘飘地走来走去了吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2317%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">感受一下重力真正的力量，如何？</div>
+            </div>
+        </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act53side_07_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_08_end.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

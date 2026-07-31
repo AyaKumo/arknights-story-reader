@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最难坦诚 &#183; TO-6 &#183; 行动后</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>最难坦诚 &#183; TO-6 &#183; 行动后</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act53side_06_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_st02.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%234%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">这是我感染矿石病后第一次离开家。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我奶奶还在世的时候，我老是缠着她给我讲各种各样的故事，跟她说等长大了我也想成为像她那样的探路者。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2318%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">奶奶送了我一个荧光手环，她说身为探路者必须在夜里也能找到方向，这个手环会为我照亮我的路。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">但现在，我的手腕上戴的是矿石病的监测手环......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我相信，源石能带领我们去往幸福的彼岸。至少在那里，我或许可以跟奶奶说一句，对不起，让她失望了，我没能成为探路者......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%231%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">塔......塔妮......别......呃......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2310%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">（小声）声音大一点，往下说词儿！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2314%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">啊！塔妮！千万别这么说！作为朋友的我得多伤心啊！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2314%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">你现在还是可以实现你的梦想！没有你！我还在洋蓟村的晒胡萝卜架上下不来！没有你的话......呃......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2310%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">（小声）“你的父母也会伤心的”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2314%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">你的父母也会伤心的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%232%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">（小声）阿梅，流一点眼泪！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2315%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">我......（小声）我哭不出来......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%232%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">（小声）一会儿我给你塞瓶可以催泪的辣瓶树粉。塔妮你继续！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">对、对啊......还有我的父母。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我想到他们，还有我最亲的舅舅现在一定在......在......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2312%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">......我想到他们这个点一定在啃着咸萝卜干看击球比赛转播我就演不下去了啊！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2315%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">咳咳......两位观众，整体效果怎么样？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">会露馅吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">会露馅的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%237%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">完蛋了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2317%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">对不起！都是因为我哭不出来......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2322%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">不不不，阿梅你千万别自责，让你和塔妮来调动感染者们的情绪确实是下下策，实在抱歉......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你不用向我们道歉的，安洁。我和阿梅也希望能劝下那些一心求死的感染者。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">他们之中，有一些人的病情跟我差不多，并不算重......如果我能选择做自己想做的事，我希望他们也可以。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">嗯，我相信在追寻天灾的感染者中，一定有想念自己过去生活的人，或者还有遗憾的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%239%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">他们来了。</div>
+            </div>
+        </div>
+        <div class="narration">二十几名感染者来到了荒野上，参加他们生前的葬礼。</div>
+        <div class="narration">乌露露几乎没有费太多口舌就把他们劝了过来。</div>
+        <div class="narration">一整个下午，感染者们都在荒原上挑选瓶树。</div>
+        <div class="narration">他们砍了一棵尺寸最合适的，刨去松软多孔的树芯，留下弧形的外壳——</div>
+        <div class="narration">这是他们共同的棺椁。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_998_1%231%241.png" class="avatar" alt="平静的感染者">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">平静的感染者</div>
+                <div class="text">乌露露小姐，人都到了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2310%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">好。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2315%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">作为“引领者”，我会主持今晚的葬礼。朋友们，你们从泰拉各地而来，沉默地走过这片大地，来到传说的源头——雷姆必拓。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%239%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">不久，天灾将行使它的慷慨和正义，带领我们去往永恒幸福的金色家乡。今夜的葬礼也是一场送别，送别在世间遭受不幸的自己。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">所有的话语都会留在这片荒原上，变成有袋鼷兽的食粮，身边的同胞也会为你保守秘密。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2314%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">那第一位“逝者”......</div>
+            </div>
+        </div>
+        <div class="narration">感染者们不自然地躲避“引领者”的目光，他们在犹豫，让他们敞开心扉或许确实为时尚早。</div>
+        <div class="narration">她求助似的看向安洁莉娜一行。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我们......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2316%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">（咽口水）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我来吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%237%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嘉辛塔？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%233%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_998_1%231%241.png" class="avatar" alt="平静的感染者">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">平静的感染者</div>
+                <div class="text">姑娘，你不是一名感染者。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%236%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">嘉辛塔，他看你的眼神很可怕，你别......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%231%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">没事的，阿梅。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">唔......无法向各位展示体表结晶，也没有诊断书的时候，该如何证明我是一名感染者呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">急性抑制剂的作用对于病重的矿石病患者效果因人而异，如果高热没有办法退下去，可以尝试扎进冰池子里，有概率能保命。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%239%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">粉剂与胶囊两种剂型中我更习惯用粉剂，胶囊的副作用虽然小，但起效得太慢了，尤其是哥伦比亚投资的那家——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%235%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">不过他们很快就会上新药，上个月我刚参加过他们的三期临床试验。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">如果你们还不相信，可以打开我的行李，里面有不少你们眼熟的应急药物和急救装备。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">现在我可以躺进我的墓地了吗？说掏心话之前我需要一些私人空间酝酿情绪。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_998_1%231%241.png" class="avatar" alt="平静的感染者">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">平静的感染者</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2313%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">嘉辛塔怎么知道那么多感染者才会知道的知识？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2313%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">唔......嘉辛塔一直懂得很多，医学可能也在她的涉猎范围吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%232%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">也是。好险，如果我像嘉辛塔那样被质问，估计只会急得跺脚。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2311%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">但她接下来该怎么办？要是感染者们发现嘉辛塔是骗他们的，会不会伤害她......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2324%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">不会的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2313%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">为什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2324%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">因为......</div>
+            </div>
+        </div>
+        <div class="narration">原来瓶树的树桩内部一点都不硬，躺上去跟疗养中心的矿石病重症病床没有太大差别。</div>
+        <div class="narration">但在那里，可看不到这样的星空。</div>
+        <div class="narration">嘉辛塔想。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">该从哪里说起呢......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">啊，其实在十五年前，我就应该死了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">爸爸妈妈当时应该很伤心。他们年仅五岁的宝贝女儿不幸感染了矿石病。哪怕日夜都有人守着，他们还是担心我挺不过来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">医生说我的感染程度很重，活不过一个月。爸爸妈妈带我出门想给我留下一点回忆，一路上却把他们自己吓得不轻。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">但我活下来了，像一个奇迹。我的家人们也很高兴。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">可奇迹之所以被称作奇迹，就是因为它是独一无二的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">往后的十五年中，我被下过八次病危通知书。一开始他们还会抛下工作来陪我，但后来他们好像也习惯了这一切，或者说他们累了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">有多少人能承受亲人一次次悬在生死关头的压力呢？我不责怪他们。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">只是渐渐地，我的出行和活动受到了严格的限制，最终我搬进了离家很远的疗养中心，那里有我需要的一切，我会很安全。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我在疗养中心学会了打击球、开车、古董鉴定......还考了几十种资格证。但没有一样我亲自实践过，我只见过培训老师和特聘来的考官。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">从疗养中心逃出来之后，我曾想过——死在一片一无所有的荒原上很好，我能接受，我的生命应当终结，我不会更加幸福了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">但躺进这座墓地的时候我才清楚地意识到，我在害怕。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我害怕疾病末期增长的结晶撕扯我的身体，我害怕还没有留下任何痕迹就从这片大地上消失，我害怕我的父母不知道我离去，我又怕......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我又怕哪怕他们知道我离去，所有人都知道我离去，但葬礼上不会有人出席，也不会有人为我流泪。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我不想孤独地死去。</div>
+            </div>
+        </div>
+        <div class="narration">人们沉默地听她勉强保持平稳的声音，沉默地看她从棺椁中走出。</div>
+        <div class="narration">在乌露露询问谁愿意成为下一个举办葬礼的人之前，感染者们在小小的棺椁前列起了队。</div>
+        <div class="narration">有人在说出第一句送给自己的悼词前，就失声痛哭。</div>
+        <div class="narration">有人痛骂了抛弃自己的爱人，最后却又责怪起自己。</div>
+        <div class="narration">有人念出了一长串名字，那是他在彼岸还想记住的，他的孩子。</div>
+        <div class="narration">有人想要毁了这场葬礼，他指责每一个人的愚蠢和堕落，最后在部分人的阻止下离开。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%236%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">那些说完悼词还留下来陪伴其他感染者的人，他们会愿意跟我走。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">我们至少可以救下三分之二的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%231%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">是啊......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2314%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">抱歉，我不知道嘉辛塔是感染者，似乎还病得很重。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">她也是现在才选择跟我们坦白。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2347_1%2315%241.png" class="avatar" alt="乌露露">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">乌露露</div>
+                <div class="text">坦白......这么说，你猜到了她的情况？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%233%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">我经常给罗德岛住院部的重症病人送信，我熟悉他们脸上的表情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">但阿梅利亚和塔妮不会那么容易接受嘉辛塔的隐瞒，她确实应该告诉我们更多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">不是作为搭车客，而是作为朋友。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%231%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">葬礼结束了，乌露露也把愿意跟她离开的人安顿好了，你们——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%234%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2311%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2310%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">看来有袋鼷兽光顾了我们的帐篷，你们一句话都没有说啊？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">呃......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......真的很抱歉。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">一开始我隐瞒自己的病情，只是怕你们不愿意捎上我。之前我也从疗养中心逃出来过，但司机们一听说我的情况就不愿意载我了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你......就这么一个人一直住在大涌泉镇附近的疗养中心。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">嗯。每年父母会来看我几次，除此之外我只会见到医生和那群黑衣保镖。说是为了保护我的安全，实际上就是看守。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%2324%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">所以我们在小镇门口遇到的那群保镖......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">虽然不是度假是疗养，但他们真的会在我过马路时拉人墙的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%239%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">他们居然真的会做这种事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">是真的！父母让他们“全方位保护我的安全”，他们就真的会努力做到“全方位”......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">好吧，可如果你刚刚在葬礼上说的都是真的，一开始你不敢告诉我们，还算是情有可原......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">可后来我们一起修好了太阳谷的通讯塔，还一起救下一名维修工，我们应该已经是很好的朋友了，为什么你还是不告诉我们？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%239%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我看了你的行李，里面全是矿石病中晚期的治疗药物，早知道你病得那么重，我们——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%231%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">可我想要的不是最好的治疗，是一次出门看看的机会，和别人接触的机会。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">塔妮，你最能明白我为什么做出这样的选择，不是吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%239%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">到太阳谷的时候，我就知道你们都是很好的人，但时机一错过，话就难以出口......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">你回大铁屯，是为了回家？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">对，我只是隐瞒了我的病情，在别的事上从来没有骗过你们。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我这次从疗养中心逃出来，其实就是想回家，让我的父母看看。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我不需要被小心翼翼地对待，我想在有限的时间里做我真正想做的事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%231%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">而且我就快找到我真正想做的是什么了，可别在这里丢下我啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%231%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">安洁，嘉辛塔都这样说了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%231%242.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">我原本也没有生她的气啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">嘉辛塔真的需要安慰的是这位朋友，对吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2311%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%236%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">呃......阿梅，对不起。但我之前答应你的事都是真的！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%231%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我还是很支持你脱离纵贯红土公司做你想做的事业，我愿意投资你的远程通讯技术！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%237%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%238%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">啊啊啊——对，还有南境！等我回到大铁屯跟父母报备之后，就陪你一起去南境测试设备。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">我必须亲眼见证我第一个投资的技术人才迈出决定性的一步啊，我——</div>
+            </div>
+        </div>
+        <div class="narration">阿纳缇一下子扑到浅色头发的卡特斯身上。</div>
+        <div class="narration">阿梅利亚毛茸茸的脑袋抵着嘉辛塔的下巴，圈紧的双臂把嘉辛塔勒得有点疼。</div>
+        <div class="narration">但在嘉辛塔像往常一样抱怨自己的裙子被弄皱了之前，她感觉到了衣服上的湿意。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%238%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">可是，可是说这些都没有用了！你快死了啊，嘉辛塔！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">其实、其实也没有那么快——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%237%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">为什么你会感染矿石病，为什么像你这么好的人要消失！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">我一想到有一天你会彻底消失在这片大地上，我再也没有办法找到你了，我就好伤心......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">没有你那我该怎么办——不，是千千万万像我一样胆小、受欺负的人又该怎么办！他们没有机会见到你了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">那、那我也不可能帮到每一个人啊？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%238%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">呜啊——！这片大地不会变得更好了！至少在我心里它不会更好了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">阿梅，你怎么不讲道理！你比我还大一岁，怎么哭得像小孩一样......</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%236%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%238%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">噗......看来还是会有人为我流眼泪的，还是好多人份的眼泪......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%237%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">你......（吸鼻子）......你说什么......欸，你怎么笑了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%234%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">因为......你把自己哭得像仙人掌干一样皱皱巴巴的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%237%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">真的吗？！安洁、塔妮，快帮我看看！我不想变成仙人掌干！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2357_1%231%241.png" class="avatar" alt="“小飞虫”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“小飞虫”</div>
+                <div class="text">滋滋——滋滋——哔！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%231%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">唔......测试完毕。乌露露小姐和一些感染者帮了忙，通讯塔修复得非常顺利。不过......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">不是所有感染者都决定跟乌露露离开，有些人依旧在等候天灾。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%239%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class="narration">荒地上散布着瓶树的残骸，几名感染者正在劳作。</div>
+        <div class="narration">昨天的葬礼，对于他们来说，最有价值的，或许就是学习到了棺椁的制作方法。</div>
+        <div class="narration">提前准备好“归宿”的人躺进了树壳里，直视着太阳，不喝水也不进食。</div>
+        <div class="narration">在天灾来临之前，他们或许就会因为脱水而死。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%2313%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">（做口型）安洁怎么了......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%233%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">（做口型）不知道。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">......安洁。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">嗯？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">我本来不想问，每个人都有不想说的事。但你的表情看上去很伤心，安洁。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">你比当时拿着地图的我更快地找到了红砂镇，而且你还说自己跟罗德岛的干员一起来这里交换过物资。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">再加上从进入小镇以来，你就一直非常警惕那群信奉源石永生论的感染者，似乎知道其中的内情......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%234%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">这附近发生过什么吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%235%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%2314%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">在我担心到每天都跺脚之前，你愿意把自己的事分享给我们吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%239%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">要是你实在不想说也可以的！我努力控制一下......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......我只是不觉得自己已经做好准备去面对它了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">但这一天终究会来的。在我准备沿零号公路前往南境时，我就做好了决定......我得回去看看。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%232%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">回去？你是说......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">罗德岛。我曾经的家。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4236_tmslot_1%235%241.png" class="avatar" alt="阿梅利亚">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">阿梅利亚</div>
+                <div class="text">也就是说，现在你的家......已经不在那里了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%239%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......我们有了新的罗德岛，但我更熟悉的那一艘，的确已经无法再供任何人居住了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">之前我向可以交流的感染者询问过了，罗德岛的遗骸在这附近不远处，他们一直将其当作某种“圣地”来崇拜。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">他们一度想去那边求死，但乌露露出来劝阻，再加上他们没了跋涉到那里的体力，这件事就被放下了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4237_jcinta_1%2311%241.png" class="avatar" alt="嘉辛塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">嘉辛塔</div>
+                <div class="text">原来还有这样的事......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">告诉我这些的那个人希望我能再在镇外等等，他希望那些深信不疑的人还能回心转意。我答应了。这也是我的愿望。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%231%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">所以，就当是打发时间，我们先去看看罗德岛的遗骸吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4235_thumpy_1%235%242.png" class="avatar" alt="塔妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">如果我们回来时他们还不出来......？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_1015_aglna2_1%232%241.png" class="avatar" alt="安洁莉娜">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">......</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">先上车吧。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/76_i06.png"
+                 alt="CG - 76_i06"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1.05;
+                        --y-scale: 1.05;">
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">我们到了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔妮</div>
+                <div class="text">那是一艘......被源石包裹的船？</div>
+            </div>
+        </div>
+        <div class="narration">源石结晶如同大地生长出的荆棘，它们在舰船附近滋生，它们像一道冷酷的屏障。</div>
+        <div class="narration">不知情的人或许会被眼前的景象震慑，发出感叹——</div>
+        <div class="narration">“那艘船经历了一场不幸的、可怕的天灾，我为你们的损失感到抱歉。”</div>
+        <div class="narration">但安洁莉娜知道，那不是天灾。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">安洁莉娜</div>
+                <div class="text">这是被摧毁的罗德岛本舰。我曾经的家。</div>
+            </div>
+        </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act53side_06_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act53side_st02.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>
