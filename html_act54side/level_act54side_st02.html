@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>满月一生 &#183; SR-ST-2 &#183; 幕间</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>满月一生 &#183; SR-ST-2 &#183; 幕间</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act54side_08_end.html">← 上一章</a>
+        <span class="chapter-nav-btn disabled" aria-disabled="true">下一章 →</span>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">……此前安魂殡仪堂发生的事件，过程即是如此。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">另外，调查中发现，事件目击者均出现不同程度的遗忘情况。部分证人在完成当日笔录的次日或再次日，对于事件的记忆已经开始模糊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">目前，事件核心当事人在这方面暂且表现轻微，后续发展仍待观察，第五厅将会跟进。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">关于外籍访问者所报告的“怪物”，拉特兰公民方面仍然仅有殡仪堂事件当天的目击记录。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">外籍访问者方面，据报告在殡仪堂事件后尚未出现新的目击记录。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">根据第六厅要求，附上近期公民自杀率统计数据，环比略有下降，但仍然远高于灾异前水平。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">目前不能确认是否为通常数据波动，第六厅将会持续观察。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">那个使用守护铳自杀未遂的萨科塔呢，他的检查结果如何？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">这里是纸质副本。相关指标正常，未出现堕天迹象。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">……自杀未遂堕天，确实只是一种实例极少的原则性结论，最近的一则记录也是八十三年前了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">“以铳自杀者堕天”是一则广为接受的信条，自杀者也确实拥有标准意义上“抹消萨科塔的敌意”，可能比一些杀人者还要更坚实。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">但在实践层面，要经由未遂的自杀而实现堕天几乎是不可能的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%232%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">只有在极其偶然的严苛条件下，才可能出现“自杀未遂堕天”的情况……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">我还在报告呢？你不要突然开始自言自语地长篇大论。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">帕特里奇昂，我这不是在和你讨论工作嘛。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">好吧……没堕天也不算坏事吧。要是这个时候在拉特兰城里发生堕天事件，会很麻烦的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%232%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">唉……不堕天就没有麻烦了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">按照律法推论，我们今天谈论的这个年轻人，可是符合了“自杀未遂堕天”的所有条件啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">……该不会，这也与灾异的后果有关？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%238%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">……还是不要现在就下结论为好。关于“自杀堕天”这部分的记录，先提高密级封存吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">好。那么最后是外籍访问者的处置，第七厅的建议是留置拉特兰，以便持续监控动向。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">这一点……我的顾问另有报告。书面上先维持这个处置吧，之后我和第七厅通个气。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4194_rmixer_1%231%241.png" class="avatar" alt="铳骑">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">铳骑</div>
+                <div class="text">您那位顾问还参与了这次事件的调查？怎么会注意到这一块的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%239%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">呵呵，那个人的关注方向总是很难揣摩的……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%239%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">不过，这次基本上是个巧合，仅此而已。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%231%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">你的那几位学生，要“回去”了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">嗯。花了一些时间才等到“杂音”的干扰降低到容许的范围内，一天前他们终于确认到了门扉的位置。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">不知道是否和那个大型怪物被打散有关，门扉的位置似乎也变得比较稳定了，一天之内都没有发生变化。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">我会送他们离开的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%2310%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">虽然这样说可能有些冷酷……但我很高兴得到你的保证，Dr.{@nickname}。感谢你对拉特兰的帮助。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">我应尽的一点义务。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">而且，即使你没有提出要求，我也会送那些孩子回去的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">年轻人总要走上自己的道路。无论以什么字眼为名义，也不该束缚孩子们的未来，那么做很少能有好结果。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%2310%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">呵呵，你也要敲打我这个老人家吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">我说的当然不是你，杰奥。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_356_1%234%241.png" class="avatar" alt="老人">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">老人</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">开个玩笑，别在意。我该回学校去了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2310%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">好了好了，作为临别赠礼，最后让我好好请一次客吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4218_aigis_1%239%241.png" class="avatar" alt="埃癸斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">埃癸斯</div>
+                <div class="text">点什么都可以吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%233%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">什么都可以！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4218_aigis_1%238%241.png" class="avatar" alt="埃癸斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">埃癸斯</div>
+                <div class="text">好。我记得可以使用终端点单，那么，按首字母排列……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2388_1%231%241.png" class="avatar" alt="天田乾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">天田乾</div>
+                <div class="text">埃癸斯，上次我们陪结城哥他们实习，你点了那么多甜品，这次也要吗……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4218_aigis_1%239%241.png" class="avatar" alt="埃癸斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">埃癸斯</div>
+                <div class="text">拉特兰的甜点实在让人好奇，难得来到这里，我想要留下尽可能多的记录。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%237%241.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">虽然能理解埃癸斯的心情……但是，裘里奥先生的钱包……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2310%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">没问题没问题，尽管点就是了，吃不完的话，我也可以帮忙解决！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%232%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">裘里奥，你在这里充大方，是忘记自己已经破产了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2312%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">既然回拉特兰了，就没有破产这个说法了嘛……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">这么说，我是不是应该也请一下那位把我带回拉特兰的执行者，他能算是我的救命恩人了吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%233%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">拜托，这一桌都是你的救命恩人吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4220_kormr_1%233%241.png" class="avatar" alt="虎狼丸">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">虎狼丸</div>
+                <div class="text">汪！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%2310%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">嗯，包括虎狼丸。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2387_1%232%241.png" class="avatar" alt="山岸风花">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">山岸风花</div>
+                <div class="text">呵呵……看来你们两位已经没问题了，太好了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%239%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">都因为你，裘里奥，连我也被小孩子担心了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2310%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">好嘛好嘛，我就是比较没用嘛……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%239%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">禁止自暴自弃。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2312%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">吉阿达，你不觉得你现在扮演我的监护人会有那么一点点奇怪吗，比如其实我比你年长哦……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%232%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">我没有扮演你的监护人，少自作多情了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">而且年长又怎么样，我们两个在这些孩子面前丢人丢得还不够吗，别说些只会让自己脸红的话了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2312%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">理，你有没有觉得吉阿达对我越来越冷酷了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%2310%241.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">没有觉得。感觉很温柔。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%236%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">……你这小孩子，在说什么啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%231%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">不过，结城……你们真的打算，现在就离开拉特兰吗？不考虑再多待一阵子吗……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%231%241.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">回到家乡还有重要的事要做……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%2311%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">唉……总觉得以你们的年纪来说，你们这些孩子责任心重得有点过头了。是什么事非得要你们去完成不可呢……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%231%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">我倒是能理解啦。无论走到哪里，家乡都是无可替代的嘛……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%231%241.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">……不用气氛这么沉重啦！能在拉特兰认识大家，已经是很珍贵的经历了……最后还是笑着告别吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">话说回来，吉阿达和裘里奥呢，之后有什么打算吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%2311%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">……上班。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2388_1%233%241.png" class="avatar" alt="天田乾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">天田乾</div>
+                <div class="text">……大人真的好可怜啊……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%231%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">对了，之前向公证所申请调阅的报告下发了……不过，你们想了解的信息，应该已经知道了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%232%241.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">嗯……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2387_1%235%241.png" class="avatar" alt="山岸风花">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">山岸风花</div>
+                <div class="text">我们离开之后，怪物……还会出现吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%231%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">肯定不会了吧！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2310%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">不过真正的问题反正也不是怪物啊，按照你们老师的看法。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%2312%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2387_1%2312%241.png" class="avatar" alt="山岸风花">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">山岸风花</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%235%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">……嗯？怎么都不说话了，是我说了让人尴尬的事吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2312%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">唔……等我对照电子手册查一下……你们表情的意思……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%2312%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">你还真买了那个什么情绪识别函授课程？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2312%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">嗯。好。现在我感觉到尴尬了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">……不会的事就要学嘛！好歹是公证所里贴的广告……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">难不成吉阿达会教我吗？难道不会十分钟之内就被我气走吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%239%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">你说得对，我不会教你的。自学加油。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%231%241.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">我觉得……怪物应该不会再出现了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%233%241.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">虽然，按照博士的说法，那种“愿望”并不会就这样消失……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%231%241.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">但也许……那并不是多么值得恐惧的事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%231%241.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">拉特兰会好起来的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%2310%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">……嗯。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%231%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">当然啦，如果连我这样无可救药的人也能够去努力……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">拉特兰也一定会拯救自己的。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2311%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">他们去学校了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%231%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">嗯，好像说回宿舍收拾一下行李，之后就去学校和老师同学告别了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">你真的要正式申请殡仪堂的工作吗？我还是不确定那里是否适合你……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%233%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">我不会把每场葬礼都变成派对的啦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%232%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%238%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">……我是担心，那个地方会让你……压力太大。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%235%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">你怎么这么坦率了……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2378_1%235%241.png" class="avatar" alt="吉阿达">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">吉阿达</div>
+                <div class="text">告诉你……也没什么。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%235%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2310%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">葬礼那天，我很早就去了天台。我想你一定会来的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">因为我仍然相信，你和我都爱着维韦塔。虽然……爱的形态有很多种，有时候，它的样子也不是很好看。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%232%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">它可能是追求快乐，也可能是允许悲伤……但还不止这些。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%231%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">爱是……永不止息的努力，愿意做，并且去做。决不放弃，决不停下步伐，决不屈从于灾难和疲惫……决不向失望俯首。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%2310%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">所以我会努力不让你担心的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2379_1%231%241.png" class="avatar" alt="裘里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">裘里奥</div>
+                <div class="text">也许还会有失望的那一天，但它不会再摧毁我了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%237%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">今天，天气非常好哦……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">嗯，苹果花都开了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%232%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">结城同学他们，今天就要回去了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%231%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">我还以为会有很多机会可以一起玩……我还想过，暑假去修道院锻炼的时候，要不要叫上他们一起。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">没想到春天还没结束，就要分开了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">那就把你的想法告诉他们吧，如果觉得不舍。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">哦，他们来了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4220_kormr_1%233%241.png" class="avatar" alt="虎狼丸">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">虎狼丸</div>
+                <div class="text">汪！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%235%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">虎狼丸！还是你最先到呀。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2387_1%231%242.png" class="avatar" alt="山岸风花">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">山岸风花</div>
+                <div class="text">小虎今天很有精神呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%231%243.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">自从不用夜间调查之后，虎狼丸对出门散步的热情日益高涨了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4220_kormr_1%233%241.png" class="avatar" alt="虎狼丸">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">虎狼丸</div>
+                <div class="text">汪汪！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4218_aigis_1%239%242.png" class="avatar" alt="埃癸斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">埃癸斯</div>
+                <div class="text">看来虎狼丸很喜欢在拉特兰的各处散步呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2388_1%231%243.png" class="avatar" alt="天田乾">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">天田乾</div>
+                <div class="text">感觉虎狼丸见到新鲜的事物就会很开心。而且每次带虎狼丸出门散步，遇到的人也都很喜欢他。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%232%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">其实我也一直想试试带虎狼丸去散步呢，我有一条很喜欢的散步路线。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">不过现在好像来不及了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%231%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">要是早点想起来，去拜托结城同学和虎狼丸就好了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%231%244.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">……要现在去吗？我们可以等你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%237%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">有点远呢，还是不用啦。虎狼丸也想尽快回家吧……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%231%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">不过……大家真的没有考虑过在这里多待一阵子吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%232%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">我还有想要带你们去看的地方，想介绍给你们的店铺，还有之前约过的靶场练习……</div>
+            </div>
+        </div>
+        <div class="narration">苹果花被风吹落，卡特斯少女低声说着之前做好的计划，和新结识的友人出行的打算。</div>
+        <div class="narration">自异乡而来的孩子们却不知如何回答她。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%231%243.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">阿米娅……你说的那些地方，一定都很有趣，如果有机会，我很想和你一起去。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%232%243.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">但如果不回去的话……我会觉得，像是逃避了自己的责任。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">你们要去做很困难的事吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4219_yukari_1%2310%243.png" class="avatar" alt="岳羽由加莉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岳羽由加莉</div>
+                <div class="text">……是的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4218_aigis_1%239%242.png" class="avatar" alt="埃癸斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">埃癸斯</div>
+                <div class="text">我喜欢这段时间的生活，陪伴在理的身边，度过平凡的日常……如果这样的时间能延续下去，我会……很开心。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4218_aigis_1%236%242.png" class="avatar" alt="埃癸斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">埃癸斯</div>
+                <div class="text">……但是，使命还没有完成。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2387_1%233%242.png" class="avatar" alt="山岸风花">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">山岸风花</div>
+                <div class="text">嗯……回去之后，确实会面临很多……危险和困难。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">我知道你们不会改变主意的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">只是，和你们结识确实是很难得的缘分。阿米娅难免舍不得你们。最近这段时间，她很开心。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%232%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">……老师……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">好吧，我也一样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">不过，我知道告别的时刻总是会来的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%239%244.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">Dr.{@nickname}……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2380_1%231%241.png" class="avatar" alt="班主任">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">我会祝福你们。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">一名老师总是愿意见到孩子成为自己真正决心成为的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班主任</div>
+                <div class="text">去做你所相信的事吧。也别忘了，你在很多人心中，都是十分重要的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2377_1%235%241.png" class="avatar" alt="班长">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">班长</div>
+                <div class="text">祝你们……一切顺利。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%2311%244.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">……谢谢，博士，阿米娅。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4217_makoto_1%2310%244.png" class="avatar" alt="结城理">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">结城理</div>
+                <div class="text">那么……再见了。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/77_i13_1.png"
+                 alt="CG - 77_i13_1"
+                 class="cg-image"
+                 style="--fade-duration: 2s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="narration">召唤出人格面具，风花再次确认了此时此刻门扉的位置。</div>
+        <div class="narration">门扉在时空罅隙中移动不定，此前他们未曾发现、也未曾预想，最终他们将在这里找到门扉——</div>
+        <div class="narration">就在这校园之中。</div>
+        <div class="narration">春日的阳光倾洒，休息日的校园空阔宁静，没有丝毫异常事物的影踪。</div>
+        <div class="narration">结城理和同伴走到门扉应在的位置，视野里唯有柔软的花瓣飘落。</div>
+        <div class="narration">他在春风中回过头，望向身后目送着他们离去的两人。</div>
+        <div class="narration">就在那一瞬间，似乎有一线蓝色鳞粉洒落。</div>
+        <div class="narration">像一道微小的流星，划下一瞬即逝的闪光。</div>
+        <div class="narration">他收回目光，向前方伸出了手。</div>
+        <div class="cg-container">
+            <img src="../CG/77_i13_2.png"
+                 alt="CG - 77_i13_2"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="narration">自空气的涟漪中，于少年的指尖前，门扉显现。</div>
+        <div class="narration">结城理将手按上了冰凉的、非石非金的门扇，他感到手掌下的门扉开始微微发烫。</div>
+        <div class="narration">教师和卡特斯少女看着那扇巨大的门在结城理的触碰下渐渐亮起红光。</div>
+        <div class="narration">一声轻响，门扉缓缓打开。</div>
+        <div class="narration">自异乡而来的少年们向两人挥手告别，走进门扉之中。</div>
+        <div class="narration">结城理走在最后。他隐隐察觉，迈过这扇门后，通向身后世界的出口便将不复存在。</div>
+        <div class="narration">他站定片刻，走进了门中。</div>
+        <div class="narration">在门扉关阖的响声中，他听见了最后一声道别。</div>
+        <div class="narration">经过不知位于何处、不知处于何时的通道，他们再度感受到了熟悉的气息。</div>
+        <div class="narration">人工岛的风带着淡淡的海的味道，少年一行人走出了塔尔塔罗斯。</div>
+        <div class="narration"><br><br>像是从梦中醒来一样，某段缥缈的记忆正在变得越来越遥远。</div>
+        <div class="narration">白色的城市，苹果花下的校园，那样的画面慢慢地淡去了。</div>
+        <div class="narration"><br><br>结城理眨了眨眼睛，脑海中渐渐只剩下一道模糊的余响，像是什么人的声音，可那语言也在变得越来越陌生。</div>
+        <div class="narration">只有话语中的情感，似乎还依稀可辨，那应当是在说……</div>
+        <div class="narration">“一路珍重。”</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act54side_08_end.html">← 上一章</a>
+        <span class="chapter-nav-btn disabled" aria-disabled="true">下一章 →</span>
+    </nav>
+    </div>
+</body>
+</html>
