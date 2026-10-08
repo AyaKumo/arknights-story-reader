@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>走上街道 &#183; YW-4 &#183; 行动后</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>走上街道 &#183; YW-4 &#183; 行动后</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act52side_04_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act52side_st02.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">我曾经觉得大海每天都是一个样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">浑浊，吝啬，没有尽头，连一条鳞都不肯施舍。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">现在看来是我以前站得不够高，明明每一个浪头，每一块礁石，每一阵海风的气味都不一样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声B</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声B</div>
+                <div class="text">请汇报今天的海面情况和灯塔运行数据，守塔人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">别那么一本正经的，艾尔玛。我知道你羡慕我的工作，从这里看到的风景简直不像我前半生认识的伊比利亚。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">可惜，还要等几天港都中心城区才能被打捞起来，现在除了清扫海域的船只，海面上看不到任何东西。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">而且刚修复完的供能灯塔闻上去有股新家的味道，不知道其余三十六座是不是也这样——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声B</div>
+                <div class="text">拉蒙！汇报情况！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">知道了，知道了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">三个月以来什么意外都没发生过，而且每座灯塔都有惩戒军小队驻守，你根本不用那么焦虑，凌晨出门的时候你都把我吵醒了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">上午8点49分，海洋监测汇报，沿岸风力五级，阵风六级，未监测到风暴潮。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">通讯声A</div>
+                <div class="text">今天是个好日子，长官。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……滋……海洋监测汇报……滋……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……沿岸风力……未监测到风暴潮……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2272_1%231%241.png" class="avatar" alt="岛民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">（打开罐头）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">（咀嚼）</div>
+            </div>
+        </div>
+        <div class="narration">一个鳞罐头，一把贝壳叉子，一顿普通的伊比利亚早餐。</div>
+        <div class="narration">他像一名普通的伊比利亚人一样喝完罐头里的汁水，来自大海的盐分会为他提供必要的能量。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……七号灯塔……供能系统运转稳定……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……三十一号……动态载荷监测系统已开启……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……十四……通讯信号一切正常……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2272_1%231%241.png" class="avatar" alt="岛民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">（清洗餐具）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">（清洗罐头）</div>
+            </div>
+        </div>
+        <div class="narration">他将叉子收进抽屉，又将接满净水的罐头放在房间的角落。</div>
+        <div class="narration">一只云兽跳进破损的窗户，绕过地上的石头和碎玻璃，走向水源。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……号灯塔……驻守供能灯塔的人数不变……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">无线电</div>
+                <div class="text">……一个小时后换班……明白……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2272_1%231%241.png" class="avatar" alt="岛民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class="narration">海藻晾晒的时日不够，他还不能收回来；窗户三天前就该修补，所幸最近没有下雨。</div>
+        <div class="narration">他环视一周，只拿起捕鳞钩，离开了家。</div>
+        <div class="narration">海风吹起窗帘，斑驳的墙壁替曾经的住民言语。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">墙上的刻字</div>
+                <div class="text">（被划去的伊比利亚经文）<i>“用盐摩擦伤口，疼痛是德行的印证，使异种的血肉无处滋长。”</i></div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">墙上的刻字</div>
+                <div class="text">（错乱的阿戈尔语）<i>他们不会宽恕，我们不会原谅。</i></div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2274_1%231%241.png" class="avatar" alt="守塔人A">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">海面起浪了，明明一个小时前汇报的时候还好好的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">害怕了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">我是嫌麻烦。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">海况会影响供能系统运行，驻守的惩戒军正在换班，我们还得自己联络岗哨的通讯员，让他们通知打捞中心的人，调整水下作业的安排。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">唉，等港都中心城区重新升起，我们就能安安心心地数着海面上的帆船，不用再做这样麻烦的联络工作了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">得了吧，我看你倒是很享受，还能借着工作时间和艾尔玛聊天。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">唔，不对。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">你还想狡辩？刚刚你们的通讯我可是都在这里听到了——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">我是说通讯声不对。我们的射频滤波器出问题了？怎么信号断断续续的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">哦，正常。最近两个月里时不时就这么来一次，一会儿就好。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">看来阿戈尔技术的产物也不是那么好用啊……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">水土不服嘛，打捞中心的新监事已经开始优化所有技术配件了，灯塔供能系统的硬件过几天也能更新。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">而且再不济我们这儿也有人维修啊，是从打捞中心来的，那个岛民叫什么来着？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人A</div>
+                <div class="text">不记得。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">哦，正好，他来了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2272_1%231%241.png" class="avatar" alt="岛民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2275_1%231%241.png" class="avatar" alt="守塔人B">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">守塔人B</div>
+                <div class="text">不对劲……拉蒙，快呼叫岗哨！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2272_1%231%241.png" class="avatar" alt="岛民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">岛民</div>
+                <div class="text">（举起捕鳞钩）</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2277_1%231%241.png" class="avatar" alt="惩戒军士官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">信号中断多久了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">七分钟。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">三十七座灯塔的通讯信号被一并劫持，通讯员还在排查设备故障的原因，还不确定是哪座灯塔遇袭导致的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">距离最后的打捞工作结束还有一周，这个时候袭击为起重机供能的灯塔矩阵，袭击者是想破坏打捞计划，让伊比利亚和阿戈尔生隙……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">驻守灯塔的惩戒军呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">除了离岗哨最近的三支队伍外，其余小队全部失联。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">这三支小队刚刚回来，他们都说自己收到了审判庭中枢的加密通讯，要求小队马上到岗哨待命，我猜测其他小队也收到了假消息。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">袭击者不可能自投罗网，这三支小队驻守的灯塔离岗哨太近，大概率不是他们的目标。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">我们必须立刻确认其余三十四座供能灯塔的情况。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">长官，供能灯塔位置太过分散，而且大多地处偏远。我们现在无法得知袭击者的人数，也不知道他们到底入侵了哪座灯塔……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">让驻守岗哨的所有人员立刻出动，沿水道行军，前往其余的三十四座灯塔确认情况。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">行动组一组前往海岸，提防水中异动，别让恐鱼成为潜在威胁。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">二组负责沿街盘查，寻找可靠目击者，尽可能掌握袭击者的动向。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">明白。巡逻组怎么安排？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">在原本的巡逻路线上待命，我们已经收到圣徒阁下的指示，优先排除街道上的潜在威胁，保障平民的安全。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">可这样一来支援灯塔的人手就不够了，万一供能系统被毁，那港都中心城区的打捞计划就彻底……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">伊比利亚必将迎回它原本辉煌的心脏。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">圣徒阁下。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_447_1%231%241.png" class="avatar" alt="圣徒卡门">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">圣徒卡门</div>
+                <div class="text">但当下哪怕打捞计划受阻，我们也要避免岛民和伊比利亚民众之间长久以来的积怨再度被挑动。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">圣徒卡门</div>
+                <div class="text">一座在积怨与晦暗中升起的城市，对伊比利亚又有何益？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">明白！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_447_1%231%241.png" class="avatar" alt="圣徒卡门">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">圣徒卡门</div>
+                <div class="text">行动吧。命令通讯队继续排查设备故障，争取尽快恢复通讯信号，以及……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">圣徒卡门</div>
+                <div class="text">联络克莱门莎监事，我们需要援助。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2274_1%231%241.png" class="avatar" alt="制帆匠">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">制帆匠</div>
+                <div class="text">发生什么了，船厂外怎么有那么多审判庭的队伍经过？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">制帆匠</div>
+                <div class="text">而且为什么斐戴拉大审判官说，船厂的任何相关人员不得出于任何理由离开船厂？难道外面发生了动乱……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%231%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">好了好了，知道那些惩戒军为什么让我们待在这儿吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%234%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">是因为我们——堂堂王室海军舰队预备军的震慑力太强，不适合在这种场合露面。那些惩戒军肯定是完全能搞定，才不劳烦我们出去的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2274_1%231%241.png" class="avatar" alt="制帆匠">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">制帆匠</div>
+                <div class="text">“……祈祷诸位能驱使审判的灯火……洗涤我们的戴罪之身……”</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2312%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">唉，萨尔瓦多整天念这几句，搞得大家都学会了……不对，他人呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2274_1%231%241.png" class="avatar" alt="制帆匠">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">制帆匠</div>
+                <div class="text">我、我不知道。外面起了动静之后就没见过他了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%232%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2274_1%231%241.png" class="avatar" alt="制帆匠">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">制帆匠</div>
+                <div class="text">等等，德·托莱多大人，别去找他了，斐戴拉大审判官再三强调……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%237%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">我听到了，那个大审判官嗓门大得像地震。但这也代表船厂的惩戒军不会动，哪怕上报有人失踪也根本不会调派人手去找。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">他的家人都在原本的村镇，等着他在这里修船领到的薪酬，不能让他不明不白地没了音讯。虽然他还不是我德·托莱多的拥护者，但……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2313%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">保不齐之后他就成了我麾下的一员呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%237%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">我要去找他。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_459_1%231%241.png" class="avatar" alt="瑟缩的平民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑟缩的平民</div>
+                <div class="text">好多审判庭的队伍，今天怎么这么大阵仗……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">巡逻的惩戒军？</div>
+                <div class="text">喂，你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_459_1%231%241.png" class="avatar" alt="瑟缩的平民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑟缩的平民</div>
+                <div class="text">哎哟，长、长官，我刚刚已经跟一位审判官报告过了，住在这儿的岛民都很可疑，都该盘查，我——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">巡逻的惩戒军？</div>
+                <div class="text">哦，所以你把我也报上去了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_459_1%231%241.png" class="avatar" alt="瑟缩的平民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑟缩的平民</div>
+                <div class="text">阿戈尔人……穿着惩戒军的制服……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">不好意思，翘班有点多，没在街道上见过我也正常。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">这里是广场附近的街区，你周围住的都是打捞中心的技术工吧？昨天晚上宵禁之后，你听到外面有什么动静吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_459_1%231%241.png" class="avatar" alt="瑟缩的平民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑟缩的平民</div>
+                <div class="text">没、没有，他们一般清晨才会出门，而且这几天晚上，他们家里的鳞油灯都点得很亮，没有什么异常。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">你确定你的观察无误？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_459_1%231%241.png" class="avatar" alt="瑟缩的平民">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瑟缩的平民</div>
+                <div class="text">我胆子小……每天都会确认的……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">没有异常，很好，那这里就排除了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%233%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">剩下的只有——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%239%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">东侧临海的这座废弃工坊了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">只为疑惑、困苦、向往和平的阿戈尔人开门的教堂，给我解答吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">到底是谁躲在背后，为了何种目的，煽动我的同胞？</div>
+            </div>
+        </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act52side_04_beg.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act52side_st02.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

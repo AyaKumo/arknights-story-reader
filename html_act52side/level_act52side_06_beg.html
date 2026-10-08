@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大人物 &#183; YW-6 &#183; 行动前</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>大人物 &#183; YW-6 &#183; 行动前</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act52side_05_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act52side_06_end.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_178.png" class="avatar" alt="城镇居民A">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民A</div>
+                <div class="text">嘿，那边的小伙子，来点海藻酒吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民B</div>
+                <div class="text">我们必须要保持洁净，酒会使人堕落，它——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民A</div>
+                <div class="text">什么日子办什么事儿嘛。估摸着也是为了庆祝港都中心城区升起，那边的惩戒军刚才都来光顾我的生意了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_178.png" class="avatar" alt="城镇居民B">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民B</div>
+                <div class="text">……好吧，我只喝一点点，要是醉昏了头，就看不清海图上的坐标了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民A</div>
+                <div class="text">到时候你还看什么坐标啊！再过两个小时，港都的中心城区就会直接在你眼前升起来！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_462_1%231%241.png" class="avatar" alt="城镇居民C">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民C</div>
+                <div class="text">来看看，那位阿戈尔监事留在这儿的海图。他们说港都的坐标已经在上面了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民D</div>
+                <div class="text">中心城区……你能想象那地方长什么样吗？真要是住在那里面，得是什么感受？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民C</div>
+                <div class="text">听说那里有些房子，就连砖缝都是用金粉勾的。那样的话，是不是一点都不会漏风？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民C</div>
+                <div class="text">你能想象吗，不会被海风吹透的房子？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民D</div>
+                <div class="text">……我是在草棚里长大的啊。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民D</div>
+                <div class="text">我甚至都没想过有一天自己会看着与阿戈尔相连的海图，在上面找那些只有老一辈人提过的名字。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民C</div>
+                <div class="text">那都是伊比利亚曾经的城市啊……圣徒在上，居然真有那么多。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民C</div>
+                <div class="text">喏，你看，港都的坐标在那儿！它还是灰色的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民D</div>
+                <div class="text">两个小时之后，它就要被点亮了吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民C</div>
+                <div class="text">船厂的工人们今夜一定会很忙，不知道哪个伊比利亚人能获此殊荣，亲手点亮一座静默了六十三年的宏伟都城。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">城镇居民D</div>
+                <div class="text">大概是哪位深受圣徒阁下信任的大审判官吧。这个时间，他们应该已经在准备了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2275_1%231%241.png" class="avatar" alt="干练的船工">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">干练的船工</div>
+                <div class="text">还有两个小时。起重机那边已经一切就位了，你的船检查得怎么样了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">热情的船工</div>
+                <div class="text">没有问题！像斐戴拉大审判官嘱咐的那样，要是起重机出了故障，随时有船可以出海检修设备！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">干练的船工</div>
+                <div class="text">那就再测试一遍通讯稳定性，一旦我们给出信号，打捞中心的操作员就会启动程序，正式开始打捞了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">热情的船工</div>
+                <div class="text">明白！等等，我们还没有获得通讯系统的授权？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">干练的船工</div>
+                <div class="text">权限应该在半小时前就开通了啊？去找找斐戴拉大审判官！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2311%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">我们进来了，我们就这么进来了？这可是整个港都的中控室啊！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%231%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">这地上、墙上，不会真的都是金子吧？这么大的炉子，是港都的动力源？快过来看，还有这个……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%232%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">瓦列里奥，你光盯着那个黑乎乎的大铁匣子看什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">导航、动力、通讯——港都作为移动城市的几乎所有功能，都是这个大铁匣子里的东西在维系着。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2315%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">那里面好像有什么东西在动——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%231%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">可别碰它，斐戴拉大审判官会怪罪我们的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%231%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">这些都是那个大审判官告诉你的吗？你向她保证了什么，她才同意让我们进来啊？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%237%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">她之前拒绝我，可是毫不留情啊！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%232%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">斐戴拉大审判官需要坚守自己的职责，让她启动海图系统，是卡门阁下的直接命令。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2310%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">那你这次又是怎么搞定的，快给我讲讲！我嘴皮子都磨破了，她就像没听见似的！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">你们回去巡逻吧，切记，不能让任何闲杂人等靠近中控室，那是整个港都的心脏。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士兵</div>
+                <div class="text">是！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">点亮海图……她根本不知道那个光点意味着什么，更不知道审判庭要付出什么，就连我也……</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">谁在那里！</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%231%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">抱歉，大审判官阁下，是我。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">不用说了。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">从我们认识到现在不过一两周，你替埃斯特菲尼娅求情多少次了？我应当辞退她，还你我一个清净。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%2311%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">我明白，您也听厌了我讲她的事。所以，我这次来，是想跟您讲讲我自己。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">你？</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%239%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">在遇到特菲之前，我也在伊比利亚的各处流浪。我身上的伤是为救一个朋友留下的，在咸涩的海风里，它迟迟没有愈合。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%235%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">疼痛让我无法入眠，每个宵禁的夜晚，我只能思考，思考我为何沦落到这个地步，思考伊比利亚的一切。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">直到我在酒馆里遇到这个唱船歌的黎博利，我一眼就能看出她靠欺骗为生，但她用自己的钱给我买了食物。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">之后，我与她一起流浪，她用那套贵族的说辞骗了很多人，也救下了很多人。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%2312%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">她好像真的把自己当作了黄金时代的贵族，她想保护所有拥护者，甚至实现他们的愿望——包括我的，所以我们才来到这里。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%231%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">而这次，她向你提出不知天高地厚的要求，也只是为了再救一个人。</div>
+            </div>
+        </div>
+        <div class=" dialogue grayscale">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%234%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">……怪不得她能让你也跟我一起进来。你看，虽然死板得要命，但真诚的故事和经历还是可以打动她的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%235%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">要我说，我们这回点亮了坐标，真成了像样的“大人物”之后，就该去出书立传，给所有人讲故事。我口述，你写。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2315%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">怎么啦？你怎么不说话了？我还想知道是你的哪段经历那么感人，能打动那位石头似的大审判官呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">我还有哪段经历，是你不知道的呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%231%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">既然大审判官阁下把这份重任交到了我们手上，我们就绝不能耽搁一秒。故事，就等回去再讲吧？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2310%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">喔喔，那当然好！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_393_toledo_1%2313%241.png" class="avatar" alt="特菲">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">特菲</div>
+                <div class="text">不过，我们是不是应该向斐戴拉大审判官确认一下操作流程？点亮海图这事儿还是太大了……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">不用担心，很快斐戴拉大审判官就会来的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2266_1%234%241.png" class="avatar" alt="瓦列里奥">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">瓦列里奥</div>
+                <div class="text">继续吧，只要能恢复海图系统的功能，一切都会如你所愿的。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2277_1%231%241.png" class="avatar" alt="惩戒军士官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">自首的那个岛民没说假话，这三天我们已经确认了袭击案嫌犯的据点。为了避免惊扰敌人，暂时还没有实施任何抓捕行动。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">那些人多是伤员，士气低落，但他们的组织者非常谨慎，直到今早才露面。也是因此，我们才能确认据点的位置无误。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">今晚，港都中心城区会回归伊比利亚的海岸线，而那些阴魂不散的邪教徒，也会受到审判。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">艾丽妮，圣徒阁下还有什么指示吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4009_irene_1%231%241.png" class="avatar" alt="艾丽妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">艾丽妮</div>
+                <div class="text">卡门阁下不会亲自参与抓捕，但他给出了明确的指示——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4009_irene_1%231%241.png" class="avatar" alt="艾丽妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">艾丽妮</div>
+                <div class="text">如果敌人已是深渊的俘虏，他们的尸骨甚至不配被扔进大海；但若他们只是迷茫的同胞，就用灯火指引他们上岸。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4009_irene_1%234%241.png" class="avatar" alt="艾丽妮">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">艾丽妮</div>
+                <div class="text">列队！出发！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2269_1%236%241.png" class="avatar" alt="南多">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">南多</div>
+                <div class="text">教官！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%238%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我把耳朵塞好了，你说吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2269_1%236%241.png" class="avatar" alt="南多">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">南多</div>
+                <div class="text">您才休养了几天？伤口都还在渗血！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%239%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">要我躺在自己乱七八糟、气味难闻的屋子里，看着你们从窗口经过，去抓我查了这么久的幕后黑手——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%239%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我伤口就要气裂了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2269_1%2311%241.png" class="avatar" alt="南多">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">南多</div>
+                <div class="text">您在说谎，教官。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2269_1%231%241.png" class="avatar" alt="南多">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">南多</div>
+                <div class="text">如果您在完全能合理偷懒的情况下选择行动，那就意味着您觉得这次任务一定有问题。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%237%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">呵，难得机灵。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2269_1%231%241.png" class="avatar" alt="南多">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">南多</div>
+                <div class="text">事情……这么严重？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%239%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我没证据，你就先当是一个失血过多的伤员在胡言乱语吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%233%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">不论那位主教能变出多少只恐鱼，他都只有一张嘴能用来指挥人。对于一个要躲在暗处的人来说，那张嘴还不太方便说话。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%239%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我不相信他仅凭自己就能那么手眼通天，指挥那些邪教徒和岛民完成那样精准的袭击计划。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2269_1%234%241.png" class="avatar" alt="南多">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">南多</div>
+                <div class="text">您怀疑他还有帮手？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">希望是我想多了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%239%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">保护好自己，别死在伊比利亚几十年难遇的大日子里。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%234%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">克莱门莎监事？您应该在广场参加迎回雷亚-伊比利亚的庆典，怎么在这儿……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">奥卢斯的计划很有可能还在继续，为了避免横生事端，惩戒军今晚就会开始抓捕行动。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%234%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">今晚？那我的同胞们——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我已经与伊比利亚阁下达成了些许共识。所有岛民都有机会离开这里，去往阿戈尔生活。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2311%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">但不是现在。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2311%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">阿戈尔有权迁移同胞，但无权干涉今晚的抓捕行动。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%232%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">如果这场抓捕和后续的审判因我的干涉而生变，我不确定伊比利亚会不会发生更大的动乱。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">你的同胞被逮捕之后还需在审判庭度过一段日子，不过，你可以在弥利亚留姆等你的朋友们受审结束。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%239%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">……在弥利亚留姆？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">你从来没有直接造成过任何破坏和伤亡，参与袭击也只是被迫卷入其中。况且，你的证言也准确有效。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我与伊比利亚阁下商议的结果是，你可以成为第一个迁回阿戈尔的岛民。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">……我跟您说过吗，克莱门莎监事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">截肢之后，我很痛苦也很沮丧。理智告诉我邻居的报复情有可原，感性又阻拦我对奶奶宣泄情绪。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">所以我做了一件在阿奎拉他们看来很蠢的事——我试图融入伊比利亚人，向他们证明岛民也可以和伊比利亚人好好相处。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">我能背诵每一部经书，也从未缺席过一场礼拜，哪怕我认得出向我家窗户扔燃烧瓶的邻居是哪几个，我也会对他们微笑。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%233%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">直到有一天我被镇上的证裁官喊去担任辅祭——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2315%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">据我的了解，这样的举动几乎可以代表伊比利亚对你的认可。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%232%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">是啊，我高兴得几乎要哭出来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%237%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">但我很快就发现，我感到欣喜，不是因为辅祭是多了不得的差事，只是因为大多岛民这辈子都无法获得这份“认可”，仅此而已。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%235%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">我为自己的欣喜感到羞耻。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">追求更好的生活并不可耻。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">我明白，但我无法回到阿戈尔这件事已成定局。</div>
+            </div>
+        </div>
+        <div class="narration">纳乔抬起自己的右手，黄金时代工匠的手笔，包括失而复得的那枚螺栓，浑然一体，流畅地运转着。</div>
+        <div class="narration">但透明的外壳下，独属于海嗣的触肢在隐蔽的角落里跳动着，是它们维持着假肢的稳定，缓解使用者的痛苦。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">我接受了奥卢斯先生的手术。如果不是那场手术，我没法从袭击现场救回那么多同胞，我不后悔。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2311%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">纳乔……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我明白了。我撤回提前将你迁回阿戈尔的提议。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">但不是因为你接受了那场手术，而是出于你接受它的那个原因。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">既然你接受手术，本就是为了能救回更多岛民，那我想，你今晚一定也会需要做同样的事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%231%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">嗯。虽然有您担保，但既然是抓捕行动，今晚一定还会有人反抗，会有人受伤。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4232_hbound_1%232%241.png" class="avatar" alt="纳乔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">纳乔</div>
+                <div class="text">我得在场，我得帮忙。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">那我会竭力保障你自由行动的权利，今晚，没有人能因那些海嗣触肢给你定罪。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">而等到你真正被海嗣同化的那一刻，我也一定会亲手给你解脱。</div>
+            </div>
+        </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act52side_05_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act52side_06_end.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>

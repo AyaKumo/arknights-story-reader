@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浮浮沉沉 &#183; YW-2 &#183; 行动前</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>浮浮沉沉 &#183; YW-2 &#183; 行动前</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act52side_01_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act52side_02_end.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我或许该谢谢你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">为什么？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">为你在接通全息影像之前还问了我的意见，以及，为你没那么喜欢那种无趣的“触感模拟模块”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我毕竟不是赫拉提娅。想拥抱你的话，我会当面这样做。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="歌蕾蒂娅">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">也别了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">猎人们还好吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">劳伦缇娜在梦中也会向飘来血腥味的方向伸手，而斯卡蒂对屠杀海嗣的态度堪称“热情”，我不清楚这是玛利图斯还是那位博士的影响。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">这算好事，还是坏事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">我没法判断。就像我也没法判断，乌尔比安那些反常的行为，是他理智尚存的证据，还是他彻底堕落的征兆。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">有关他的全部消息，都来源于那些还试图与猎人对话的海嗣。它们介绍乌尔比安的动向，如同介绍同伴。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">他仍打算前往深蓝之树？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">我会用槊迎接他……无论他是否带回答案。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">你也不比他清醒多少，克莱门莎。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%237%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">嗯？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">数月前，你本应该成为凯尔希和那位博士在本境的向导，却临时向科学发展规划所提出了与伊比利亚合作的后续计划。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">打捞雷亚-伊比利亚，第一次听到的时候我以为你疯了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">赫拉提娅也那么觉得。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">航道开通后，我本该陪博士和凯尔希医生前往本境，但赫拉提娅很快代发展规划所出具了一份评估报告，声称我“不适合”陪同工作。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">她发现了你隐瞒的事？还是说，他们此行可能会揭开更大的秘密，不容你知晓？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">都有可能。最终我只能留在岸边，继续以航道计划负责人的身份工作。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">所幸，此前我就已经与博士和凯尔希医生针对一些问题达成了共识，打捞港都、重建伊比利亚的港口是我们共同的决定。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">——但不是阿戈尔会喜欢的方案。显然，你也不太喜欢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">不过在我临行前赫拉提娅似乎理解了，哪怕是对陆地上的人，也该至少保持一点尊重，而同意打捞计划就是她的“尊重”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">只不过在打捞计划——无论成功与否——结束之后，科学发展规划所将重新评估有关伊比利亚发展的下一步计划。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">——听上去好像“伊比利亚”只是地图上的一个坐标，而不是别人的家一样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">以你自讨麻烦的性格，想必你并不想让这一切发生。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">是，但并非出于某种……同情。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2310%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">在阿戈尔人的普遍认知中，伊比利亚在遭遇大静谧之后，无疑蒙受了惨痛的打击。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2311%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">在面对海嗣的战争中，它虽然还在挣扎，其实已经失败了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">猎人跟审判庭合作过多次，他们的士兵有足够坚韧的意志，但战争的手段还是太简单。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">这样一个在生存战争中已然“失败”的国家，在阿戈尔的教科书上属于过去的一部分……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">但我却认为，我们可以在这里发现未来。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">你是指即将回归的雷亚-伊比利亚？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">不全是。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我认为在伊比利亚，在伊比利亚人身上，我可以找到应对……并不美好的未来的方法。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">我不明白你的意思。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">我只知道为了这些我不明白的想法，你跟赫拉提娅打了赌。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">是。在她用“高效”的手段将伊比利亚建成一个陆上阿戈尔之前，我需要向她证明，伊比利亚值得也必须以它自己的方式存在。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">不过这一次你一旦失败，代价会是永久失去执政官和荣誉军团长这两重身份。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">把自己放上赌桌，总比不得不把深海猎人和罗德岛当作筹码，要划算得多。关于你们，我很吝啬。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">……我们的合作关系还在，深海猎人会站在你这边。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">歌蕾蒂娅</div>
+                <div class="text">至少在你输掉赌约之前。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">冷酷，但令人安心。多谢，歌蕾蒂娅。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我听到你写字的声音了，你可以直接进来的，塔西塔。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2268_1%232%241.png" class="avatar" alt="塔西塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">您与深海猎人队长歌蕾蒂娅的通讯在保密等级上属于机密，我不该了解，也不该打断。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">可是当你知道我的通讯对象是谁时，心里已经形成了猜测，大多数时候，让人行动的正是猜测。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">请到这里来，科学发展规划所的执政官助理，塔西塔。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2268_1%231%241.png" class="avatar" alt="塔西塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">我知道您与赫拉提娅女士政见不合，所以我不明白，当她提出您必须带一名科学发展规划所的成员上岸时，您为什么会选我？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2268_1%234%241.png" class="avatar" alt="塔西塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">是因为您想让赫拉提娅女士放心？是因为您知道我对您的提案投了反对票？还是因为您想故意刁难一个资历不深的新人？又或者——</div>
+            </div>
+        </div>
+        <div class="narration">塔西塔一边说话一边向前走，一连串提问没有让克莱门莎的笑容动摇半分。</div>
+        <div class="narration">突然，她止住了话头。</div>
+        <div class="narration">正在遭她言语“攻伐”的前执政官毫不在意地俯下身，替她打理起手提箱上的丝带，这时塔西塔才发现之前打的结已经散开了。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">选你的原因很简单，当时你箱子上的丝带结散了，而我记得我的小帮手存储了一种模仿系带鳞尾部的、很漂亮的打结方式。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我完全不了解赫拉提娅带来的几十位成员，只有你让我明白，我可以为你做些什么。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2268_1%235%241.png" class="avatar" alt="塔西塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">……就因为这个？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">嗯。而且，我能看出你十分关心阿戈尔，这足以成为我信任你的理由。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">还有什么疑问吗？虽然我们与审判庭已然达成合作，但在施工时依旧会遇到不少麻烦，我得尽快处理。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2310%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">技术工的换班频次太低，不能以消耗他们的身体健康为代价推进后续工作。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">阿奎拉的事情需要跟进，在调查出结果之前，如果审判庭介入很有可能得不偿失。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%2310%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">啊，还有纳乔，他的假肢需要处理，那枚弄丢的螺栓……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2268_1%231%241.png" class="avatar" alt="塔西塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">克莱门莎女士。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%237%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">嗯？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2268_1%231%241.png" class="avatar" alt="塔西塔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">我很尊敬您事无巨细的工作方式以及对打捞计划的热忱。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">塔西塔</div>
+                <div class="text">但我必须要说，我重新阅读了六遍您的策划书，直到现在我依旧觉得与伊比利亚平等合作会带来很大的风险，而它无益于阿戈尔的发展。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我明白你的担忧，塔西塔。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我会小心，我也必须成功。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2277_1%231%241.png" class="avatar" alt="惩戒军士官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">胡闹！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">打捞中心是克莱门莎监事负责，现在又是我们与阿戈尔合作的重要阶段。无论如何都不该直接闯进打捞中心，逮着怀疑对象就审。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%2310%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军士官</div>
+                <div class="text">行了，安心在巡逻组干活，不要再插手对岛民的调查工作了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%2310%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">……是。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%233%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1401_1%231%241.png" class="avatar" alt="小帮手">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小帮手</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%2310%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">嗯？这是什么东西？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">阿戈尔的综合辅助机械，在打捞中心随处可见。之前德鲁莎教官急于破案，可能没有注意。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">抱歉抱歉，刚刚你也听见了，我保证之后不再去打扰各位工作。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">你还会来的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%2310%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">……这台机器人会测谎？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">猜测人心不需要精密的技术支持，只需要胆子够大。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%232%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">哈哈，现在倒是你在套我话了，在打捞中心的时候，我还以为你是个正直到刻板的好上司呢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%231%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">好吧，我确实不能保证停手不干，不过你也不用担心，我想调查和我身为惩戒军教官的立场无关。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我也是岛民，我知道我的同胞对审判庭、对伊比利亚有多少积怨，有些时候我甚至会睁一只眼闭一只眼。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">可惜，我脑袋里已经形成了一套模糊的推论，在查到些许线索之后，我已经没办法放下了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">我不想与你作对，克莱门莎监事，可你无法消除一个人的好奇。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我想要的就是你的“好奇”。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%235%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">等等，你不是来阻止我的，你是来跟我合作的？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">你说过，这里是伊比利亚，我需要用伊比利亚的方式解决问题。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">我理解，因为打捞计划需要大量技术工参与，审判庭召回了许多有能力的岛民，也承担着十足的风险。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">于我，于伊比利亚阁下，打捞计划都必须成功。现在进行大规模的搜查，只会闹得人心惶惶，但这不代表我们只能见招拆招。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%232%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">所以你就找上了我……我的报酬怎么算？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">一条线索——阿奎拉加入了一个岛民互助会。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%232%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">是个很方便的掩护……就这么一条线索？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%234%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">对你来说应该足够了。你选择直接找上阿奎拉，本来就不是想要追查线索，而是想施加压力让他们急于行动。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%232%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">啧，什么都让你说了。我会尽快查清楚，如果阿奎拉真的有所谋划，或许她近期就会行动。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%235%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">在调查出一些眉目之前，我没办法在明面上给你任何支援，但如果你需要，小帮手可以借给你帮忙。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1401_1%231%241.png" class="avatar" alt="小帮手">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">小帮手</div>
+                <div class="text">小帮手竭诚为您服务，为了我们更好的明天——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2267_1%2310%241.png" class="avatar" alt="德鲁莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">德鲁莎</div>
+                <div class="text">这东西怎么关……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_4231_clemnt_1%231%241.png" class="avatar" alt="克莱门莎">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">克莱门莎</div>
+                <div class="text">你们会相处融洽的。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_454_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">还是不说？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">被捕的教徒</div>
+                <div class="text">没……没什么好说的，破坏启动仪式就是我们三个人策划的，想问出同伙？你在做无用功。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">无用功？只是讯问的方法不对。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">那边那个新兵，别盯着墙看了，把刺剑拿给我。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">刺、刺剑？您难道是想……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">不，不能用这种方式讯问嫌疑人，甚至根据港都外围城区的新规，我们其实都不应该在地牢中佩带武器。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_454_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">别说那些，你加入审判庭难道是为了给不法分子做人道主义关怀的吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">我加入审判庭是为了保护我的家人，让他们看到伊比利亚的明天，长官。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_454_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">好。你的家人搬到外围城区了吗，士兵？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">都搬来了，他们也想看看雷亚-伊比利亚中心城区升起的样子，以前父亲偷偷跟我说了很多关于港都的故事——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">啊，绝不是出于险恶的目的，只是哄小孩的睡前故事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_454_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">如果被引爆的建筑砸中的是你的家人，恶心的恐鱼上岸后占据的是你的家呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">这……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_454_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">我们无从得知在这次计划前这些穷凶极恶的异教徒还犯下过多少恶行，哪怕是为了他们伤害过的伊比利亚家庭，你也下不去手吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class="narration">年轻的惩戒军看向腰间的武器。在训练所中他曾想象过用手中的提灯照亮人们的道路，用刺剑剿灭海嗣，用手炮轰击浪潮的画面。</div>
+        <div class="narration">但他没有想过，那些用意志点亮的提灯会摇摇晃晃地挂在地牢的墙上，映出自己扭曲的影子。</div>
+        <div class="narration">使刺剑生锈的不仅有恐鱼的黏液，还有审讯时的鲜血，而他的手炮还未曾击发过。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">我——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">放下刺剑，士兵。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">大审判官阁下！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">我说过，你们来这里是为了远离战争，无论是关于海嗣的，还是关于岛民的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2277_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">斐戴拉大审判官，您还未去船厂赴任的时候说过这几个深海教徒交由您来审，我不该擅作主张。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">但我一直跟随您的指挥，我知道自从达里奥大审判官牺牲后，您再也没有睡过一个好觉，难得现在您被调去了船厂休养……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">而且，在我跟随您的漫长的时间里，您从不让我们参与对岛民的讯问。难道我们真的无法获得您的信任吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">不，我愿意在战场上把后背交给你们中的任何一个人，海嗣是我们一致的敌人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">但这些走向歧路的深海教徒和岛民并不一样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">我没有向圣徒阁下报告我仍在参与讯问。就当是我自己放心不下吧，我不希望你们在黎明到来的前夜，还要钻研在黑暗中生存的法则。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2277_1%231%241.png" class="avatar" alt="惩戒军老兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军老兵</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">年轻的士兵，你永远不需要在自己不想伤害别人的时候拔出武器，我相信伊比利亚的明天会是这样的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">请交给我处理吧，我会以体面的方式讯问这名深海教徒。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2276_1%231%241.png" class="avatar" alt="惩戒军新兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">惩戒军新兵</div>
+                <div class="text">抱歉长官，我还没有办法那么成熟……但谢谢您。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_454_1%231%241.png" class="avatar" alt="被捕的教徒">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">被捕的教徒</div>
+                <div class="text">呵……呵呵……真是动人的演讲啊，大审判官阁下。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">被捕的教徒</div>
+                <div class="text">“伊比利亚的明天”……就是因为你们老把它挂在嘴边，它才不会到来的……</div>
+            </div>
+        </div>
+        <div class="narration">教徒的意识被切断，同样被切断的还有他被铁链捆起来的双手。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">嗯，是血。看来你还没有投入朝思暮想的“大海的怀抱”。帮你“解下”铁链了，不用谢。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">你们总是长舌、险恶、满口谎言，但你们也很懦弱。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">如果你们愿意冒着被逮捕的风险出现在启动仪式上，那就代表你们已经做好了牺牲的准备。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">被捕的教徒</div>
+                <div class="text">（痛苦地呻吟）</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2270_1%231%241.png" class="avatar" alt="斐戴拉">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">我带着不少止血的特效药，它们可不是给我自己用的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">夜晚很长，我可以听你从你的家乡，或者把你抛弃的父母讲起，但你最后一定要给我一个答案，好吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">斐戴拉</div>
+                <div class="text">你们的同伙到底是谁？</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_941_1%231%241.png" class="avatar" alt="奥卢斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">太阳还未跃出海面，迷茫的人也还在梦中。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">失眠了？回到故乡令你如此激动吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你再清楚不过，现在的我不再需要睡眠。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_941_1%231%241.png" class="avatar" alt="奥卢斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">但你还做着梦，我也一样。这是我们能建立合作的原因。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">这座教堂，与我跟你初遇时的那座几乎一样。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">我清楚你的目的、你的为人，你大可以收起那些障眼法。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_941_1%231%241.png" class="avatar" alt="奥卢斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">要是一点点手段能让我们更快地达成心中夙愿，何乐而不为呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">计划不变？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_941_1%231%241.png" class="avatar" alt="奥卢斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">是的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">不过，我的同胞们最近下定了决心，他们或许需要一些帮助。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你要我做的事，我会做。那之后，你我两不相欠，也毫不相干。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_941_1%232%241.png" class="avatar" alt="奥卢斯">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">奥卢斯</div>
+                <div class="text">两不相欠……我明明说过，我不需要他偿还什么。</div>
+            </div>
+        </div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act52side_01_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act52side_02_end.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>
