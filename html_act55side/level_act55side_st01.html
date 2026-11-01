@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>act55side_st01</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .dialogue {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* 回忆/过去场景的灰度效果 */
+        .dialogue.grayscale .avatar {
+            filter: grayscale(100%);
+        }
+        .dialogue.grayscale .name {
+            color: #aaaaaa;
+        }
+        .dialogue.grayscale .text {
+            color: #999999;
+        }
+        .dialogue-content {
+            flex: 1;
+        }
+        .name {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+        .text {
+            color: #eeeeee;
+        }
+        .narration {
+            font-style: italic;
+            color: #cccccc;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #333;
+        }
+        .cg-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: cgFadeIn var(--fade-duration, 0.5s) ease-out forwards;
+        }
+        .cg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        @keyframes cgFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        .back-to-index {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        /* 玩家选项 Decision / 分支 Predicate */
+        .player-decision {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-left: 3px solid #00d2ff;
+            background: rgba(0, 210, 255, 0.08);
+            border-radius: 0 6px 6px 0;
+        }
+        .player-decision-title {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #00d2ff;
+            margin-bottom: 10px;
+        }
+        .decision-option {
+            margin: 6px 0;
+            color: #eeeeee;
+            line-height: 1.5;
+        }
+        .decision-value {
+            display: inline-block;
+            min-width: 2em;
+            color: #888;
+            font-family: Consolas, monospace;
+            font-size: 0.82rem;
+            margin-right: 6px;
+        }
+        .branch-predicate {
+            margin: 14px 0 8px 0;
+            padding: 8px 12px;
+            border-left: 2px solid #555;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.88rem;
+            color: #bbbbbb;
+            line-height: 1.45;
+        }
+        .branch-label {
+            display: block;
+        }
+        /* Sticker 说话人 + 咒语 spellsticker */
+        .spell-with-speaker {
+            margin: 18px 0;
+        }
+        .spell-with-speaker .name {
+            margin-bottom: 10px;
+        }
+        /* 咒语 spellsticker：<p=n> 多段文本 */
+        .spell-incantation {
+            margin: 20px 0;
+            padding: 16px 18px;
+            border-left: 3px solid #c9a227;
+            background: rgba(201, 162, 39, 0.07);
+            border-radius: 0 8px 8px 0;
+        }
+        .spell-line {
+            font-weight: 700;
+            font-family: "Palatino Linotype", Palatino, "Book Antiqua",
+                "STSong", "SimSun", "Times New Roman", serif;
+            font-size: 1.06rem;
+            line-height: 1.65;
+            color: #f2e8d8;
+            letter-spacing: 0.05em;
+        }
+        .spell-line + .spell-line {
+            margin-top: 12px;
+        }
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 6px 0 22px 0;
+            padding-right: 120px;
+            box-sizing: border-box;
+        }
+        .chapter-nav-bottom {
+            margin: 36px 0 16px 0;
+            padding-top: 22px;
+            border-top: 1px solid #333;
+            padding-right: 0;
+        }
+        .chapter-nav-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            text-decoration: none;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            font-size: 0.92rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .chapter-nav-btn:hover:not(.disabled) {
+            border-color: #00d2ff;
+            color: #00d2ff;
+        }
+        .chapter-nav-btn.disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        @media (max-width: 560px) {
+            .chapter-nav { padding-right: 0; margin-top: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-to-index">返回目录</a>
+    <h1>act55side_st01</h1>
+    <nav class="chapter-nav" aria-label="章节导航">
+        <a class="chapter-nav-btn" href="level_act55side_10_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act55side_st02.html">下一章 →</a>
+    </nav>
+    <div class="story-container">
+        <div class="narration">我已经不记得是从什么时候开始，那只黑色的羽兽频繁出现在我的梦里。</div>
+        <div class="narration">那是只漂亮的羽兽，羽毛没有一丝杂色，还有一样漆黑的爪锋和喙。</div>
+        <div class="narration">我在与它仔细对视后记住了它的模样，从此它便成了我梦里的常客。</div>
+        <div class="narration">它总是出现在我生活中的各个角落，宫殿的横梁，卧室的窗外，园林里的果树上——</div>
+        <div class="narration">用盯着猎物的眼神盯着我。</div>
+        <div class="narration">它好像始终在等待我死亡后变成腐肉的那一刻，它仿佛知道，我必将如此。</div>
+        <div class="narration">我从来没有与任何人提起过这个只属于我的特别的梦魇，我深知这样会令我看上去软弱。</div>
+        <div class="narration">直到有一天，我长到可以拉动弓箭的年纪。我拾起祖辈传下来的那把长弓，就像一千年前的祖辈射落骏鹰的旗帜那样——</div>
+        <div class="narration">我终于射中了它。</div>
+        <div class="cg-container">
+            <img src="../CG/27_i08_1.png"
+                 alt="CG - 27_i08_1"
+                 class="cg-image"
+                 style="--fade-duration: 0.5s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="narration">我亲眼看着它从苹果树的枝头摔落在地上，化成一摊血肉融进泥土里。</div>
+        <div class="narration">在那之后，我终于不再做梦了。</div>
+        <div class="narration">我觉得维特说得不对，我应该的确是见过那片苹果林的。</div>
+        <div class="narration">我不可能记错，在那座宫殿的几十年时光里，一定存在过一个夏天的午后……</div>
+        <div class="narration">我曾经在那片树林中玩闹，有人把一颗苹果交到了我的手里。</div>
+        <div class="narration">是她……母亲，姐姐……？</div>
+        <div class="narration">我清楚地记得苹果的香气，还有那时的阳光。</div>
+        <div class="narration">多么温暖啊……</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">……沦陷……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">陛下的安危——</div>
+            </div>
+        </div>
+        <div class="narration">……不……</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">……陛下，听我说。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">即使如今您必须先离开这里，这也并不意味着我们的努力已经彻底失败。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">与……不同，中央集团军仍在与叛军顽强作战，近卫军也同样没有退让。您最忠诚的战士们都还守在身后，我们……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">我们终有再回到这里的那日。所以现在——</div>
+            </div>
+        </div>
+        <div class="narration">——什么？</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">——立刻护送陛下离开！</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/79_i01.png"
+                 alt="CG - 79_i01"
+                 class="cg-image"
+                 style="--fade-duration: 0s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="narration">不。</div>
+        <div class="narration">不——</div>
+        <div class="narration">那究竟是谁？</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">——费佳……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">陛下！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">我亲爱的。</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/79_i01_1.png"
+                 alt="CG - 79_i01_1"
+                 class="cg-image"
+                 style="--fade-duration: 2s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="narration">你……</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">你为何如此哀伤，为何如此狼狈？为何你明明看着我……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">却像在注视一个全然陌生的人？</div>
+            </div>
+        </div>
+        <div class="narration">那张脸——不，她从未有机会，像这样——</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">……我明白了。你只是累了，必须将背负的一切都从手中放开……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">而这是只有我能做到的事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">来吧，让我为你卸下痛苦、卸下永无尽头的悔恨……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">费佳，来我身边。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">——保护陛下——</div>
+            </div>
+        </div>
+        <div class="narration">呃……</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">即使你一无所有，我也会爱你。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">唯有我身边，才是你仅存的归处。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">——把——带走！</div>
+            </div>
+        </div>
+        <div class="cg-container">
+            <img src="../CG/79_i01.png"
+                 alt="CG - 79_i01"
+                 class="cg-image"
+                 style="--fade-duration: 2s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">……你又要逃走吗？逃去哪里呢？即使知道无论如何我都会找到你？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">我说过了，谁也无法割断我们之间血脉的联系。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">我永远会找到你……</div>
+            </div>
+        </div>
+        <div class="narration">啊，啊——</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">柔和的声音</div>
+                <div class="text">我的费佳。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的声音</div>
+                <div class="text">——陛下！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%2311%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">咳呃——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2458_1%231%241.png" class="avatar" alt="急切的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的士兵</div>
+                <div class="text">抱、抱歉，陛下——不，大人。您在尖叫，我必须叫醒您。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%233%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">我——这是……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2458_1%231%241.png" class="avatar" alt="急切的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的士兵</div>
+                <div class="text">您才睡了两个小时，现在还早，探路的人也还没回来，您可以再休息一会儿。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的士兵</div>
+                <div class="text">您要喝点水吗，这还有煮过的雪水——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">见鬼……你到底在说什么……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……维特在哪儿？让他尽快来找我，昨天没结束的议题，今天务必要有个结论。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2458_1%231%241.png" class="avatar" alt="急切的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的士兵</div>
+                <div class="text">您、您在说什么呀……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%232%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">怎么回事……我说的难道不是乌萨斯语吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">维特，伊斯拉姆·维特！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">立刻叫他过来，难道还要我亲自去请吗？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2458_1%231%241.png" class="avatar" alt="急切的士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的士兵</div>
+                <div class="text">陛下！您……您难道不记得了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">急切的士兵</div>
+                <div class="text">在我们从圣骏堡撤退到这里的途中，就已经与维特总理分散了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%2311%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……！</div>
+            </div>
+        </div>
+        <div class="narration">费奥多尔环顾四周，他这才意识到自己所在之处并非奢华的宫殿，而是一顶充斥着腐朽霉味的营帐。</div>
+        <div class="narration">紧接着，这几日的回忆，那些他至今都不愿相信的回忆……</div>
+        <div class="narration">全部随着一阵剧烈的疼痛涌上他的脑袋。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我们现在到哪里了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">我们离圣骏堡大约有一百五十公里，前面还有三十公里就到苏拉河了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">议长——总理阁下，时间已经很晚了，我们是不是先扎营休息——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">……不，还不能停下来扎营。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">如果在这里被追兵追上，我们面临的会是毫无悬念的死地。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我们必须得保持现在的速度继续行军，只有这样才有可能在今晚趁夜渡过冻结的苏拉河。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">总理阁下，我尊重您。可是考虑到士兵的状态，这样的行军计划风险太大。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">雪地行军本就困难，更何况是持续数天的急行。这两天里，我们的队伍已经减员很多了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">队伍的士气非常不乐观，再这样下去……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">我无法保证……剩下的人，还能将陛下安全护送到扎莫列斯。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">……上校，如果不是您的队伍在这种境遇里还展现了绝对的忠诚，我会以为您下一句就要建议我们直接将陛下拱手送给叛军了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">我绝无此意，阁下！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我相信你作为统帅的判断，可无论如何，我们时刻都有暴露位置的风险。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">请战士们再坚持一下吧，把不必要的辎重都抛下，食物和水也可以扔掉一点，我们用不上太多了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%2311%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">只要能与第九师团本部成功会合，事态会稳定下来的……我们还有机会挽回一切。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">恳请战士们，继续抗争……我不能向他们许诺什么，我只能请求他们。现在只有他们，能捍卫乌萨斯最后的尊严了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">如果您坚持的话……</div>
+            </div>
+        </div>
+        <div class="narration">身后，一阵叫嚷声传来，维特回过头去，看见两名士兵押着一个被绑得结结实实的人从远处走了过来。</div>
+        <div class="narration">旁边的军官狠狠在他膝盖上踹了一脚，他整个人摔倒在雪地里。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%239%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">怎么回事？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2457_1%231%241.png" class="avatar" alt="中级军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中级军官</div>
+                <div class="text">长官！这个畜生疯了，疯了！我们刚刚发现他正在用我们内部的通讯频段向叛军发送信号！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">……信号发出去了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2457_1%231%241.png" class="avatar" alt="中级军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">中级军官</div>
+                <div class="text">他把终端毁了！我们不知道！</div>
+            </div>
+        </div>
+        <div class="narration">蓦地激动起来的军官冲上前去，抓着那人的头发，把他的脸从雪地里拉了出来。</div>
+        <div class="narration">被抓住的人却只是空洞地看着前方，嘴里涌出的血已经将雪地洇红一片。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="含糊不清的声音">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">含糊不清的声音</div>
+                <div class="text">……乌萨斯……灭亡……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">含糊不清的声音</div>
+                <div class="text">……我们……不想……送死……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="愤怒的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">愤怒的军官</div>
+                <div class="text">……！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">冷静点……上校。已经于事无补，别再做更多让军心涣散的事了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">就按军法处置吧……找个隐蔽的地方，别太张扬。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">……这里发生什么了？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">陛下，一点小事，不值得您劳心。您现在应该尽可能保留体力——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%234%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……放了他。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="愤怒的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">愤怒的军官</div>
+                <div class="text">陛下，他是个叛国者！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">他背叛了什么？一个快要被颠覆的政权，还是一个刚刚被赶出皇宫的皇帝？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%2310%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">陛下，现在到底不是展现仁慈的时候……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">那我反而要问你……维特，我们要去哪？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%233%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">扎莫列斯，那里远离中央区，有编制完整的第九师团驻扎，是我们可以退守的最佳据点。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我们能在那里重整军队，等待挽回局势的机会……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%235%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">这是你们在我刚刚昏迷的时候做的决定？维特，连你也不愿意再与我商议了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%2310%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">陛下，恐怕我们没有别的选择。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">不，我们当然有。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">从圣骏堡逃离是你们的决定，我从来没有下达过要抛弃我的子民，抛弃我的军队的旨意！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%235%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">我们为什么要逃？我们还有军队不是吗？我还是中央集团军的统帅不是吗？！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">如果我们一直以来的做法都是正确的，我们一直是受民众拥护的，又怎么可以接受这样退让的结果？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">现在就让我调集军队，现在就回去讨伐那些叛臣，夺回属于我的城市！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%237%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">上校，都如实告诉陛下吧……</div>
+            </div>
+        </div>
+        <div class="narration">军官垂下头躲避着皇帝的灼灼目光，在好几息的沉默后，终于鼓起勇气开口。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">陛下……关于发生在圣骏堡的那场战斗，我们现在可以确信，是城中有奸细提前向叛军透露了关键情报。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">他们可耻的偷袭让我们措手不及，中央集团军在战斗开始的第一小时就损失了三成的战斗力……后面的战斗，我们更是损失惨重……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">在我们护送您来到这里的过程中，仅剩的第一、第七师团还在坚决抵抗叛军的攻击。而就在刚刚，前线传回消息……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">第一师团遭第四集团军战争术师伏击，撤退时被赶来的第二集团军机动部队全歼，无一幸免。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">在确认第一师团覆灭之后，第七师团指挥官主动投降……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%236%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">什……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">事已至此，守卫圣骏堡外围的中央集团军全军覆没，残余的编制只剩下扎莫列斯的第九师团。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%2311%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">哈……啊……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">这就是现状，陛下。没有半句虚言。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我们必须抓紧时间，抓紧每一个还能重整旗鼓的机会——我们必须立刻动身了。</div>
+            </div>
+        </div>
+        <div class="narration">听到维特的话语，费奥多尔依然伫立原地，他嘴唇翕动着，却仿佛被风雪吞没了声音。</div>
+        <div class="narration">风在一片死寂中渐渐小了下来，片片雪花消融在他的肩头。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%233%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">告诉我吧……倒向叛军的“奸细”是谁？是因为资源调配法案利益受损的新贵族，还是某个失去了抵抗意志的军人？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">还是在我身边……无数个已经对乌萨斯失望透顶的人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我希望您可以将当下的情况视作一时失利，这并不意味着我们一直以来的努力是错误的。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我们还不能拱手把国家让给那些可耻的狂人，他们的野心会把这个国家拖入万劫不复的战争泥沼，我们绝对不能让他们如愿。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">陛下，为了您的国家，您不该在这个时候——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%238%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……离开圣骏堡的时候，在那场大火里，我看到她了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">她究竟是谁……她为什么，长得那么像，母亲……？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%235%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">陛下！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%238%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">我终究是失败了……不，也许我从来都没有成功过。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">从平定大叛乱——那场虚假的胜利开始，我坐在那个可笑的皇位上几十年来，看到的只有一个又一个假象。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">这个皇位从来不该属于我……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">陛下，我可以理解您现在并不在状态——您的确是受惊了，但您万万不该动摇。直到现在，您也是乌萨斯君主，唯一的君主。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%231%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……够了……</div>
+            </div>
+        </div>
+        <div class="narration">费奥多尔兀自走到那名倒在雪地里的士兵身边，将他扶起，解开了他身上的绳索。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%231%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……走吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2459_1%231%241.png" class="avatar" alt="谨慎的军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">谨慎的军官</div>
+                <div class="text">……陛下！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%231%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">向所有人下达我的旨意……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">从现在开始，不愿意继续战斗的，还想活命的，都可以直接离开，或者向圣骏堡现在的主人投降。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%234%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……我不希望再有任何一个人为我而死——</div>
+            </div>
+        </div>
+        <div class="narration">皇帝的话音未落，一柄黑色的利刃，从那人的胸膛穿了出来。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">自从我宣誓为乌萨斯效忠以来，这柄剑还从来没有沾染过如此可鄙的血。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">这都是因为您，甚至没有勇气当众处死一名叛徒。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">你——内卫——？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%235%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">为什么——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">别再任性了，陛下。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">认清您的责任吧，即使是现在，也还有您应该做的事。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%237%243.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">是啊……是啊！所有人都可以指责我，因为我最大的过错便是无能！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">可即使是这样，我也不能接受被你们这样的叛徒指摘。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">因为当我被篡权者威胁乃至赶出皇宫、赶出圣骏堡时，你们就袖手旁观，又一次背叛了乌萨斯。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">只有等到要处决一个毫无还手之力的弱者时，你们才选择出现，什么“利刃”、什么“巫怪”、什么“乌萨斯的意志”……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">就和从前无数次印证过的那样，你们不过是一群为了私心而行动的刽子手和叛徒——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%2310%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">……这实在是太无礼了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">别再做浪费时间的事，维特。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">立刻恢复行军，我们会找出剩下的背叛者。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%233%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">不……意外已经发生了，不能再按原来的计划行动了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">我们不能就这样去扎莫列斯，如果叛军追踪到那里，第九师团也无法抵抗他们的围攻。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%231%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">把队伍分成两部分，我来带领大部队吸引注意力，分出小部分部队，用最隐秘的方式，护送陛下去图利斯卡亚。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">一定要保护好陛下，他的存活，是我们仍未被那些野心家击溃的重要证明……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">只是现在，先给他换上平民的衣服……而且通知下去，行军途中，所有人都不要再称呼他为“陛下”了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">你们，和陛下一起行动吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">不，你们走。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%234%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">这……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">剩下的部队，不能抵抗叛军，甚至不能拖延。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">但是我们能。国度能。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">这是唯一的办法。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%2311%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">皇帝问，当皇宫被攻破时，我们在哪。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">那时，我们正直面圣愚。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">即使它撕碎我们的同胞，就像撕碎一张张白纸。留下的，十不存一。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">是我们，使它分身乏术。是我们，使这里的人逃出生天。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">而如今，我们将会再次创造这样的机会。不为任何人，而为乌萨斯，也只为，乌萨斯。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%237%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_1984_1%238%241.png" class="avatar" alt="维特">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">维特</div>
+                <div class="text">乌萨斯……向你们致敬。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_077.png" class="avatar" alt="“皇帝的利刃”">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">他们发现了队伍的位置。他们来了。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">……圣愚没有离开圣骏堡。留守城中的，几近覆没。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">已经抵达的，两人挡住了行军。仍在极北的，没有回应呼唤。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">加上你我，一共四人。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">为了彻底阻拦叛国者，必须做出决断。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">嘶……呼……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">……是的……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">就让我们作为陛下的武器……真正发挥效用。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">尽管如今，已经不是那位陛下的时代——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">我们也应当偿还。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">我们也应当守卫。</div>
+            </div>
+        </div>
+        <div class="narration">在高速战舰的轰鸣声中，警报的红色，将天幕笼罩。即使是内卫，身躯也在远处那样的庞然大物面前变得渺小。</div>
+        <div class="narration">然而这样的躯壳，却也是唯一能阻挡对准此处的舰炮和疾驰的军队的存在。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">呵……</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">“皇帝的利刃”</div>
+                <div class="text">……叛国者，这是你们求得的湮灭。</div>
+            </div>
+        </div>
+        <div class="narration">自混沌中生出的能量不断逸散，从一缕尘烟似的黑灰色开始，逐渐铺满肉眼可及的整片大地。</div>
+        <div class="narration">在那漆黑满溢的瞬间，一切都安静下来。</div>
+        <div class="narration">呼吸声，只有断续而沉重的呼吸声。</div>
+        <div class="narration">仿佛那团颤动着的黑色仍有余温，仿佛随着它的每一次搏动，远方就多出一片浑浊的死寂。</div>
+        <div class="narration">那是一场不辨天日的、漆黑的“大雪”。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2448_1%231%241.png" class="avatar" alt="第二集团军士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第二集团军士兵</div>
+                <div class="text">长官，前线检测到大量不明污染反应，阵地通讯已被切断，无法联络指挥中心——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2450_1%231%241.png" class="avatar" alt="军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">军官</div>
+                <div class="text">第四集团军派遣的战争术师呢？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2448_1%231%241.png" class="avatar" alt="第二集团军士兵">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第二集团军士兵</div>
+                <div class="text">没有收到汇报，信号已丢失！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2450_1%231%241.png" class="avatar" alt="军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">军官</div>
+                <div class="text">……通知下去，全体撤退，立刻返回军舰！</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2451_1%231%241.png" class="avatar" alt="第四集团军军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">……该死。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">邪魔碎片泄漏了，污染正在扩散……这些刽子手宁愿自杀拖延时间也不愿交出皇帝，倒是成全了自己那令人恐惧的名声。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">通知第二集团军司令部，我军决定暂时撤退。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2448_1%231%241.png" class="avatar" alt="副官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">副官</div>
+                <div class="text">就这样撤退吗，长官？第二集团军那些人不是说，带着陛下——带着皇帝逃走的队伍，就在对岸？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2451_1%231%241.png" class="avatar" alt="第四集团军军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">内卫出手了，已经没有继续追下去的必要。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2448_1%231%241.png" class="avatar" alt="副官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">副官</div>
+                <div class="text">他们的行动速度不会比我们的精锐步兵更快，我们可以绕行——</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2451_1%231%241.png" class="avatar" alt="第四集团军军官">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">你能准确判断“国度”的扩散范围吗？除了目前正在琥珀宫里的那位之外，还有谁能毫发无伤地穿越污染？哼，可笑……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">总之，内卫这一手，两败俱伤。短时间内那小皇帝回来不了。之后就算他想回到圣骏堡，大概也只是来送死而已。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">毕竟到那时，叶甫根尼元帅早已入主圣骏堡，我们甚至可能该改称他为……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">第四集团军军官</div>
+                <div class="text">“统帅阁下”了。</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class="narration">费奥多尔走出了营帐，换上的衣衫比先前单薄，雪粒擦过他被冻得通红的脸颊，像砂石一般粗粝。</div>
+        <div class="narration">环绕他的士兵都各自沉默着，垂着头不敢迎上他的眼睛。有人更用力地拽紧了系着驮兽的缰绳，直到它在手中发出嘎吱的坚硬声响。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%232%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">谁来告诉我，我们现在在哪里？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2440_1%231%241.png" class="avatar" alt="沉稳的侍从">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的侍从</div>
+                <div class="text">维特……大人，让我们护送您去图利斯卡亚，除此之外，我们什么都不知道。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%231%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">那维特现在在哪里？</div>
+            </div>
+        </div>
+        <div class="narration">侍从们依旧没有回答。他们转身，低声确认着简短的指令。费奥多尔再次意识到，这场出逃从来都不在他的掌握之中。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%232%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">到底发生了什么……为什么我周围只剩下了你们？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2155_1%235%241.png" class="avatar" alt="费奥多尔">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……回答我！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+                <img src="../img/avg_npc_2440_1%231%241.png" class="avatar" alt="沉稳的侍从">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的侍从</div>
+                <div class="text">抱歉，大人，我没法回答您。但我这里有望远镜……如果您实在想瞧的话，就用它看看吧。</div>
+            </div>
+        </div>
+        <div class="narration">费奥多尔将那冰冷的工具接过，举到眼前。</div>
+        <div class="narration">他看到了一片漫无边际的、由血肉和钢铁的残骸组成的黑色“泥沼”。</div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">这是……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">到底怎么会……怎么会变成这样……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">……呕……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的侍从</div>
+                <div class="text">大人，“国度”还在蔓延，我们不能停留在这儿了！</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">沉稳的侍从</div>
+                <div class="text">大人！我们必须得尽快离开——</div>
+            </div>
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">不……你听见了吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">费奥多尔</div>
+                <div class="text">那是什么声音？</div>
+            </div>
+        </div>
+        <div class="narration">在长久的、令人恐惧的寂静之后，费奥多尔似乎又听见了陌生的响动。</div>
+        <div class="narration">他听见与冰面冻结相似的声音，仿佛有无数神经自行从身体里伸出，扎进眼前凝滞的昏黑之中，延展到每一个原本不可触及的角落。</div>
+        <div class="narration">而恐惧——对危险的天然恐惧则顺着那些神经流动，像血沿着瓷砖的缝隙流往不同的方向。</div>
+        <div class="narration">一些声音在哭喊，另一些则在奔逃；有人跪在地上把脸撞向墙壁，骨头碎裂的声音隔着遥远的距离。</div>
+        <div class="narration">而后，一开始听到的那种声音，逐渐将这些响动都聚拢到一处——</div>
+        <div class="narration">起初撕裂了那片凝固的漆黑的，只是一道淡色的光芒。</div>
+        <div class="narration">它薄如蝉翼，像冰面最上层开裂的纹路，并不规则。</div>
+        <div class="narration">随后，那淡色的光芒很快开始蔓延。并不刺眼的纹路一层层贯穿黑色的雪，它们彼此咬合、覆盖，向前铺展。</div>
+        <div class="narration">只要是它们经过的地方，黑色就停止了沉浮和翻腾，像被严厉地喝止般安静而冰冷。</div>
+        <div class="narration">空气里不断响起细微的碎裂声。</div>
+        <div class="narration">咔。</div>
+        <div class="narration">咔嚓。</div>
+        <div class="narration">仿佛春天正以肉眼可见的速度降临。</div>
+        <div class="narration">它分隔了寒冬。</div>
+        <div class="cg-container">
+            <img src="../CG/79_i02.png"
+                 alt="CG - 79_i02"
+                 class="cg-image"
+                 style="--fade-duration: 3s;
+                        --x-scale: 1;
+                        --y-scale: 1;">
+        </div>
+        <div class="section-break"></div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">……</div>
+            </div>
+        </div>
+        <div class="narration">就在那条被光芒分开的道路中央，一个孱弱的女孩，正带领着无数衣衫褴褛的人向前走来。</div>
+        <div class="narration">她的脚步缓慢却坚定，每走一步，四周的漆黑便冻结一寸。</div>
+        <div class="narration">淡色的光芒贴着四周层层铺开、凝结，而后不断扩张，将那些代表恐惧与混沌的黑色压缩后同化。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">跨越它吧。</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">跨越恐惧，跨越痛苦，跨越一切将我们彼此隔绝的存在……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你们已经做得很好了。</div>
+            </div>
+        </div>
+        <div class="narration">费奥多尔意识到，她在安抚。安抚那些为此殒命的战士，即使他们是邪魔的造物。同时，她也为自己的同伴，打开一条通往彼岸的道路。</div>
+        <div class="narration">陌生的女孩抬起头，望向那道路的前方。</div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">啊……</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">你们也是……逃难至此的人吗？</div>
+            </div>
+        </div>
+        <div class=" dialogue">
+            <div class="avatar-container">
+            </div>
+            <div class="dialogue-content">
+                <div class="name">？？？</div>
+                <div class="text">请让我来，帮助你吧。</div>
+            </div>
+        </div>
+        <div class="narration">到最后，费奥多尔只记得那向他伸来的、瘦小的手。</div>
+        <div class="narration">那几乎是一只属于孩子的手。</div>
+    <nav class="chapter-nav chapter-nav-bottom" aria-label="章节导航（页尾）">
+        <a class="chapter-nav-btn" href="level_act55side_10_end.html">← 上一章</a>
+        <a class="chapter-nav-btn" href="level_act55side_st02.html">下一章 →</a>
+    </nav>
+    </div>
+</body>
+</html>
